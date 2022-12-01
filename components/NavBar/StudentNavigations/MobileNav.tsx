@@ -5,7 +5,7 @@ const MobileNav = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	return (
 		<div className="flex sm:hidden flex-col w-full bg-white text-black drop-shadow-2xl">
-			<div className="flex flex-row w-full justify-between items-center p-4 border-b-2">
+			<div className="flex flex-row w-full justify-between items-center px-4 py-2 border-b-2">
 				<img src={`/logo.png`} alt={`logo`} className="w-1/4" />
 				<div className="flex flex-row">
 					<button
@@ -48,8 +48,8 @@ const MobileNav = () => {
 			</div>
 			{isOpen ? (
 				<>
-					<div className="flex flex-row w-full justify-between items-center p-4 border-b-2">
-						<button className="flex flex-row items-center text-base text-slate-700 font-medium">
+					<div className="flex flex-row w-full justify-between items-center border-b-2">
+						<button className="flex w-full flex-row hover:bg-slate-200 p-4 items-center text-base text-slate-700 font-medium">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 20 20"
@@ -62,8 +62,8 @@ const MobileNav = () => {
 							&nbsp;&nbsp;&nbsp; Messages
 						</button>
 					</div>
-					<div className="flex flex-row w-full justify-between items-center p-4 border-b-2">
-						<button className="flex flex-row items-center text-base text-slate-700 font-medium">
+					<div className="flex flex-row w-full justify-between items-center border-b-2">
+						<button className="flex w-full flex-row hover:bg-slate-200 p-4 items-center text-base text-slate-700 font-medium">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 20 20"
@@ -79,8 +79,8 @@ const MobileNav = () => {
 							&nbsp;&nbsp;&nbsp; Notifications
 						</button>
 					</div>
-					<div className="flex flex-row w-full justify-between items-center p-4 border-b-2">
-						<button className="flex flex-row items-center text-base text-slate-700 font-medium">
+					<div className="flex flex-row w-full justify-between items-center border-b-2">
+						<button className="flex w-full flex-row hover:bg-slate-200 p-4 items-center text-base text-slate-700 font-medium">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 20 20"
@@ -96,8 +96,8 @@ const MobileNav = () => {
 							&nbsp;&nbsp;&nbsp; Calendar
 						</button>
 					</div>
-					<div className="flex flex-row w-full justify-between items-center p-4 border-b-2">
-						<button className="flex flex-row items-center text-base text-slate-700 font-medium">
+					<div className="flex flex-row w-full justify-between items-center border-b-2">
+						<button className="flex w-full flex-row hover:bg-slate-200 p-4 items-center text-base text-slate-700 font-medium">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 24 24"
@@ -110,8 +110,8 @@ const MobileNav = () => {
 							&nbsp;&nbsp;&nbsp; Edit Profile
 						</button>
 					</div>
-					<div className="flex flex-row w-full justify-between items-center p-4 border-b-2">
-						<button className="flex flex-row items-center text-base text-slate-700 font-medium">
+					<div className="flex flex-row w-full justify-between items-center border-b-2">
+						<button className="flex w-full flex-row hover:bg-slate-200 p-4 items-center text-base text-slate-700 font-medium">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 24 24"
