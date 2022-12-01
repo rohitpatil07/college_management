@@ -3,7 +3,7 @@ import StuHomePage from '../../../components/NavBar/StuHomePage'
 
 const Home = () => {
   return (
-    <div className='text-3xl'>
+    <div>
       <StuHomePage/>
     </div>
   )

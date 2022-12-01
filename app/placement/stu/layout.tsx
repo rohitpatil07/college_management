@@ -6,9 +6,9 @@ export default function StuLayout({
   children: React.ReactNode
 }) {
   return (
-    <div>
+    <body className="bg-slate-200">
          <Header />
         {children}
-    </div>
+    </body>
   )
 }
