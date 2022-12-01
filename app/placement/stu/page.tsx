@@ -1,9 +1,10 @@
 import React from 'react'
+import StuHomePage from '../../../components/NavBar/StuHomePage'
 
 const Home = () => {
   return (
     <div className='text-3xl'>
-      This is student home page
+      <StuHomePage/>
     </div>
   )
 }
