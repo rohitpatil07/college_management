@@ -1,10 +1,10 @@
 import React from "react";
-import StuHomePage from "../../components/StuHomePage";
+import HomePage from "../../components/HomePage";
 
 const Home = () => {
 	return (
 		<div>
-			<StuHomePage />
+			<HomePage />
 		</div>
 	);
 };

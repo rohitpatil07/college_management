@@ -10,7 +10,7 @@ const Nav = () => {
 			<div className="hidden sm:flex flex-row bg-white text-black justify-between items-center px-4 py-3 drop-shadow-lg">
 				<img src={`/logo.png`} alt={`logo`} className="w-1/12 scale-90" />
 				<div className="flex flex-row justify-around items-center">
-					<button className="flex flex-row text-base text-slate-700 font-medium items-center">
+					<button className="flex flex-row text-base text-slate-700 font-medium items-center hover:text-accent">
 						<svg
 							className="mr-2 w-5 h-5"
 							xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ const Nav = () => {
 						Messages
 					</button>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<button className="flex flex-row text-base text-slate-700 font-medium items-center">
+					<button className="flex flex-row text-base text-slate-700 font-medium items-center hover:text-accent">
 						<svg
 							className="mr-2 w-5 h-5"
 							xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@ const Nav = () => {
 						Notifications
 					</button>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<button className="flex flex-row text-base text-slate-700 font-medium items-center">
+					<button className="flex flex-row text-base text-slate-700 font-medium items-center hover:text-accent">
 						<svg
 							className="mr-2 w-5 h-5"
 							xmlns="http://www.w3.org/2000/svg"

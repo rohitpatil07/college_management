@@ -1,7 +1,7 @@
 // "use client";
 import React from "react";
 import Link from "next/link";
-const StuHomePage = () => {
+const HomePage = () => {
 	return (
 		<div className="xl:w-2/3 sm:shadow-2xl sm:rounded-xl sm:p-3 flex flex-col justify-around items-center sm:container sm:my-5 sm:mx-auto border-solid w=48rem sm:bg-white">
 			<div className="w-10/12 sm:w-11/12 border-b border-slate-300 pt-5">
@@ -75,4 +75,4 @@ const StuHomePage = () => {
 	);
 };
 
-export default StuHomePage;
+export default HomePage;
