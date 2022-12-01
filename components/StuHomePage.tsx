@@ -1,10 +1,10 @@
-"use client";
+// "use client";
 import React from "react";
 import Link from "next/link";
 const StuHomePage = () => {
 	return (
-		<div className="relative w-screen md:w-10/12 sm:shadow-2xl sm:rounded-xl sm:p-5 flex flex-col justify-around items-center sm:container sm:mt-20 sm:mx-auto border-solid w=48rem bg-slate-200 sm:bg-white">
-			<div className="w-64 sm:w-11/12 border-b border-slate-300  py-3">
+		<div className="xl:w-2/3 sm:shadow-2xl sm:rounded-xl sm:p-3 flex flex-col justify-around items-center sm:container sm:my-5 sm:mx-auto border-solid w=48rem sm:bg-white">
+			<div className="w-10/12 sm:w-11/12 border-b border-slate-300 pt-5">
 				<button className="flex flex-row text-base text-slate-500 font-medium items-center">
 					<svg
 						className="mr-2 w-4 h-4"
@@ -22,8 +22,8 @@ const StuHomePage = () => {
 				</button>
 			</div>
 			<br />
-			<div className=" flex flex-col sm:flex-row justify-evenly items-center w-full mb-5">
-				<div className="w-64 sm:w-72 shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
+			<div className="flex flex-col sm:flex-row justify-evenly items-center w-full mb-5">
+				<div className="w-10/12 scale-90 sm:scale-100 sm:w-72 xl:w-1/3 xl:scale-90 shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
 					<img
 						className="w-full min-h-[10rem] object-cover bg-zinc-300"
 						src={`/lms.png`}
@@ -36,20 +36,18 @@ const StuHomePage = () => {
 							System
 						</span>
 						<span className="text-slate-500 text-sm">
-							Lorem ipsum 15 ranfrom doernb fjdj jjdusj jdjdunhh hhd jjdddjd
-							djdjud ddj ffid ff rirn jdjd eu hdd
+							Lorem ipsum dolor sit amet pretium consectetur adipiscing elit.
 						</span>
 						<Link
 							href="/"
-							className="p-2 w-fit mx-auto px-5 rounded-3xl"
-							style={{ backgroundColor: "#c9243f", color: "white" }}
+							className="p-2 w-fit mx-auto px-5 rounded-3xl bg-accent text-white hover:scale-105 transition-all"
 						>
 							Go To LMS
 						</Link>
 					</div>
 				</div>
 				<br />
-				<div className="w-64 sm:w-72 shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
+				<div className="w-10/12 scale-90 sm:scale-100 sm:w-72 xl:w-1/3 xl:scale-90 shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
 					<img
 						className="w-full min-h-[10rem] object-cover bg-zinc-300"
 						src={`/tpc.png`}
@@ -62,13 +60,11 @@ const StuHomePage = () => {
 							Cell
 						</span>
 						<span className="text-slate-500 text-sm">
-							Lorem ipsum 15 ranfrom doernb fjdj jjdusj jdjdunhh hhd jjdddjd
-							djdjud ddj ffid ff rirn jdjd eu hdd
+							Lorem ipsum dolor sit amet pretium consectetur adipiscing elit.
 						</span>
 						<Link
 							href="/"
-							className="p-2 w-fit mx-auto px-5 rounded-3xl"
-							style={{ backgroundColor: "#c9243f", color: "white" }}
+							className="p-2 w-fit mx-auto px-5 rounded-3xl bg-accent text-white transition-all hover:scale-105"
 						>
 							Go To TPC
 						</Link>

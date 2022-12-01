@@ -14,7 +14,7 @@ export default function RootLayout({
 	return (
 		<html className={`${inter.variable} font-sans`}>
 			<head />
-			<body className="bg-gray-200">{children}</body>
+			<body className="bg-slate-100">{children}</body>
 		</html>
 	);
 }
