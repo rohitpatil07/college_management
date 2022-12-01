@@ -6,7 +6,8 @@ const MobileNav = () => {
   return (
     <div className='flex sm:hidden flex-col w-full bg-white text-black drop-shadow-lg'>
       <div className="flex flex-row w-full justify-between items-center p-4 border-b-2">
-        DYPLOGO
+      <img src={`/logo.png`}
+					alt={`logo`} className='w-16 h-8'/>
         <div className="flex flex-row">
           <button onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

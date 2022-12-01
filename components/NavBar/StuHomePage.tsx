@@ -3,7 +3,9 @@ import React from 'react';
 import Link from 'next/link';
 const StuHomePage = () => {
   return (
-    <div className="w-screen md:w-10/12 sm:shadow-2xl sm:rounded-xl sm:p-5 flex flex-col justify-around items-center sm:container sm:mt-20 sm:mx-auto border-solid w=48rem bg-slate-200 sm:bg-white">
+    <div className="relative w-screen md:w-10/12 sm:shadow-2xl sm:rounded-xl sm:p-5 flex flex-col justify-around items-center sm:container sm:mt-20 sm:mx-auto border-solid w=48rem bg-slate-200 sm:bg-white">
+      <img src={`/dotgrid.png`} className='hidden sm:block absolute top-[-10%] left-[-7%] w-32 h-32 z-[-1]'/>
+      <img src={`/dotgrid.png`} className='hidden sm:block absolute top-[90%] left-[93%] w-32 h-32 z-[-1]'/>
       <div className='w-64 sm:w-11/12 border-b border-slate-300  py-3'>
         <button className="flex flex-row text-base text-slate-500 font-medium items-center">
           <svg className='mr-2 w-4 h-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" >
@@ -15,7 +17,7 @@ const StuHomePage = () => {
       <br />
       <div className=" flex flex-col sm:flex-row justify-evenly items-center w-full mb-5">
         <div className="w-64 sm:w-72 shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
-          <img className='w-full min-h-[10rem] object-cover' src="https://thumbs.dreamstime.com/b/football-field-american-night-64951738.jpg" alt='TPC' />
+          <img className='w-full min-h-[10rem] object-cover bg-zinc-300' src={`/lms.png`} alt='lms' />
           <div className='p-5 flex flex-col gap-3 items=center text-center'>
             <span className='text-xl font-bold text-gray-900'>Learning Management<br/>System</span>
             <span className='text-slate-500 text-sm'>Lorem ipsum 15 ranfrom doernb fjdj jjdusj jdjdunhh hhd jjdddjd djdjud ddj ffid ff rirn jdjd eu hdd</span>
@@ -24,7 +26,7 @@ const StuHomePage = () => {
         </div>
         <br />
         <div className="w-64 sm:w-72 shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
-          <img className='w-full min-h-[10rem] object-cover' src="https://thumbs.dreamstime.com/b/football-field-american-night-64951738.jpg" alt='TPC' />
+          <img className='w-full min-h-[10rem] object-cover bg-zinc-300' src={`/tpc.png`} alt='tpc' />
           <div className='p-5 flex flex-col gap-3 items=center text-center'>
             <span className='text-xl font-bold text-gray-900'>Training And Placement<br/>Cell</span>
             <span className='text-slate-500 text-sm'>Lorem ipsum 15 ranfrom doernb fjdj jjdusj jdjdunhh hhd jjdddjd djdjud ddj ffid ff rirn jdjd eu hdd</span>

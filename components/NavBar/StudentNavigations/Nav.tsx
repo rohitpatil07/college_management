@@ -3,7 +3,8 @@ import React from "react";
 const Nav = () => {
   return (
     <div className="hidden sm:flex flex-row w-full bg-white text-black justify-between items-center p-4 drop-shadow-lg">
-      <div>DYPLOGO</div>
+      <img src={`/logo.png`}
+					alt={`logo`} className='w-16 h-8'/>
       <div className="flex flex-row justify-around items-center">
         <button className="flex flex-row text-base text-slate-700 font-medium items-center">
           <svg className='mr-2 w-5 h-5' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" >
