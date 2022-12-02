@@ -91,8 +91,8 @@ const AcademicDetails = () => {
               className="w-32 bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
             ></input>
           </div>
-          <div className="flex flex-col sm:flex-row">
-            <div className="flex flex-row justify-around items-center mb-2 mr-4">
+          <div className="flex flex-col md:flex-row">
+            <div className="flex flex-row  items-center mb-2 mr-4">
               <legend className="mr-2 text-sm sm:text-base text-slate-700 font-medium">
                 {basicInfo[1].label}
               </legend>
@@ -108,7 +108,7 @@ const AcademicDetails = () => {
               />
             </div>
             &nbsp;
-            <div className="flex flex-row justify-around items-center mb-2">
+            <div className="flex flex-row items-center mb-2">
               <legend className="mr-2 text-sm sm:text-base text-slate-700 font-medium">
                 {basicInfo[2].label}
               </legend>
@@ -125,11 +125,12 @@ const AcademicDetails = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-row justify-around items-center w-11/12  my-3">
+        <div className="flex flex-col justify-around w-11/12  my-3">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 border-slate-500 mb-5">
             {" "}
             Higher Secondary :
           </h2>
+          <div className='flex flex-col md:flex-row'>
           <div className="flex flex-row">
             <input
               className="bg-white"
@@ -142,6 +143,7 @@ const AcademicDetails = () => {
             &nbsp;
             <legend>12th Details</legend>
           </div>
+          &nbsp;&nbsp;
           <div className="flex flex-row">
             <input
               type="radio"
@@ -152,6 +154,7 @@ const AcademicDetails = () => {
             />
             &nbsp;
             <legend>Diploma</legend>
+          </div>
           </div>
         </div>
         {higherSecondary == "twelveth" ? (
@@ -172,8 +175,8 @@ const AcademicDetails = () => {
                 className="w-32 bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
               />
             </div>
-            <div className="flex flex-col sm:flex-row">
-              <div className="flex flex-row justify-around items-center mb-2 mr-4">
+            <div className="flex flex-col md:flex-row">
+              <div className="flex flex-row items-center mb-2 mr-4">
                 <legend className="mr-2 text-sm sm:text-base text-slate-700 font-medium">
                   {basicInfo[1].label}
                 </legend>
@@ -189,7 +192,7 @@ const AcademicDetails = () => {
                 />
               </div>
               &nbsp;
-              <div className="flex flex-row justify-around items-center mb-2">
+              <div className="flex flex-row items-center mb-2">
                 <legend className="mr-2 text-sm sm:text-base text-slate-700 font-medium">
                   {basicInfo[2].label}
                 </legend>
@@ -224,8 +227,8 @@ const AcademicDetails = () => {
                 className="w-32 bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
               />
             </div>
-            <div className="flex flex-col sm:flex-row">
-              <div className="flex flex-row justify-around items-center mb-2 mr-4">
+            <div className="flex flex-col md:flex-row">
+              <div className="flex flex-row items-center mb-2 mr-4">
                 <legend className="mr-2 text-sm sm:text-base text-slate-700 font-medium">
                   {basicInfo[1].label}
                 </legend>
@@ -241,7 +244,7 @@ const AcademicDetails = () => {
                 />
               </div>
               &nbsp;
-              <div className="flex flex-row justify-around items-center mb-2">
+              <div className="flex flex-row items-center mb-2">
                 <legend className="mr-2 text-sm sm:text-base text-slate-700 font-medium">
                   {basicInfo[2].label}
                 </legend>

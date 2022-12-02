@@ -5,7 +5,7 @@ const SideNavBar = () => {
   const [editProf, setEditProf] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
   return (
-      <aside className="hidden sm:block flex flex-col bg-white min-h-screen h-inherit w-full text-slate-500">
+      <aside className="hidden sm:block flex flex-col bg-white min-h-screen h-inherit sm:2/5 md:w-1/5 text-slate-500">
         
         
         <div className="flex flex-col bg-white pb-24">
