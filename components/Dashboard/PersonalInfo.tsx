@@ -1,5 +1,8 @@
 "use client";
+import { METHODS } from "http";
 import React from "react";
+import {updatePersonalData} from "../../routes/routes.js"
+
 const PersonalInfo = () => {
   const [personalInfo, setPersonalInfo] = React.useState([
     { value: "", label: "First Name", id: "first_name", type: "text" },
@@ -50,12 +53,22 @@ const PersonalInfo = () => {
     };
   };
 
-  const save = () => {
+  const save = async () => {
     let data: any = {};
     for (let i = 0; i < personalInfo.length; i++) {
       data[personalInfo[i].id] = personalInfo[i].value;
     }
-    console.log(data);
+    console.log(updatePersonalData);
+    data["roll_no"] = "19IT1024";
+    const response = await fetch("http://localhost:5000/add/student", {method: "POST" , 
+    headers: {
+      "Content-type": "application/json",
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2Njk5OTE0NjJ9.xyhbPKetvfSxuwSBHYSocPsGOSOYOg1hIYHnWhow4lc"
+    },
+    body: JSON.stringify({ student: data }) }
+    );
+    //impment save function
+    console.log(response);
   };
   return (
     <div className="w-full sm:w-11/12 mx-auto  flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
