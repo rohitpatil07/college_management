@@ -170,7 +170,7 @@ const SideMobile = () => {
               <></>
             )}
             <Link
-              href="/tpc/availabledrives"
+              href="/tpc/availableDrives"
               onClick={() => {
                 setIsOpen(!isOpen);
               }}
