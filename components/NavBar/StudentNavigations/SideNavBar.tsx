@@ -3,27 +3,31 @@ import React from "react";
 import Link from "next/link";
 const SideNavBar = () => {
   const [editProf, setEditProf] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
   return (
-    <div>
-      <aside className="flex flex-col bg-white min-h-screen h-full w-56 hidden sm:block text-slate-500">
-        <div className="flex flex-col bg-white h-fit pb-24">
+      <aside className="hidden sm:block flex flex-col bg-white min-h-screen h-inherit w-full text-slate-500">
+        
+        
+        <div className="flex flex-col bg-white pb-24">
           <Link
-            href="/"
+            href="/home"
             className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4 mr-1"
             >
               <path
-                fillRule="evenodd"
-                d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z"
-                clipRule="evenodd"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
               />
             </svg>
-            &nbsp;&nbsp;Home
+            Home
           </Link>
           <button
             onClick={() => {
@@ -34,13 +38,19 @@ const SideNavBar = () => {
             <div className="flex flex-row ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 mr-1"
               >
-                <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                />
               </svg>
-              &nbsp;&nbsp;Edit Profile
+              Edit Profile
             </div>
             <div className="flex flex-row ">
               {editProf ? (
@@ -48,7 +58,7 @@ const SideNavBar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
-                  className="w-4 h-4"
+                  className="w-4 h-4 mr-1"
                 >
                   <path
                     fillRule="evenodd"
@@ -61,7 +71,7 @@ const SideNavBar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
-                  className="w-4 h-4"
+                  className="w-4 h-4 mr-1"
                 >
                   <path
                     fillRule="evenodd"
@@ -70,7 +80,6 @@ const SideNavBar = () => {
                   />
                 </svg>
               )}
-              &nbsp;
             </div>
           </button>
           {editProf ? (
@@ -117,7 +126,7 @@ const SideNavBar = () => {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-4 h-4"
+              className="w-4 h-4 mr-1"
             >
               <path
                 fillRule="evenodd"
@@ -125,7 +134,7 @@ const SideNavBar = () => {
                 clipRule="evenodd"
               />
             </svg>
-            &nbsp;&nbsp; Available Drives
+            Available Drives
           </Link>
           <Link
             href="/"
@@ -135,7 +144,7 @@ const SideNavBar = () => {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-4 h-4"
+              className="w-4 h-4 mr-1"
             >
               <path
                 fillRule="evenodd"
@@ -143,7 +152,7 @@ const SideNavBar = () => {
                 clipRule="evenodd"
               />
             </svg>
-            &nbsp;&nbsp; Applied Drives
+            Applied Drives
           </Link>
           <Link
             href="/"
@@ -153,7 +162,7 @@ const SideNavBar = () => {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-5 h-5"
+              className="w-5 h-5 mr-1"
             >
               <path
                 fillRule="evenodd"
@@ -161,7 +170,7 @@ const SideNavBar = () => {
                 clipRule="evenodd"
               />
             </svg>
-            &nbsp;&nbsp; View / Download Resume
+            View / Download Resume
           </Link>
         </div>
         <Link
@@ -172,7 +181,7 @@ const SideNavBar = () => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            className="w-5 h-5"
+            className="w-5 h-5 mr-1"
           >
             <path
               fillRule="evenodd"
@@ -185,10 +194,9 @@ const SideNavBar = () => {
               clipRule="evenodd"
             />
           </svg>{" "}
-          &nbsp;&nbsp; Log Out
+          Log Out
         </Link>
       </aside>
-    </div>
   );
 };
 

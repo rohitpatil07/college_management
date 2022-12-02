@@ -58,7 +58,7 @@ const PersonalInfo = () => {
     console.log(data);
   };
   return (
-    <div className="w-[90vw] sm:w-[60vw] md:w-[65vw] mx-auto sm:ml-6 md:ml-14 sm:mx-0 lg:mx-auto flex flex-col items-center justify-around bg-slate-200 sm:bg-white md:container ">
+    <div className="w-full sm:w-11/12 mx-auto  flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
       <br />
       <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
         Personal Info
@@ -94,7 +94,7 @@ const PersonalInfo = () => {
           gridGap: "17px 35px",
           justifyContent: "center",
         }}
-        className="w-[90vw] sm:w-[60vw] md:w-[65vw]"
+        className='w-full px-4'
       >
         {personalInfo.map(({ value, label, id, type }: any) => (
           <>

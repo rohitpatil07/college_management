@@ -3,7 +3,7 @@ import SideNavBar from "./StudentNavigations/SideNavBar"
 
 const SideBar = () => {
   return (
-    <div>
+    <div className='w-full sm:w-1/5'>
       <SideNavBar/>
       <SideMobile/>
     </div>
