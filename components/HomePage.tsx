@@ -63,7 +63,7 @@ const HomePage = () => {
 							Lorem ipsum dolor sit amet pretium consectetur adipiscing elit.
 						</span>
 						<Link
-							href="/"
+							href="/tpc/editProfile/personalInfo"
 							className="p-2 w-fit mx-auto px-5 rounded-3xl bg-accent text-white transition-all hover:scale-105"
 						>
 							Go To TPC
