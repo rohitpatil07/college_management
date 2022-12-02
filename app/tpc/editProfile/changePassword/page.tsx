@@ -1,7 +1,7 @@
 'use client'
 import React from "react";
 import Link from "next/link";
-import AcademicDetails from "../../../../components/Dashboard/AcademicDetails";
+import ChangePassword from "../../../../components/Dashboard/ChangePassword";
 const page = () => {
   return (
     <div className="mx-auto w-full flex flex-col bg-slate-200 ">
@@ -22,7 +22,7 @@ const page = () => {
           Home / Change Password
         </Link>
       </div>
-      <AcademicDetails/>
+      <ChangePassword/>
     </div>
   );
 };
