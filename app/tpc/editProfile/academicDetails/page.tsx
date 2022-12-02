@@ -1,7 +1,7 @@
 'use client'
 import React from "react";
-import PersonalInfo from "../../../../components/Dashboard/PersonalInfo";
 import Link from "next/link";
+import AcademicDetails from "../../../../components/Dashboard/AcademicDetails";
 const page = () => {
   return (
     <div className="mx-auto w-full flex flex-col bg-slate-200 ">
@@ -19,10 +19,10 @@ const page = () => {
               clipRule="evenodd"
             />
           </svg>
-          Home / Personal Info
+          Home / Academic Details
         </Link>
       </div>
-      <PersonalInfo />
+      <AcademicDetails/>
     </div>
   );
 };
