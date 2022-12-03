@@ -17,6 +17,7 @@ function LoginPage() {
 	const AuthData : any= useAuth();
 
 	const handleSubmit = async () => {
+		console.log(role);
 		const data = {email,role,password};
 		const response = await AuthData.login(data);
 		const {token}  = response.data;

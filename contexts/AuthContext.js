@@ -2,12 +2,12 @@ import React,{  useState , useEffect }  from 'react';
 import createPersistedState from 'use-persisted-state';
 const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
 import api from './adapter';
-const useTokenState = createPersistedState("");
+const useTokenState = createPersistedState("123456");
 const AuthContext = React.createContext({});
 
 const AuthProvider = ({children}) => {
 
-    const [token, setToken] = useTokenState("");
+    const [token, setToken] = useTokenState("123456");
     const [userData,setUserData] = useState({});
     const [isAuthenticated,setIsAuthenticated] = useState(false);
 

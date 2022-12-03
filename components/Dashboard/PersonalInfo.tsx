@@ -7,6 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 
 const PersonalInfo = () => {
+  const AuthData : any = useAuth();
   const [personalInfo, setPersonalInfo] = React.useState([
     { value: "", label: "First Name", id: "first_name", type: "text" },
     { value: "", label: "Middle Name", id: "middle_name", type: "text" },
@@ -40,12 +41,20 @@ const PersonalInfo = () => {
   const [college_name,setCollege] = useState("");
   const [photo,setPhoto] = useState("");
 
-  
-  
+  const getProfileData=async()=>{
+    const response = await axios.get("http://localhost:5000/filter/student/19IT1024", {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
+    },
+  });
+  console.log(response.data);
+  }
+  useEffect(() => {
+    getProfileData();
+  }, []);
 
-
-  const AuthData : any = useAuth();
-  console.log(AuthData);
+ 
 
 
   // const [token,setToken] = useState("");
@@ -273,6 +282,13 @@ const PersonalInfo = () => {
           onClick={save}
         >
           Save
+        </button>
+        <button
+          className="p-2 w-fit mx-auto px-5 rounded-mg"
+          style={{ backgroundColor: "#c9243f", color: "white" }}
+          onClick={getProfileData}
+        >
+          Get
         </button>
       </div>
       <br />
