@@ -1,13 +1,13 @@
 import React,{  useState , useEffect }  from 'react';
-import axios from 'axios';
+import createPersistedState from 'use-persisted-state';
 const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
 import api from './adapter';
-
+const useTokenState = createPersistedState("");
 const AuthContext = React.createContext({});
 
 const AuthProvider = ({children}) => {
 
-    const [token, setToken] = useState("");
+    const [token, setToken] = useTokenState("");
     const [userData,setUserData] = useState({});
     const [isAuthenticated,setIsAuthenticated] = useState(false);
 
@@ -20,6 +20,7 @@ const AuthProvider = ({children}) => {
         const response = await api.post("/auth/login",data);
         const {token , ...user} = response.data;
         setToken(token);
+        console.log(user);
         setUserData(user);
 
         setIsAuthenticated(true);

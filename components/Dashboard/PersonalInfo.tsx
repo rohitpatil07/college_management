@@ -24,8 +24,28 @@ const PersonalInfo = () => {
     { value: "", label: "College Name", id: "college_name", type: "text" },
   ]);
 
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [middle_name, setMiddleName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone_number,setPhone] = useState("");
+  const [gender,setGender] = useState("M");
+  const [linkedin,setLinkedin] = useState("");
+  const [leetcode,setLeetcode] = useState("");
+  const [hackerrank,setHackerrank] = useState("");
+  const [department,setDepartment] = useState("");
+  const [batch,setBatch] = useState(2023);
+  const [secondary_email,setSEmail] = useState("");
+  const [college_name,setCollege] = useState("");
+  const [photo,setPhoto] = useState("");
+
+  
+  
+
+
   const AuthData : any = useAuth();
   console.log(AuthData);
+
 
   // const [token,setToken] = useState("");
 
@@ -59,41 +79,20 @@ const PersonalInfo = () => {
         id: "photo",
         type: "Base64EncodedImage",
       });
+
     };
   };
 
   const save = async () => {
-    let data: any = {};
-    for (let i = 0; i < personalInfo.length; i++) {
-      data[personalInfo[i].id] = personalInfo[i].value;
-    }
-    // ?.replace(/'/g, '"')
-
-    for (const property in data) {
-      console.log(`${property}: ${data[property]}`);
-    }
-
-    // console.log(updatePersonalData);
-    data["roll_no"] = "19IT1024";
-    // data["batch"] = Number(data[11])
+    // let student: any = {};
 
 
-    let student =  {roll_no:"19IT1024" , github:"test@gmail.com"}
-
-    // let { token } = AuthData["user"];
-
-  // const response = await axios.post("http://localhost:5000/add/student", {
-  //   headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvaGl0cGF0aWwwNzEyMjAwMUBnbWFpbC5jb20iLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTY3MDA1MjIyMn0.sMI6NdU00NLCUBFzhDbfsuNXmo8X99tG_6O2HHvvcOk'
-  //   },
-  //   student,
-  // }); 
+    let student =  {roll_no:"19IT1024" , github:"githhub@gmail.com"}
 
   const response = await axios.post("http://localhost:5000/add/student", {
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${AuthData.user.token}'
+        'Authorization': `Bearer ${AuthData.user.token}`
     },
     student,
   }); 
