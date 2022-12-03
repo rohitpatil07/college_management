@@ -20,27 +20,11 @@ const PersonalInfo = () => {
     { value: "", label: "LeetCode", id: "leetcode", type: "text" },
     { value: "", label: "Hacker Rank", id: "hackerrank", type: "text" },
     { value: "", label: "Department", id: "department", type: "text" },
-    { value: "", label: "Batch", id: "batch", type: "number" },
+    { value: null, label: "Batch", id: "batch", type: "number" },
     { value: "", label: "College Email", id: "secondary_mail", type: "email" },
     { value: "", label: "College Name", id: "college_name", type: "text" },
   ]);
-
-  const [first_name, setFirstName] = useState("Advait");
-  const [last_name, setLastName] = useState("Nurani");
-  const [middle_name, setMiddleName] = useState("Ramesh");
-  const [email, setEmail] = useState("");
-  const [phone_number,setPhone] = useState("");
-  const [gender,setGender] = useState("M");
-  const [linkedin,setLinkedin] = useState("");
-  const [github,setGithub] = useState("");
-  const [leetcode,setLeetcode] = useState("");
-  const [hackerrank,setHackerrank] = useState("");
-  const [department,setDepartment] = useState("");
-  const [batch,setBatch] = useState(2023);
-  const [secondary_email,setSEmail] = useState("");
-  const [college_name,setCollege] = useState("");
-  const [photo,setPhoto] = useState("");
-
+  const[stu_info,setstu_info]:any=useState();
   const getProfileData=async()=>{
     const response = await axios.get("http://localhost:5000/filter/student/19IT1024", {
     headers: {
@@ -48,86 +32,22 @@ const PersonalInfo = () => {
         'Authorization': `Bearer ${AuthData.user.token}`
     },
   });
-  console.log(response.data);
+  setstu_info(response.data);
+  for(let k=0;k<personalInfo.length;k++){
+    personalInfo[k].value=response.data[personalInfo[k].id];
+  }
   }
   useEffect(() => {
     getProfileData();
   }, []);
 
- 
-
-
-  // const [token,setToken] = useState("");
-
-  
   const UpdateData = (val: any, i: string) => {
     var newInfo = [...personalInfo];
     for (let z = 0; z < newInfo.length; z++) {
-      if (newInfo[z].id == i) {
-        newInfo[z].value = val;
+        if (newInfo[z].id == i) {
+          newInfo[z].value = val;
+        }
       }
-      if(newInfo[z].id=="first_name")
-      {
-        setFirstName(val);
-      }
-      if(newInfo[z].id=="last_name")
-      {
-        setLastName(val);
-      }
-      if(newInfo[z].id=="middle_name")
-      {
-        setMiddleName(val);
-      }
-      if(newInfo[z].id=="email")
-      {
-        setEmail(val);
-      }
-      if(newInfo[z].id=="phone_number")
-      {
-        setPhone(val);
-      }
-      if(newInfo[z].id=="gender")
-      {
-        setGender(val);
-      }
-      if(newInfo[z].id=="linkedin")
-      {
-        setLinkedin(val);
-      }
-      if(newInfo[z].id=="github")
-      {
-        setGithub(val);
-      }
-      if(newInfo[z].id=="leetcode")
-      {
-        setLeetcode(val);
-      }
-      if(newInfo[z].id=="hackerrank")
-      {
-        setHackerrank(val);
-      }
-      if(newInfo[z].id=="department")
-      {
-        setDepartment(val);
-      }
-      if(newInfo[z].id=="batch")
-      {
-        setBatch(val);
-      }
-      if(newInfo[z].id=="college_email")
-      {
-        setSEmail(val);
-      }
-      if(newInfo[z].id=="college_name")
-      {
-        setCollege(val);
-      }
-      // else
-      // {
-
-      // }
-
-    }
     setPersonalInfo(newInfo);
   };
   const [previewsource, setPreviewSource] = React.useState(
@@ -135,13 +55,11 @@ const PersonalInfo = () => {
   );
   const handlePhotoInputs = (e: any) => {
     const file = e.target.files[0];
-    console.log(file);
     previewFile(file);
   };
   const previewFile = (file: any) => {
     const reader: any = new FileReader();
     reader.readAsDataURL(file);
-    console.log(reader);
     reader.onloadend = () => {
       setPreviewSource(reader.result);
       personalInfo.push({
@@ -160,12 +78,11 @@ const PersonalInfo = () => {
     };
     for(let i=0;i<personalInfo.length;i++)
     {
+      if(stu_info[personalInfo[i].id]!=personalInfo[i].value){
       student[personalInfo[i].id]=personalInfo[i].value
+      }
     }
-
-
-    //let student  =  {roll_no:"19IT1024" ,email,first_name,middle_name,last_name,leetcode,github,hackerrank,gender,college_name,department,batch,phone_number,secondary_email}
-      //const student = {roll_no:"19IT2024",first_name:first_name,last_name:last_name,middle_name:middle_name}
+    console.log(student);
   const response = await axios.post("http://localhost:5000/add/student", {
     headers: {
         'Content-Type': 'application/json',
@@ -173,10 +90,6 @@ const PersonalInfo = () => {
     },
     student,
   }); 
-
-
-
-    //impment save function
     console.log(response);
   };
   return (
@@ -282,13 +195,6 @@ const PersonalInfo = () => {
           onClick={save}
         >
           Save
-        </button>
-        <button
-          className="p-2 w-fit mx-auto px-5 rounded-mg"
-          style={{ backgroundColor: "#c9243f", color: "white" }}
-          onClick={getProfileData}
-        >
-          Get
         </button>
       </div>
       <br />

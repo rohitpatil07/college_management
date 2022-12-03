@@ -58,11 +58,12 @@ const AcademicDetails = () => {
       basicInfo[z].value = baseInfo[basicInfo[z].id];
     }
     const UpdateSscHsctData = (val: string, i: string) => {
+      var vals: number =+val;
       var newInfo = [...basicInfo];
       for (let z = 0; z < newInfo.length; z++) {
         if (newInfo[z].id == i) {
           newInfo[z].value = val;
-          baseInfo[newInfo[z].id] = val;
+          baseInfo[newInfo[z].id] = vals;
         }
       }
       console.log(newInfo);
@@ -280,11 +281,12 @@ const AcademicDetails = () => {
       underGradInfo[z].value = baseInfo[underGradInfo[z].id];
     }
     const UpdateUnderData = (val: string, i: string) => {
+      var vals: number =+val;
       var newInfo = [...underGradInfo];
       for (let z = 0; z < newInfo.length; z++) {
         if (newInfo[z].id == i) {
           newInfo[z].value = val;
-          baseInfo[newInfo[z].id] = val;
+          baseInfo[newInfo[z].id] = vals;
         }
       }
       console.log(newInfo);
@@ -354,11 +356,12 @@ const AcademicDetails = () => {
       postGradInfo[z].value = baseInfo[postGradInfo[z].id];
     }
     const UpdatePostData = (val: string, i: string) => {
+      var vals: number =+val;
       var newInfo = [...postGradInfo];
       for (let z = 0; z < newInfo.length; z++) {
         if (newInfo[z].id == i) {
           newInfo[z].value = val;
-          baseInfo[newInfo[z].id] = val;
+          baseInfo[newInfo[z].id] = vals;
         }
       }
       console.log(newInfo);
