@@ -2,6 +2,7 @@
 import { METHODS } from "http";
 import React from "react";
 import {updatePersonalData} from "../../routes/routes.js"
+import axios from "axios";
 
 const PersonalInfo = () => {
   const [personalInfo, setPersonalInfo] = React.useState([
@@ -20,6 +21,8 @@ const PersonalInfo = () => {
     { value: "", label: "College Email", id: "college_mail", type: "email" },
     { value: "", label: "College Name", id: "college_name", type: "text" },
   ]);
+
+  
   const UpdateData = (val: string, i: string) => {
     var newInfo = [...personalInfo];
     for (let z = 0; z < newInfo.length; z++) {
@@ -58,15 +61,31 @@ const PersonalInfo = () => {
     for (let i = 0; i < personalInfo.length; i++) {
       data[personalInfo[i].id] = personalInfo[i].value;
     }
-    console.log(updatePersonalData);
+    // ?.replace(/'/g, '"')
+
+    for (const property in data) {
+      console.log(`${property}: ${data[property]}`);
+    }
+
+    // console.log(updatePersonalData);
     data["roll_no"] = "19IT1024";
-    const response = await fetch("http://localhost:5000/add/student", {method: "POST" , 
-    headers: {
-      "Content-type": "application/json",
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2Njk5OTE0NjJ9.xyhbPKetvfSxuwSBHYSocPsGOSOYOg1hIYHnWhow4lc"
-    },
-    body: JSON.stringify({ student: data }) }
-    );
+    // data["batch"] = Number(data[11])
+    
+
+    const response = await axios.post(updatePersonalData,{
+      roll_no: '19IT1024',
+      github: 'hello'
+    },  
+    {
+      headers: {
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2Njk5OTE0NjJ9.xyhbPKetvfSxuwSBHYSocPsGOSOYOg1hIYHnWhow4lc",
+        "Content": "applcation/json"
+      }
+    }
+    )
+
+
+
     //impment save function
     console.log(response);
   };
@@ -119,9 +138,9 @@ const PersonalInfo = () => {
                     <input
                       className="bg-white"
                       type="radio"
-                      id="male"
+                      id="gender"
                       name="gender"
-                      value="male"
+                      value="M"
                       onChange={(e) => {
                         UpdateData(e.target.value, id);
                       }}
@@ -132,9 +151,9 @@ const PersonalInfo = () => {
                   <div>
                     <input
                       type="radio"
-                      id="female"
+                      id="gender"
                       name="gender"
-                      value="female"
+                      value="F"
                       onChange={(e) => {
                         UpdateData(e.target.value, id);
                       }}

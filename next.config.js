@@ -7,4 +7,18 @@ const nextConfig = {
   }
 }
 
-module.exports = nextConfig
+module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: '/:path*',
+        destination: '/:path*',
+      },
+    ]
+  },
+  reactStrictMode: true,
+  swcMinify: true,
+  experimental: {
+    appDir: true
+  }
+}
