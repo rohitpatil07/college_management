@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React ,{useState} from "react";
 const AcademicDetails = () => {
   const [baseInfo, setBaseInfo] = React.useState<any>({
     tenth_percent: "",
@@ -65,7 +65,6 @@ const AcademicDetails = () => {
           baseInfo[newInfo[z].id] = val;
         }
       }
-      console.log(newInfo);
       setBasicInfo(newInfo);
     };
 
@@ -287,7 +286,6 @@ const AcademicDetails = () => {
           baseInfo[newInfo[z].id] = val;
         }
       }
-      console.log(newInfo);
       setUnderGradInfo(newInfo);
     };
     return (
@@ -361,7 +359,6 @@ const AcademicDetails = () => {
           baseInfo[newInfo[z].id] = val;
         }
       }
-      console.log(newInfo);
       setpostGradInfo(newInfo);
     };
     return (
@@ -399,7 +396,30 @@ const AcademicDetails = () => {
   };
 
   const save = () => {
-    console.log("B", baseInfo);
+    var tenth_percent: number =+baseInfo.tenth_percent;
+    var tenth_start:number=+baseInfo.tenth_start;
+    var tenth_end:number=+baseInfo.tenth_end;
+    var twelveth_percent: number =+baseInfo.twelveth_percent;
+    var twelveth_start:number=+baseInfo.twelveth_start;
+    var twelveth_end:number=+baseInfo.twelveth_end;
+    var sem1_pointer:number=+baseInfo.sem1_pointer;
+    var sem2_pointer:number=+baseInfo.sem2_pointer;
+    var sem3_pointer:number=+baseInfo.sem3_pointer;
+    var sem4_pointer:number=+baseInfo.sem4_pointer;
+    var sem5_pointer:number=+baseInfo.sem5_pointer;
+    var sem6_pointer:number=+baseInfo.sem6_pointer;
+    var sem7_pointer:number=+baseInfo.sem7_pointer;
+    var sem8_pointer:number=+baseInfo.sem8_pointer;
+    var masters_sem1_pointer:number=+baseInfo.masters_sem1_pointer;
+    var masters_sem2_pointer:number=+baseInfo.masters_sem2_pointer;
+    var masters_sem3_pointer:number=+baseInfo.masters_sem3_pointer;
+    var masters_sem4_pointer:number=+baseInfo.masters_sem4_pointer;
+    
+    const data = {tenth_percent,tenth_start,tenth_end,twelveth_percent,twelveth_start,twelveth_end,
+    sem1_pointer,sem2_pointer,sem3_pointer,sem4_pointer,sem5_pointer,sem6_pointer,sem7_pointer,sem8_pointer,
+    masters_sem1_pointer,masters_sem2_pointer,masters_sem3_pointer,masters_sem4_pointer
+    }
+    console.log(data);
   };
   const [step, setStep] = React.useState(0);
   const Navigation = () => (
@@ -441,7 +461,6 @@ const AcademicDetails = () => {
   function renderMarkers() {
     let markers = [];
     for (let i = 0; i < fieldGroups.length; i++) {
-      console.log(step);
       markers.push(
         <span
           className={
