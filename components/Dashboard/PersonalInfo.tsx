@@ -19,18 +19,19 @@ const PersonalInfo = () => {
     { value: "", label: "LeetCode", id: "leetcode", type: "text" },
     { value: "", label: "Hacker Rank", id: "hackerrank", type: "text" },
     { value: "", label: "Department", id: "department", type: "text" },
-    { value: "", label: "Batch", id: "batch", type: "text" },
-    { value: "", label: "College Email", id: "college_mail", type: "email" },
+    { value: "", label: "Batch", id: "batch", type: "number" },
+    { value: "", label: "College Email", id: "secondary_mail", type: "email" },
     { value: "", label: "College Name", id: "college_name", type: "text" },
   ]);
 
-  const [first_name, setFirstName] = useState("");
-  const [last_name, setLastName] = useState("");
-  const [middle_name, setMiddleName] = useState("");
+  const [first_name, setFirstName] = useState("Advait");
+  const [last_name, setLastName] = useState("Nurani");
+  const [middle_name, setMiddleName] = useState("Ramesh");
   const [email, setEmail] = useState("");
   const [phone_number,setPhone] = useState("");
   const [gender,setGender] = useState("M");
   const [linkedin,setLinkedin] = useState("");
+  const [github,setGithub] = useState("");
   const [leetcode,setLeetcode] = useState("");
   const [hackerrank,setHackerrank] = useState("");
   const [department,setDepartment] = useState("");
@@ -50,12 +51,73 @@ const PersonalInfo = () => {
   // const [token,setToken] = useState("");
 
   
-  const UpdateData = (val: string, i: string) => {
+  const UpdateData = (val: any, i: string) => {
     var newInfo = [...personalInfo];
     for (let z = 0; z < newInfo.length; z++) {
       if (newInfo[z].id == i) {
         newInfo[z].value = val;
       }
+      if(newInfo[z].id=="first_name")
+      {
+        setFirstName(val);
+      }
+      if(newInfo[z].id=="last_name")
+      {
+        setLastName(val);
+      }
+      if(newInfo[z].id=="middle_name")
+      {
+        setMiddleName(val);
+      }
+      if(newInfo[z].id=="email")
+      {
+        setEmail(val);
+      }
+      if(newInfo[z].id=="phone_number")
+      {
+        setPhone(val);
+      }
+      if(newInfo[z].id=="gender")
+      {
+        setGender(val);
+      }
+      if(newInfo[z].id=="linkedin")
+      {
+        setLinkedin(val);
+      }
+      if(newInfo[z].id=="github")
+      {
+        setGithub(val);
+      }
+      if(newInfo[z].id=="leetcode")
+      {
+        setLeetcode(val);
+      }
+      if(newInfo[z].id=="hackerrank")
+      {
+        setHackerrank(val);
+      }
+      if(newInfo[z].id=="department")
+      {
+        setDepartment(val);
+      }
+      if(newInfo[z].id=="batch")
+      {
+        setBatch(val);
+      }
+      if(newInfo[z].id=="college_email")
+      {
+        setSEmail(val);
+      }
+      if(newInfo[z].id=="college_name")
+      {
+        setCollege(val);
+      }
+      // else
+      // {
+
+      // }
+
     }
     setPersonalInfo(newInfo);
   };
@@ -84,11 +146,17 @@ const PersonalInfo = () => {
   };
 
   const save = async () => {
-    // let student: any = {};
+    let student: any = {
+      roll_no:"19IT1024",
+    };
+    for(let i=0;i<personalInfo.length;i++)
+    {
+      student[personalInfo[i].id]=personalInfo[i].value
+    }
 
 
-    let student =  {roll_no:"19IT1024" , github:"githhub@gmail.com"}
-
+    //let student  =  {roll_no:"19IT1024" ,email,first_name,middle_name,last_name,leetcode,github,hackerrank,gender,college_name,department,batch,phone_number,secondary_email}
+      //const student = {roll_no:"19IT2024",first_name:first_name,last_name:last_name,middle_name:middle_name}
   const response = await axios.post("http://localhost:5000/add/student", {
     headers: {
         'Content-Type': 'application/json',
