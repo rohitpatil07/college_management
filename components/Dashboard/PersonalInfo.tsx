@@ -1,8 +1,10 @@
 "use client";
-import { METHODS } from "http";
-import React from "react";
+import React , {useState , useEffect} from "react";
 import {updatePersonalData} from "../../routes/routes.js"
 import axios from "axios";
+import api from "../../contexts/adapter"
+import { useAuth } from "../../contexts/AuthContext";
+
 
 const PersonalInfo = () => {
   const [personalInfo, setPersonalInfo] = React.useState([
@@ -22,6 +24,11 @@ const PersonalInfo = () => {
     { value: "", label: "College Name", id: "college_name", type: "text" },
   ]);
 
+  const AuthData : any = useAuth();
+  console.log(AuthData);
+
+  // const [token,setToken] = useState("");
+
   
   const UpdateData = (val: string, i: string) => {
     var newInfo = [...personalInfo];
@@ -30,7 +37,6 @@ const PersonalInfo = () => {
         newInfo[z].value = val;
       }
     }
-    console.log(newInfo);
     setPersonalInfo(newInfo);
   };
   const [previewsource, setPreviewSource] = React.useState(
@@ -70,19 +76,27 @@ const PersonalInfo = () => {
     // console.log(updatePersonalData);
     data["roll_no"] = "19IT1024";
     // data["batch"] = Number(data[11])
-    
 
-    const response = await axios.post(updatePersonalData,{
-      roll_no: '19IT1024',
-      github: 'hello'
-    },  
-    {
-      headers: {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2Njk5OTE0NjJ9.xyhbPKetvfSxuwSBHYSocPsGOSOYOg1hIYHnWhow4lc",
-        "Content": "applcation/json"
-      }
-    }
-    )
+
+    let student =  {roll_no:"19IT1024" , github:"test@gmail.com"}
+
+    // let { token } = AuthData["user"];
+
+  // const response = await axios.post("http://localhost:5000/add/student", {
+  //   headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvaGl0cGF0aWwwNzEyMjAwMUBnbWFpbC5jb20iLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTY3MDA1MjIyMn0.sMI6NdU00NLCUBFzhDbfsuNXmo8X99tG_6O2HHvvcOk'
+  //   },
+  //   student,
+  // }); 
+
+  const response = await axios.post("http://localhost:5000/add/student", {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${AuthData.user.token}'
+    },
+    student,
+  }); 
 
 
 

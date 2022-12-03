@@ -3,21 +3,26 @@ import React,{useState , useEffect} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import {useAuth} from '../contexts/AuthContext';
+import {useAuth} from '../contexts/AuthContext'
+import  { useRouter } from 'next/navigation'
+
 
 function LoginPage() {
 
+	const router = useRouter();
 	const [email, setEmail] = useState("");
 	const [role, setRole] = useState("student");
 	const [password, setPassword] = useState("");
 
-	const AuthData = useAuth();
+	const AuthData : any= useAuth();
 
 	const handleSubmit = async () => {
 		const data = {email,role,password};
-		const response = await axios.post("http://localhost:5000/auth/login",{email: "rohitpatil07122001@gmail.com",password:"123456",role:"student"})
-		// const response = await login(data);
-		console.log(response);
+		const response = await AuthData.login(data);
+		const {token}  = response.data;
+		if(token){
+			router.push("/home");
+		}
 
 	}
 

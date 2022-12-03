@@ -1,5 +1,8 @@
+"use client";
 import "../styles/globals.css";
 import { Inter } from "@next/font/google";
+ import AuthProvider from '../contexts/AuthContext';
+
 
 const inter = Inter({
 	subsets: ["latin"],
@@ -14,7 +17,7 @@ export default function RootLayout({
 	return (
 		<html className={`${inter.variable} font-sans`}>
 			<head />
-			<body className="bg-slate-100">{children}</body>
+			<AuthProvider><body className="bg-slate-100">{children}</body></AuthProvider>
 		</html>
 	);
 }
