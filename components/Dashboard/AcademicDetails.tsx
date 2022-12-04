@@ -4,50 +4,52 @@ import axios from "axios";
 import api from "../../contexts/adapter";
 import { useAuth } from "../../contexts/AuthContext";
 const AcademicDetails = () => {
-	const AuthData: any = useAuth();
-	const [stu_info, setstu_info]: any = useState();
-	const [baseInfo, setBaseInfo] = React.useState<any>({
-		tenth_percent: "",
-		tenth_start: "",
-		tenth_end: "",
-		twelveth_percent: "",
-		twelveth_start: "",
-		twelveth_end: "",
-		diploma_percent: "",
-		diploma_start: "",
-		diploma_end: "",
-		sem1_pointer: "",
-		sem2_pointer: "",
-		sem3_pointer: "",
-		sem4_pointer: "",
-		sem5_pointer: "",
-		sem6_pointer: "",
-		sem7_pointer: "",
-		sem8_pointer: "",
-		masters_sem1_pointer: "",
-		masters_sem2_pointer: "",
-		masters_sem3_pointer: "",
-		masters_sem4_pointer: "",
-	});
-	const getProfileData = async () => {
-		const response = await axios.get(
-			`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`,
-			{
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
-				},
-			}
-		);
-		setstu_info(response.data["academic_info"]);
-		let kss = response.data["academic_info"];
-		for (let key in baseInfo) {
-			baseInfo[key] = kss[key];
-		}
-	};
-	useEffect(() => {
-		getProfileData();
-	}, []);
+  const AuthData : any = useAuth();
+  const[stu_info,setstu_info]:any=useState();
+  const [baseInfo, setBaseInfo] = React.useState<any>({
+    tenth_percent: "",
+    tenth_start: "",
+    tenth_end: "",
+    twelveth_percent: "",
+    twelveth_start: "",
+    twelveth_end: "",
+    diploma_percent: "",
+    diploma_start: "",
+    diploma_end: "",
+    sem1_pointer: "",
+    sem2_pointer: "",
+    sem3_pointer: "",
+    sem4_pointer: "",
+    sem5_pointer: "",
+    sem6_pointer: "",
+    sem7_pointer: "",
+    sem8_pointer: "",
+    cgpa:"",
+    be_percent:"",
+    gap:"",
+    livekt:"",
+    deadkt:"",
+    masters_sem1_pointer: "",
+    masters_sem2_pointer: "",
+    masters_sem3_pointer: "",
+    masters_sem4_pointer: "",
+  });
+  const getProfileData=async()=>{
+    const response = await axios.get(`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`, {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
+    },
+  });
+  setstu_info(response.data['academic_info']);
+  let kss = response.data['academic_info']
+ for(let key in baseInfo){
+  baseInfo[key]=kss[key]
+ }
+}
+useEffect(() => {
+  getProfileData();
+}, []);
 
 	const SscHsc = () => {
 		const [higherSecondary, setHigherSecondary] = React.useState("twelveth");
@@ -417,88 +419,97 @@ const AcademicDetails = () => {
 		);
 	};
 
-	const save = () => {
-		let student: any = {
-			roll_no: "19IT1024",
-		};
-		for (let keys in baseInfo) {
-			if (baseInfo[keys] != stu_info[keys]) {
-				student[keys] = baseInfo[keys];
-			}
-		}
-		console.log(student);
-	};
-	const [step, setStep] = React.useState(0);
-	const Navigation = () => (
-		<section className="w-full flex items-center justify-around gap-1 py-4">
-			{step > 0 && (
-				<button
-					className="p-2 w-fit mx-auto px-5 rounded-md bg-blue-500 text-white transition-all hover:scale-105"
-					type="button"
-					onClick={() => {
-						setStep(step - 1);
-					}}
-				>
-					BACK
-				</button>
-			)}
-			{step == fieldGroups.length - 1 && (
-				<button
-					onClick={save}
-					className="p-2 w-fit mx-auto px-5 rounded-md bg-accent text-white transition-all hover:scale-105"
-					type="submit"
-				>
-					SAVE
-				</button>
-			)}
-			{step < fieldGroups.length - 1 && (
-				<button
-					className="bg-accent rounded-md transition-all hover:scale-105 p-2 w-fit mx-auto px-5 rounded-mg text-white"
-					type="button"
-					onClick={() => {
-						setStep(step + 1);
-					}}
-				>
-					NEXT
-				</button>
-			)}
-		</section>
-	);
-	function renderMarkers() {
-		let markers = [];
-		for (let i = 0; i < fieldGroups.length; i++) {
-			markers.push(
-				<span
-					className={
-						step >= i
-							? "rounded-full w-2 h-2 bg-blue-600"
-							: "rounded-full w-2 h-2 bg-gray-300"
-					}
-				/>
-			);
-		}
-		return markers;
-	}
-	const Reference = () => (
-		<footer className="w-full flex items-center justify-center gap-1 py-4">
-			{renderMarkers()}
-		</footer>
-	);
-	const fieldGroups = [
-		<SscHsc key="ssc" />,
-		<UnderGrad key="undergrad" />,
-		<PostGrad key="postgrad" />,
-	];
-	return (
-		<>
-			<div className="w-full sm:w-11/12 mx-auto  flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
-				<br />
-				{fieldGroups[step]}
-				<Navigation />
-				<Reference />
-			</div>
-		</>
-	);
+  const save = async() => {
+    let academic: any = {
+      roll_no:`${AuthData.user.userData.user.roll_no}`,
+    };
+    for(let keys in baseInfo){
+      if(baseInfo[keys]!=stu_info[keys]){
+        academic[keys]=baseInfo[keys]
+      }
+    }
+    const response = await axios.post("http://localhost:5000/add/student/academicinfo", {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
+    },
+    academic,
+  });
+    if(response.status==200){
+      window.alert("Updated Successfully")
+    }
+    else{
+      window.alert("failed");
+    }
+  };
+  const [step, setStep] = React.useState(0);
+  const Navigation = () => (
+    <section className="w-full flex items-center justify-around gap-1 py-4">
+      {step > 0 && (
+        <button
+          className="bg-gray-300 p-2 w-fit mx-auto px-5 rounded-mg text-blue-600"
+          type="button"
+          onClick={() => {
+            setStep(step - 1);
+          }}
+        >
+          BACK
+        </button>
+      )}
+      {step == fieldGroups.length - 1 && (
+        <button
+          onClick={save}
+          className="p-2 w-fit mx-auto px-5 rounded-mg"
+          style={{ backgroundColor: "#c9243f", color: "white" }}
+          type="submit"
+        >
+          SAVE
+        </button>
+      )}
+      {step < fieldGroups.length - 1 && (
+        <button
+          className="bg-blue-600 p-2 w-fit mx-auto px-5 rounded-mg text-white"
+          type="button"
+          onClick={() => {
+            setStep(step + 1);
+          }}
+        >
+          NEXT
+        </button>
+      )}
+    </section>
+  );
+  function renderMarkers() {
+    let markers = [];
+    for (let i = 0; i < fieldGroups.length; i++) {
+      markers.push(
+        <span
+          className={
+            step >= i
+              ? "rounded-full w-2 h-2 bg-blue-600"
+              : "rounded-full w-2 h-2 bg-gray-300"
+          }
+        />
+      );
+    }
+    return markers;
+  }
+  const Reference = () => (
+    <footer className="w-full flex items-center justify-center gap-1 py-4">
+      {renderMarkers()}
+    </footer>
+  );
+  const fieldGroups = [<SscHsc key="ssc"/>, <UnderGrad key="undergrad"/>, <PostGrad key="postgrad"/>];
+  return (
+    <>
+      <div className="w-full sm:w-11/12 mx-auto  flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
+        <br />
+        {fieldGroups[step]}
+        <Navigation />
+        <Reference />
+      </div>
+    </>
+  );
 };
 
 export default AcademicDetails;
