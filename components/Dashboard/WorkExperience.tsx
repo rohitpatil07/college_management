@@ -74,12 +74,12 @@ useEffect(() => {
         work[keys]=k[keys];
       }
       // console.log(work);
-      const response = await axios.post("http://localhost:5000/add/student/workexperience", {
+      const response = await axios.post("http://localhost:5000/add/student/workexperience", work,{
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`
     },
-    work,
+ 
   }); 
   // console.log(response);
     if(response.status==200){

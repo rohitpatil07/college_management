@@ -83,13 +83,14 @@ const PersonalInfo = () => {
 				student[personalInfo[i].id] = personalInfo[i].value;
 			}
 		}
-		const response = await axios.post("http://localhost:5000/add/student", {
+		const response = await axios.post("http://localhost:5000/add/student",student ,{
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${AuthData.user.token}`,
 			},
-			student,
 		});
+		console.log(student);
+		console.log(response);
 		if (response.status == 200) {
 			window.alert("Updated Successfully");
 		} else {

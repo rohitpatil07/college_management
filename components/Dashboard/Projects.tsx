@@ -68,12 +68,12 @@ useEffect(() => {
         project[keys]=k[keys];
       }
       // console.log(project);
-      const response = await axios.post("http://localhost:5000/add/student/project", {
+      const response = await axios.post("http://localhost:5000/add/student/project",   project,{
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`
     },
-    project,
+  
   }); 
   // console.log(response);
     if(response.status==200){

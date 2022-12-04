@@ -455,12 +455,12 @@ useEffect(() => {
         academic[keys]=baseInfo[keys]
       }
     }
-    const response = await axios.post("http://localhost:5000/add/student/academicinfo", {
+    const response = await axios.post("http://localhost:5000/add/student/academicinfo",   academic,{
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`
     },
-    academic,
+  
   });
     if(response.status==200){
       window.alert("Updated Successfully")
