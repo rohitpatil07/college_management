@@ -24,6 +24,11 @@ const AcademicDetails = () => {
     sem6_pointer: "",
     sem7_pointer: "",
     sem8_pointer: "",
+    cgpa:"",
+    be_percent:"",
+    gap:"",
+    livekt:"",
+    deadkt:"",
     masters_sem1_pointer: "",
     masters_sem2_pointer: "",
     masters_sem3_pointer: "",
@@ -283,14 +288,19 @@ useEffect(() => {
   };
   const UnderGrad = () => {
     const [underGradInfo, setUnderGradInfo] = React.useState([
-      { value: "", label: "Sem 1 Pointer", id: "sem1_pointer", type: "number" },
-      { value: "", label: "Sem 2 Pointer", id: "sem2_pointer", type: "number" },
-      { value: "", label: "Sem 3 Pointer", id: "sem3_pointer", type: "number" },
-      { value: "", label: "Sem 4 Pointer", id: "sem4_pointer", type: "number" },
-      { value: "", label: "Sem 5 Pointer", id: "sem5_pointer", type: "number" },
-      { value: "", label: "Sem 6 Pointer", id: "sem6_pointer", type: "number" },
-      { value: "", label: "Sem 7 Pointer", id: "sem7_pointer", type: "number" },
-      { value: "", label: "Sem 8 Pointer", id: "sem8_pointer", type: "number" },
+      { value: "", label: "Sem 1 Pointer", id: "sem1_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 2 Pointer", id: "sem2_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 3 Pointer", id: "sem3_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 4 Pointer", id: "sem4_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 5 Pointer", id: "sem5_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 6 Pointer", id: "sem6_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 7 Pointer", id: "sem7_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 8 Pointer", id: "sem8_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Cgpa", id: "cgpa", type: "number" , readOnly:'readOnly'},
+      { value: "", label: "Be Percent", id: "be_percent", type: "number", readOnly:'readOnly'},
+      { value: "", label: "Gap", id: "gap", type: "number" },
+      { value: "", label: "Dead Kt", id: "deadkt", type: "number" },
+      { value: "", label: "Live Kt", id: "livekt", type: "number" },
     ]);
     for (let z = 0; z < underGradInfo.length; z++) {
       underGradInfo[z].value = baseInfo[underGradInfo[z].id];
@@ -320,11 +330,23 @@ useEffect(() => {
           }}
           className="w-full px-4"
         >
-          {underGradInfo.map(({ value, label, id, type}: any) => (
-            <div className="flex flex-row justify-between items-center  text-slate-700" key={id}> 
+          {underGradInfo.map(({ value, label, id, type,readOnly}: any) => (
+           <>
+           {readOnly=='readOnly' ?  
+           <div className="flex flex-row justify-between items-center  text-slate-700" key={id}> 
               <legend>{label}</legend>
               <input
-                placeholder="00.0000"
+                className="bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
+                id={id}
+                name={id}
+                value={value}
+                readOnly={readOnly}
+              ></input>
+            </div>:
+           <div className="flex flex-row justify-between items-center  text-slate-700" key={id}> 
+              <legend>{label}</legend>
+              <input
+                placeholder="0.00"
                 className="bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
                 id={id}
                 name={id}
@@ -334,6 +356,8 @@ useEffect(() => {
                 }}
               ></input>
             </div>
+          }
+           </>
           ))}
         </div>
       </div>
@@ -414,16 +438,28 @@ useEffect(() => {
     );
   };
 
-  const save = () => {
-    let student: any = {
-      roll_no:"19IT1024",
+  const save = async() => {
+    let academic: any = {
+      roll_no:`${AuthData.user.userData.user.roll_no}`,
     };
     for(let keys in baseInfo){
       if(baseInfo[keys]!=stu_info[keys]){
-        student[keys]=baseInfo[keys]
+        academic[keys]=baseInfo[keys]
       }
     }
-    console.log(student);
+    const response = await axios.post("http://localhost:5000/add/student/academicinfo", {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
+    },
+    academic,
+  });
+    if(response.status==200){
+      window.alert("Updated Successfully")
+    }
+    else{
+      window.alert("failed");
+    }
   };
   const [step, setStep] = React.useState(0);
   const Navigation = () => (
