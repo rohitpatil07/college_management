@@ -14,7 +14,7 @@ const Projects = () => {
       },
     });
   setprojectInfo(response.data['projects']);
-  console.log(response.data['projects']);
+  //console.log(response.data['projects']);
 }
 useEffect(() => {
   getProfileData();
