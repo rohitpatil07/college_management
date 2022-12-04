@@ -19,7 +19,7 @@ const page = () => {
               clipRule="evenodd"
             />
           </svg>
-          Home / Work Experience
+          Home / Projects
         </Link>
       </div>
       <Projects/>
