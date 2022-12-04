@@ -1,7 +1,33 @@
-import React from "react";
+"use client";
+import React,{useState , useEffect} from "react";
 import Link from "next/link";
+import Image from "next/image";
+import axios from "axios";
+import {useAuth} from '../contexts/AuthContext'
+import  { useRouter } from 'next/navigation'
+
 
 function LoginPage() {
+
+	const router = useRouter();
+	const [email, setEmail] = useState("");
+	const [role, setRole] = useState("student");
+	const [password, setPassword] = useState("");
+
+	const AuthData : any= useAuth();
+
+	const handleSubmit = async () => {
+		console.log(role);
+		const data = {email,role,password};
+		const response = await AuthData.login(data);
+		const {token}  = response.data;
+		if(token){
+			router.push("/home");
+		}
+
+	}
+
+
 	return (
 		<>
 			<div>
@@ -23,11 +49,12 @@ function LoginPage() {
 							name="userIdentity"
 							className="w-full border-2 px-5 py-4 rounded-xl"
 							id=""
+							onChange={(e)=>setRole(e.target.value)}
 						>
-							<option value="Student">Student</option>
-							<option value="Faculty">Faculty</option>
-							<option value="Admin">Admin</option>
-							<option value="Company">Company</option>
+							<option value="student">Student</option>
+							<option value="faculty">Faculty</option>
+							<option value="admin">Admin</option>
+							<option value="company">Company</option>
 						</select>
 						<label className="mt-6" htmlFor="email">
 							Email Address
@@ -35,15 +62,18 @@ function LoginPage() {
 						<input
 							type="text"
 							className="w-full border px-5 py-3 rounded-xl outline-none"
+							onChange={(e)=>setEmail(e.target.value)}
 						/>
 						<label htmlFor="password">Your Password</label>
 						<input
 							type="password"
 							className="w-full border px-5 py-3 rounded-xl outline-none"
+							onChange={(e)=>setPassword(e.target.value)}
 						/>
 						<button
 							type="button"
 							className="btn btn-outline-primary w-full bg-accent text-white rounded-xl px-5 py-3 mt-8 hover:scale-105 transition-all"
+							onClick={handleSubmit}
 						>
 							Submit
 						</button>

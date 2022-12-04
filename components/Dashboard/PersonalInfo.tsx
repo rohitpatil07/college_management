@@ -1,9 +1,13 @@
 "use client";
-import { METHODS } from "http";
-import React from "react";
+import React , {useState , useEffect} from "react";
 import {updatePersonalData} from "../../routes/routes.js"
+import axios from "axios";
+import api from "../../contexts/adapter"
+import { useAuth } from "../../contexts/AuthContext";
+
 
 const PersonalInfo = () => {
+  const AuthData : any = useAuth();
   const [personalInfo, setPersonalInfo] = React.useState([
     { value: "", label: "First Name", id: "first_name", type: "text" },
     { value: "", label: "Middle Name", id: "middle_name", type: "text" },
@@ -16,18 +20,34 @@ const PersonalInfo = () => {
     { value: "", label: "LeetCode", id: "leetcode", type: "text" },
     { value: "", label: "Hacker Rank", id: "hackerrank", type: "text" },
     { value: "", label: "Department", id: "department", type: "text" },
-    { value: "", label: "Batch", id: "batch", type: "text" },
-    { value: "", label: "College Email", id: "college_mail", type: "email" },
+    { value: null, label: "Batch", id: "batch", type: "number" },
+    { value: "", label: "College Email", id: "secondary_mail", type: "email" },
     { value: "", label: "College Name", id: "college_name", type: "text" },
   ]);
-  const UpdateData = (val: string, i: string) => {
+  const[stu_info,setstu_info]:any=useState();
+  const getProfileData=async()=>{
+    const response = await axios.get("http://localhost:5000/filter/student/19IT1024", {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
+    },
+  });
+  setstu_info(response.data);
+  for(let k=0;k<personalInfo.length;k++){
+    personalInfo[k].value=response.data[personalInfo[k].id];
+  }
+  }
+  useEffect(() => {
+    getProfileData();
+  }, []);
+
+  const UpdateData = (val: any, i: string) => {
     var newInfo = [...personalInfo];
     for (let z = 0; z < newInfo.length; z++) {
-      if (newInfo[z].id == i) {
-        newInfo[z].value = val;
+        if (newInfo[z].id == i) {
+          newInfo[z].value = val;
+        }
       }
-    }
-    console.log(newInfo);
     setPersonalInfo(newInfo);
   };
   const [previewsource, setPreviewSource] = React.useState(
@@ -35,13 +55,11 @@ const PersonalInfo = () => {
   );
   const handlePhotoInputs = (e: any) => {
     const file = e.target.files[0];
-    console.log(file);
     previewFile(file);
   };
   const previewFile = (file: any) => {
     const reader: any = new FileReader();
     reader.readAsDataURL(file);
-    console.log(reader);
     reader.onloadend = () => {
       setPreviewSource(reader.result);
       personalInfo.push({
@@ -50,25 +68,33 @@ const PersonalInfo = () => {
         id: "photo",
         type: "Base64EncodedImage",
       });
+
     };
   };
 
   const save = async () => {
-    let data: any = {};
-    for (let i = 0; i < personalInfo.length; i++) {
-      data[personalInfo[i].id] = personalInfo[i].value;
+    let student: any = {
+      roll_no:"19IT1024",
+    };
+    for(let i=0;i<personalInfo.length;i++)
+    {
+      if(stu_info[personalInfo[i].id]!=personalInfo[i].value){
+      student[personalInfo[i].id]=personalInfo[i].value
+      }
     }
-    console.log(updatePersonalData);
-    data["roll_no"] = "19IT1024";
-    const response = await fetch("http://localhost:5000/add/student", {method: "POST" , 
+  const response = await axios.post("http://localhost:5000/add/student", {
     headers: {
-      "Content-type": "application/json",
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJpYXQiOjE2Njk5OTE0NjJ9.xyhbPKetvfSxuwSBHYSocPsGOSOYOg1hIYHnWhow4lc"
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
     },
-    body: JSON.stringify({ student: data }) }
-    );
-    //impment save function
-    console.log(response);
+    student,
+  }); 
+    if(response.status==200){
+      window.alert("Updated Successfully")
+    }
+    else{
+      window.alert("failed");
+    }
   };
   return (
     <div className="w-full sm:w-11/12 mx-auto  flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
@@ -119,9 +145,9 @@ const PersonalInfo = () => {
                     <input
                       className="bg-white"
                       type="radio"
-                      id="male"
+                      id="gender"
                       name="gender"
-                      value="male"
+                      value="M"
                       onChange={(e) => {
                         UpdateData(e.target.value, id);
                       }}
@@ -132,9 +158,9 @@ const PersonalInfo = () => {
                   <div>
                     <input
                       type="radio"
-                      id="female"
+                      id="gender"
                       name="gender"
-                      value="female"
+                      value="F"
                       onChange={(e) => {
                         UpdateData(e.target.value, id);
                       }}

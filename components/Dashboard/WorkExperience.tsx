@@ -1,8 +1,25 @@
 'use client';
-import React, { useState } from 'react';
+import React,{useEffect,useState}from 'react';
+import axios from "axios";
+import api from "../../contexts/adapter"
+import { useAuth } from "../../contexts/AuthContext";
 import work from './work.json';
+import { Life_Savers } from '@next/font/google';
 const WorkExperience = () => {
-    let workExps = work.exp;
+  const AuthData : any = useAuth();
+  const[workExps,setworkExps]:any=useState([]);
+  const getProfileData=async()=>{
+    const response = await axios.get("http://localhost:5000/filter/student/19IT1024", {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
+    },
+  });
+  setworkExps(response.data['work_experience']);
+}
+useEffect(() => {
+  getProfileData();
+}, [workExps]);
     const[WorkExperience,setWorkExperience]=useState([{
        company_name:'',
        location:'',
@@ -46,7 +63,9 @@ const WorkExperience = () => {
         console.log(newInfo);
         setWorkExperience(newInfo);
       }
-    
+    const save=(r:number)=>{
+      console.log(r);
+    }
   return (
     <div className="w-full sm:w-11/12 mx-auto  flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 mt-4">
@@ -73,7 +92,7 @@ const WorkExperience = () => {
      </div>
      )}
       {
-        WorkExperience.map(({company_name,location,role,description,start_month,end_month,year}:any,x)=>(
+        WorkExperience.map(({company_name,location,role,description,start_month,end_month,year}:any,x:number)=>(
             <div className='flex flex-col items-center mx-auto mb-3 w-11/12 p-2 bg-white border-2 border-neutral-300 rounded-md'>
                <div className='w-11/12'>
                <div className='flex flex-row items-center justify-between w-full text-black'>
@@ -115,7 +134,7 @@ const WorkExperience = () => {
             <input type='month' value={end_month} onChange={(e)=>{UpdateData('end_month',e.target.value,x)}} className=' mx-auto w-full  md:w-4/12 bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1'></input>
             </div>
             </div>
-            <button className='p-2 w-11/12 mx-auto px-5 rounded-md mb-7 mt-5' style={{ backgroundColor: '#c9243f', color: 'white' }}>Save</button>
+            <button onClick={()=>{save(x)}} className='p-2 w-11/12 mx-auto px-5 rounded-md mb-7 mt-5' style={{ backgroundColor: '#c9243f', color: 'white' }}>Save</button>
             </div>
         ))
       }

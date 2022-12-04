@@ -1,13 +1,15 @@
 "use client";
-import { loadGetInitialProps } from "next/dist/shared/lib/utils";
+// import { loadGetInitialProps } from "next/dist/shared/lib/utils";
 import React from "react";
 import { useState } from "react";
+import Avatar from "../../../public/avatar.png";
+import Image from "next/image";
 
 const Nav = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	return (
 		<div className="w-full">
-			<div className="hidden sm:flex flex-row bg-white text-black justify-between items-center px-4 py-3 drop-shadow-lg">
+			<div className="hidden sm:flex flex-row bg-white text-black justify-between items-center px-4 py-2 drop-shadow-lg">
 				<img src={`/logo.png`} alt={`logo`} className="w-1/12 scale-90" />
 				<div className="flex flex-row justify-around items-center">
 					<button className="flex flex-row text-base text-slate-700 font-medium items-center hover:text-accent">
@@ -67,10 +69,13 @@ const Nav = () => {
 						className="flex items-center"
 						onClick={() => setIsOpen(!isOpen)}
 					>
-						<img
-							src={"./avatar.png"}
-							className="rounded-full border-2 w-9 h-9 scale-110"
-							alt=""
+						<Image
+							src={Avatar}
+							className="rounded-full border-2 scale-110"
+							alt="avatar"
+							width={36}
+							height={36}
+							unoptimized
 						/>
 						<div className="flex">
 							<svg
