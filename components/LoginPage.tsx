@@ -1,32 +1,31 @@
 "use client";
-import React,{useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import {useAuth} from '../contexts/AuthContext'
-import  { useRouter } from 'next/navigation'
-
+import { useAuth } from "../contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 function LoginPage() {
-
 	const router = useRouter();
 	const [email, setEmail] = useState("");
 	const [role, setRole] = useState("student");
 	const [password, setPassword] = useState("");
 
-	const AuthData : any= useAuth();
+	const AuthData: any = useAuth();
 
 	const handleSubmit = async () => {
 		console.log(role);
-		const data = {email,role,password};
+		const data = { email, role, password };
 		const response = await AuthData.login(data);
-		const {token}  = response.data;
-		if(token){
-			router.push("/home");
+		const { token } = response.data;
+		const { role: userRole }: any = response.data.user;
+		if (token) {
+			console.log(response);
+			if (userRole == "student") router.push("/home");
+			else router.push("/admin/lookup");
 		}
-
-	}
-
+	};
 
 	return (
 		<>
@@ -49,7 +48,7 @@ function LoginPage() {
 							name="userIdentity"
 							className="w-full border-2 px-5 py-4 rounded-xl"
 							id=""
-							onChange={(e)=>setRole(e.target.value)}
+							onChange={(e) => setRole(e.target.value)}
 						>
 							<option value="student">Student</option>
 							<option value="faculty">Faculty</option>
@@ -62,13 +61,13 @@ function LoginPage() {
 						<input
 							type="text"
 							className="w-full border px-5 py-3 rounded-xl outline-none"
-							onChange={(e)=>setEmail(e.target.value)}
+							onChange={(e) => setEmail(e.target.value)}
 						/>
 						<label htmlFor="password">Your Password</label>
 						<input
 							type="password"
 							className="w-full border px-5 py-3 rounded-xl outline-none"
-							onChange={(e)=>setPassword(e.target.value)}
+							onChange={(e) => setPassword(e.target.value)}
 						/>
 						<button
 							type="button"
