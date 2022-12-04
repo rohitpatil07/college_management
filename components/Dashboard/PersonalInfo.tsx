@@ -7,7 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const PersonalInfo = () => {
 	const AuthData: any = useAuth();
-	console.log(AuthData);
+	// console.log(AuthData);
 	const [personalInfo, setPersonalInfo] = React.useState([
 		{ value: "", label: "First Name", id: "first_name", type: "text" },
 		{ value: "", label: "Middle Name", id: "middle_name", type: "text" },

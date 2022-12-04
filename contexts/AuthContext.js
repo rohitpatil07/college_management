@@ -21,8 +21,8 @@ const AuthProvider = ({ children }) => {
 		const response = await api.post("/auth/login", data);
 		let { token, ...user } = response.data;
 
-		console.log(user.roll_no);
-		console.log(user.user.roll_no);
+		// console.log(user.roll_no);
+		// console.log(user.user.roll_no);
 
 		// setRole(user.user.role);
 		setToken(token);
