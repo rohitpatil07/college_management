@@ -26,7 +26,7 @@ const PersonalInfo = () => {
   ]);
   const[stu_info,setstu_info]:any=useState();
   const getProfileData=async()=>{
-    const response = await axios.get("http://localhost:5000/filter/student/19IT1024", {
+    const response = await axios.get(`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`, {
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`

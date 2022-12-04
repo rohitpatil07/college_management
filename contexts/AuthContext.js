@@ -9,6 +9,7 @@ const AuthProvider = ({children}) => {
 
     const [token, setToken] = useTokenState("123456");
     const [userData,setUserData] = useState({});
+    const [role,setRole] = useState("");
     const [isAuthenticated,setIsAuthenticated] = useState(false);
 
     const logout = () => {
@@ -18,9 +19,10 @@ const AuthProvider = ({children}) => {
     
     const login = async (data) => {
         const response = await api.post("/auth/login",data);
-        const {token , ...user} = response.data;
+        let  {token , ...user} = response.data;
+
+        setRole(user.user.role);
         setToken(token);
-        console.log(user);
         setUserData(user);
 
         setIsAuthenticated(true);
@@ -38,7 +40,8 @@ const AuthProvider = ({children}) => {
         user:{
             token : token,
             isAuthenticated : isAuthenticated,
-            userData: userData
+            userData: userData,
+            role
         },
         login,
         logout,

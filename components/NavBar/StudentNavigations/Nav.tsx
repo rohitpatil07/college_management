@@ -9,7 +9,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 
 const Nav = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	const {logout } = useAuth();
+	const AuthData: any = useAuth();
 
 	return (
 		<div className="w-full">
@@ -64,9 +64,9 @@ const Nav = () => {
 				<div className="flex flex-row items-center">
 					<div className="flex flex-col items-end">
 						<h5 className="text-sm text-slate-700 font-medium">
-							Hridayesh Padalkar
+							{ `${AuthData.user.role}` == "student" ? `${AuthData.user.userData.user.first_name} ${AuthData.user.userData.user.last_name}` : `${AuthData.user.role}`}
 						</h5>
-						<h6 className="text-xs text-slate-500">19IT1093</h6>
+						<h6 className="text-xs text-slate-500">{AuthData.user.userData.user.roll_no}</h6>
 					</div>
 					&nbsp;&nbsp;
 					<button
@@ -113,7 +113,7 @@ const Nav = () => {
 							</svg>
 							Edit Profile
 						</button>
-						<Link  href="/login" className="flex gap-1 w-full justify-start p-4 hover:bg-slate-200" onClick={logout}>
+						<Link  href="/login" className="flex gap-1 w-full justify-start p-4 hover:bg-slate-200" onClick={AuthData.logout()}>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 24 24"
