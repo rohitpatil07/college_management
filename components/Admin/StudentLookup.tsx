@@ -4,6 +4,7 @@ import React from "react";
 // import { updatePersonalData } from "../../routes/routes.js";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
+import fileDownload from "js-file-download";
 
 const StudentLookup = () => {
 	const [personalInfo, setPersonalInfo] = React.useState([
@@ -121,17 +122,30 @@ const StudentLookup = () => {
 
 		let final_response = { select_fields: selectData, queries: queryData };
 
-		console.log(final_response);
-
-		const response = await axios.post("http://localhost:5000/download/excel", {
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthData.user.token}`,
-			},
-			final_response,
-		});
-		console.log(response);
+		axios
+			.post("http://localhost:5000/download/excel", final_response, {
+				responseType: "blob",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${AuthData.user.token}`,
+					// "Content-Disposition": "attachment; filename=template.xlsx",
+				},
+			})
+			.then((response) => {
+				const type = response.headers["content-type"];
+				const blob: any = new Blob([response.data], { type: type });
+				const link = document.createElement("a");
+				link.href = window.URL.createObjectURL(blob);
+				link.download = "file.xlsx";
+				link.click();
+			});
 	};
+
+	// const url = window.URL.createObjectURL(blob);
+	// const a = document.createElement('a');
+	// a.href = url;
+	// a.download = 'data.xlsx';
+	// a.click();
 
 	const getCSV = async () => {
 		let selectData: any = {
@@ -162,14 +176,36 @@ const StudentLookup = () => {
 
 		console.log(final_response);
 
-		const response = await axios.post("http://localhost:5000/download/csv", {
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthData.user.token}`,
-			},
-			final_response,
-		});
-		console.log(response);
+		// axios
+		// 	.post("http://localhost:5000/download/csv", final_response, {
+		// 		// responseType: "blob",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 			Authorization: `Bearer ${AuthData.user.token}`,
+		// 		},
+		// 	})
+		// 	.then((response) => {
+		// 		const url = window.URL.createObjectURL(new Blob([response.data]));
+		// 		const link = document.createElement("a");
+		// 		link.href = url;
+		// 		link.setAttribute("download", "template.csv");
+		// 		document.body.appendChild(link);
+		// 		link.click();
+		// 	});
+
+		axios
+			.post("http://localhost:5000/download/csv", final_response, {
+				// responseType: "arraybuffer",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${AuthData.user.token}`,
+				},
+			})
+			.then((res) => {
+				console.log(res);
+				console.log(res.data);
+				fileDownload(res.data, "report.csv");
+			});
 	};
 
 	return (
@@ -225,7 +261,7 @@ const StudentLookup = () => {
 									<label>{label}</label>
 									<input
 										value={value}
-										className=" border rounded-mg p-1"
+										className=" border rounded-md p-1"
 										type={type}
 										id={id}
 										name={id}
@@ -246,7 +282,7 @@ const StudentLookup = () => {
 								<label>{label}</label>
 								<input
 									value={value}
-									className=" border rounded-mg py-1 px-1"
+									className=" border rounded-md py-1 px-1"
 									type={type}
 									id={id}
 									name={id}
