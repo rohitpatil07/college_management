@@ -7,6 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const PersonalInfo = () => {
 	const AuthData: any = useAuth();
+	console.log(AuthData);
 	const [personalInfo, setPersonalInfo] = React.useState([
 		{ value: "", label: "First Name", id: "first_name", type: "text" },
 		{ value: "", label: "Middle Name", id: "middle_name", type: "text" },
@@ -75,7 +76,7 @@ const PersonalInfo = () => {
 
 	const save = async () => {
 		let student: any = {
-			roll_no: "19IT1024",
+			roll_no: `${AuthData.user.userData.user.roll_no}`,
 		};
 		for (let i = 0; i < personalInfo.length; i++) {
 			if (stu_info[personalInfo[i].id] != personalInfo[i].value) {
