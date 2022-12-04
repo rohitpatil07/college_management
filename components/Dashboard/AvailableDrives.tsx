@@ -1,39 +1,46 @@
-import React from 'react'
-import data from './drives.json';
+import React from "react";
+import data from "./drives.json";
 const AvailableDrives = () => {
-  let drives = data.drive;
-  return (
-    <div className="w-full sm:w-11/12 mx-auto  flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
-     <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
-        Available Drives
-      </h3>
-     <div>
-     {drives.map(({company_name,role,desc}:any)=>
-      <div className='flex flex-col mx-auto mb-3 w-11/12 p-2 bg-white border-2 border-neutral-300 rounded-md'>
-      <div className='flex flex-col-reverse sm:flex-row items-center justify-between'>
-      <h2 className='text-xl font-semibold text-center'>{company_name}</h2>
-      <h2 className='text-sm'>00/00/0000</h2>
-      </div>
-      <h2 className='text-base font-semibold text-center sm:text-left mb-2 mt-2'>{role}</h2>
-      <p className='text-sm text-justify mb-3'>{desc}</p>
-      <div className='flex flex-col md:flex-row items-center justify-between'>
-      <button className='p-1 mb-3 md:mb-0 ml-0 md:ml-2 text-sm w-48 srounded-md text-slate-900 font-semibold border-2 border-slate-900 rounded-md' style={{ backgroundColor: 'white'}}>
-              Check Here For More Info</button>
-        <div className='flex flex-col-reverse md:flex-row items-center justify-between'>
-        <button className='p-1 w-48 mb-3 md:mb-0 ml-0 md:ml-2 md:w-fit mx-auto px-10 rounded-md' style={{ backgroundColor: '#c9243f', color: 'white' }}>
-              Decline</button>
-              <button className='p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white' >
-              Accept</button>
-        </div>
-      </div>
-     </div>
-     )}
-     </div>
-    </div>
-  )
-}
+	let drives = data.drive;
+	return (
+		<div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
+			<h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
+				Available Drives
+			</h3>
+			<div className="flex flex-col gap-5">
+				{drives.map(({ company_name, role, desc }: any) => (
+					<div className="flex flex-col mx-auto mb-3 w-11/12 p-5 bg-white border-2 border-neutral-300 rounded-md">
+						<div className="flex flex-col-reverse sm:flex-row items-center justify-between">
+							<h2 className="text-xl font-semibold text-center">
+								{company_name}
+							</h2>
+							<h2 className="text-sm">00/00/0000</h2>
+						</div>
+						<h2 className="text-base font-semibold text-center sm:text-left mb-2 mt-2">
+							{role}
+						</h2>
+						<p className="text-sm text-justify mb-3">{desc}</p>
+						<div className="flex flex-col md:flex-row items-center justify-between">
+							<button className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md">
+								Check Here For More Info
+							</button>
+							<div className="flex flex-col-reverse md:flex-row items-center justify-between">
+								<button
+									className="p-1 w-48 mb-3 md:mb-0 md:ml-2 md:w-fit mx-auto px-10 rounded-md"
+									style={{ backgroundColor: "#c9243f", color: "white" }}
+								>
+									Decline
+								</button>
+								<button className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
+									Accept
+								</button>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	);
+};
 
-export default AvailableDrives
-
-
-
+export default AvailableDrives;
