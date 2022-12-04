@@ -109,7 +109,9 @@ useEffect(() => {
       </div>
      </div>
      )}
-      {
+     {workExps.length < 3 ? (
+      <>
+        {
         WorkExperience.map(({company_name,location,role,description,start_month,end_month}:any,x:number)=>(
             <div className='flex flex-col items-center mx-auto mb-3 w-11/12 p-2 bg-white border-2 border-neutral-300 rounded-md' key={x}>
                <div className='w-11/12'>
@@ -156,6 +158,8 @@ useEffect(() => {
             </div>
         ))
       }
+      </>
+     ):''}
       {WorkExperience.length < 3-workExps.length ? (<button className='p-2 w-11/12 sm:w-5/12 mx-auto px-5 rounded-md mb-7' style={{ backgroundColor: '#c9243f', color: 'white' }} onClick={()=>{addWorkExperience(WorkExperience.length)}}>Add Work Experience</button>):''}
       </div>
   );
