@@ -1,12 +1,17 @@
 "use client";
-import React from "react";
+import React,{useEffect,useState} from "react";
+import axios from "axios";
+import api from "../../contexts/adapter"
+import { useAuth } from "../../contexts/AuthContext";
 const AcademicDetails = () => {
+  const AuthData : any = useAuth();
+  const[stu_info,setstu_info]:any=useState();
   const [baseInfo, setBaseInfo] = React.useState<any>({
     tenth_percent: "",
     tenth_start: "",
     tenth_end: "",
     twelveth_percent: "",
-    twlveth_start: "",
+    twelveth_start: "",
     twelveth_end: "",
     diploma_percent: "",
     diploma_start: "",
@@ -24,6 +29,23 @@ const AcademicDetails = () => {
     masters_sem3_pointer: "",
     masters_sem4_pointer: "",
   });
+  const getProfileData=async()=>{
+    const response = await axios.get("http://localhost:5000/filter/student/19IT1024", {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
+    },
+  });
+  setstu_info(response.data['academic_info']);
+  let kss = response.data['academic_info']
+ for(let key in baseInfo){
+  baseInfo[key]=kss[key]
+ }
+}
+useEffect(() => {
+  getProfileData();
+}, []);
+
 
   const SscHsc = () => {
     const [higherSecondary, setHigherSecondary] = React.useState("twelveth");
@@ -34,24 +56,24 @@ const AcademicDetails = () => {
         id: "tenth_percent",
         type: "number",
       },
-      { value: "", label: "Start Date", id: "tenth_start", type: "date" },
-      { value: "", label: "End Date", id: "tenth_end", type: "date" },
+      { value: "", label: "Start Year", id: "tenth_start", type: "number" },
+      { value: "", label: "End Year", id: "tenth_end", type: "number" },
       {
         value: "",
         label: "12th Percentage",
         id: "twelveth_percent",
         type: "number",
       },
-      { value: "", label: "Start Date", id: "twlveth_start", type: "date" },
-      { value: "", label: "End Date", id: "twelveth_end", type: "date" },
+      { value: "", label: "Start Year", id: "twlveth_start", type: "number" },
+      { value: "", label: "End Year", id: "twelveth_end", type: "number" },
       {
         value: "",
         label: "Diploma Percentage",
         id: "diploma_percent",
         type: "number",
       },
-      { value: "", label: "Start Date", id: "diploma_start", type: "date" },
-      { value: "", label: "End Date", id: "diploma_end", type: "date" },
+      { value: "", label: "Start Year", id: "diploma_start", type: "number" },
+      { value: "", label: "End Year", id: "diploma_end", type: "number" },
     ]);
 
     for (let z = 0; z < basicInfo.length; z++) {
@@ -66,7 +88,6 @@ const AcademicDetails = () => {
           baseInfo[newInfo[z].id] = vals;
         }
       }
-      console.log(newInfo);
       setBasicInfo(newInfo);
     };
 
@@ -98,14 +119,13 @@ const AcademicDetails = () => {
                 {basicInfo[1].label}
               </legend>
               <input
+              min="1900" max="2099" step="1" 
                 value={basicInfo[1].value}
                 type={basicInfo[1].type}
                 onChange={(e) => {
                   UpdateSscHsctData(e.target.value, basicInfo[1].id);
                 }}
                 className="bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
-                id="10th_start_date"
-                name="10th_start_date"
               />
             </div>
             &nbsp;
@@ -114,14 +134,13 @@ const AcademicDetails = () => {
                 {basicInfo[2].label}
               </legend>
               <input
+              min="1900" max="2099" step="1"
                 value={basicInfo[2].value}
                 type={basicInfo[2].type}
                 onChange={(e) => {
                   UpdateSscHsctData(e.target.value, basicInfo[2].id);
                 }}
                 className="bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
-                id="10th_end_date"
-                name="10th_end_date"
               />
             </div>
           </div>
@@ -179,17 +198,16 @@ const AcademicDetails = () => {
             <div className="flex flex-col md:flex-row">
               <div className="flex flex-row items-center mb-2 mr-4">
                 <legend className="mr-2 text-sm sm:text-base text-slate-700 font-medium">
-                  {basicInfo[1].label}
+                  {basicInfo[4].label}
                 </legend>
                 <input
+                min="1900" max="2099" step="1"
                   value={basicInfo[4].value}
                   type={basicInfo[4].type}
                   onChange={(e) => {
                     UpdateSscHsctData(e.target.value, basicInfo[4].id);
                   }}
                   className="bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
-                  id="10th_start_date"
-                  name="10th_start_date"
                 />
               </div>
               &nbsp;
@@ -198,14 +216,13 @@ const AcademicDetails = () => {
                   {basicInfo[2].label}
                 </legend>
                 <input
+                min="1900" max="2099" step="1"
                   value={basicInfo[5].value}
                   type={basicInfo[5].type}
                   onChange={(e) => {
                     UpdateSscHsctData(e.target.value, basicInfo[5].id);
                   }}
                   className="bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
-                  id="10th_end_date"
-                  name="10th_end_date"
                 />
               </div>
             </div>
@@ -231,33 +248,31 @@ const AcademicDetails = () => {
             <div className="flex flex-col md:flex-row">
               <div className="flex flex-row items-center mb-2 mr-4">
                 <legend className="mr-2 text-sm sm:text-base text-slate-700 font-medium">
-                  {basicInfo[1].label}
+                  {basicInfo[7].label}
                 </legend>
                 <input
+                min="1900" max="2099" step="1"
                   value={basicInfo[7].value}
                   type={basicInfo[7].type}
                   onChange={(e) => {
                     UpdateSscHsctData(e.target.value, basicInfo[7].id);
                   }}
                   className="bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
-                  id="10th_start_date"
-                  name="10th_start_date"
                 />
               </div>
               &nbsp;
               <div className="flex flex-row items-center mb-2">
                 <legend className="mr-2 text-sm sm:text-base text-slate-700 font-medium">
-                  {basicInfo[2].label}
+                  {basicInfo[8].label}
                 </legend>
                 <input
+                min="1900" max="2099" step="1"
                   value={basicInfo[8].value}
                   type={basicInfo[8].type}
                   onChange={(e) => {
                     UpdateSscHsctData(e.target.value, basicInfo[8].id);
                   }}
                   className="bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1"
-                  id="10th_end_date"
-                  name="10th_end_date"
                 />
               </div>
             </div>
@@ -289,7 +304,6 @@ const AcademicDetails = () => {
           baseInfo[newInfo[z].id] = vals;
         }
       }
-      console.log(newInfo);
       setUnderGradInfo(newInfo);
     };
     return (
@@ -364,7 +378,6 @@ const AcademicDetails = () => {
           baseInfo[newInfo[z].id] = vals;
         }
       }
-      console.log(newInfo);
       setpostGradInfo(newInfo);
     };
     return (
@@ -402,7 +415,15 @@ const AcademicDetails = () => {
   };
 
   const save = () => {
-    console.log("B", baseInfo);
+    let student: any = {
+      roll_no:"19IT1024",
+    };
+    for(let keys in baseInfo){
+      if(baseInfo[keys]!=stu_info[keys]){
+        student[keys]=baseInfo[keys]
+      }
+    }
+    console.log(student);
   };
   const [step, setStep] = React.useState(0);
   const Navigation = () => (
@@ -444,7 +465,6 @@ const AcademicDetails = () => {
   function renderMarkers() {
     let markers = [];
     for (let i = 0; i < fieldGroups.length; i++) {
-      console.log(step);
       markers.push(
         <span
           className={
