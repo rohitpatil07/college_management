@@ -298,15 +298,20 @@ useEffect(() => {
 	};
 	const UnderGrad = () => {
 		const [underGradInfo, setUnderGradInfo] = React.useState([
-			{ value: "", label: "Sem 1 Pointer", id: "sem1_pointer", type: "number" },
-			{ value: "", label: "Sem 2 Pointer", id: "sem2_pointer", type: "number" },
-			{ value: "", label: "Sem 3 Pointer", id: "sem3_pointer", type: "number" },
-			{ value: "", label: "Sem 4 Pointer", id: "sem4_pointer", type: "number" },
-			{ value: "", label: "Sem 5 Pointer", id: "sem5_pointer", type: "number" },
-			{ value: "", label: "Sem 6 Pointer", id: "sem6_pointer", type: "number" },
-			{ value: "", label: "Sem 7 Pointer", id: "sem7_pointer", type: "number" },
-			{ value: "", label: "Sem 8 Pointer", id: "sem8_pointer", type: "number" },
-		]);
+      { value: "", label: "Sem 1 Pointer", id: "sem1_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 2 Pointer", id: "sem2_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 3 Pointer", id: "sem3_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 4 Pointer", id: "sem4_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 5 Pointer", id: "sem5_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 6 Pointer", id: "sem6_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 7 Pointer", id: "sem7_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Sem 8 Pointer", id: "sem8_pointer", type: "number" , readOnly:'false'},
+      { value: "", label: "Cgpa", id: "cgpa", type: "number" , readOnly:'readOnly'},
+      { value: "", label: "Be Percent", id: "be_percent", type: "number", readOnly:'readOnly'},
+      { value: "", label: "Gap", id: "gap", type: "number" },
+      { value: "", label: "Dead Kt", id: "deadkt", type: "number" },
+      { value: "", label: "Live Kt", id: "livekt", type: "number" },
+    ]);
 		for (let z = 0; z < underGradInfo.length; z++) {
 			underGradInfo[z].value = baseInfo[underGradInfo[z].id];
 		}
@@ -327,14 +332,34 @@ useEffect(() => {
 					Undergraduation Details
 				</h3>
 				<div className="w-full py-5 px-24 grid grid-cols-2 gap-x-32 gap-y-5">
-					{underGradInfo.map(({ value, label, id, type }: any) => (
-						<div
+					{underGradInfo.map(({ value, label, id, type,readOnly }: any) => (
+						<>
+            {readOnly=='readOnly' ? 
+          <div
+          className="flex flex-row justify-between items-center  text-slate-700"
+          key={id}
+        >
+          <legend>{label}</legend>
+          <input
+            placeholder="0.00"
+            className="bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1 rounded-md"
+            id={id}
+            name={id}
+            value={value}
+            readOnly={readOnly}
+            onChange={(e) => {
+              UpdateUnderData(e.target.value, id);
+            }}
+          ></input>
+        </div>  
+        :
+        <div
 							className="flex flex-row justify-between items-center  text-slate-700"
 							key={id}
 						>
 							<legend>{label}</legend>
 							<input
-								placeholder="00.0000"
+								placeholder="0.00"
 								className="bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1 rounded-md"
 								id={id}
 								name={id}
@@ -343,7 +368,9 @@ useEffect(() => {
 									UpdateUnderData(e.target.value, id);
 								}}
 							></input>
-						</div>
+						</div>  
+        }  
+            </>
 					))}
 				</div>
 			</div>
