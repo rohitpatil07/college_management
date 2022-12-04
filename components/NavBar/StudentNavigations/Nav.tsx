@@ -4,9 +4,13 @@ import React from "react";
 import { useState } from "react";
 import Avatar from "../../../public/avatar.png";
 import Image from "next/image";
+import Link from "next/link";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const Nav = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const {logout } = useAuth();
+
 	return (
 		<div className="w-full">
 			<div className="hidden sm:flex flex-row bg-white text-black justify-between items-center px-4 py-2 drop-shadow-lg">
@@ -109,7 +113,7 @@ const Nav = () => {
 							</svg>
 							Edit Profile
 						</button>
-						<button className="flex gap-1 w-full justify-start p-4 hover:bg-slate-200">
+						<Link  href="/login" className="flex gap-1 w-full justify-start p-4 hover:bg-slate-200" onClick={logout}>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 24 24"
@@ -123,7 +127,7 @@ const Nav = () => {
 								/>
 							</svg>
 							Logout
-						</button>
+						</Link>
 					</div>
 				</div>
 			) : (
