@@ -4,17 +4,16 @@ import axios from "axios";
 import api from "../../contexts/adapter"
 import { useAuth } from "../../contexts/AuthContext";
 import work from './work.json';
-import { Life_Savers } from '@next/font/google';
 const WorkExperience = () => {
   const AuthData : any = useAuth();
   const[workExps,setworkExps]:any=useState([]);
   const getProfileData=async()=>{
-    const response = await axios.get("http://localhost:5000/filter/student/19IT1024", {
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AuthData.user.token}`
-    },
-  });
+    const response = await axios.get(`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`, {
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${AuthData.user.token}`
+      },
+    });
   setworkExps(response.data['work_experience']);
 }
 useEffect(() => {
@@ -63,8 +62,32 @@ useEffect(() => {
         console.log(newInfo);
         setWorkExperience(newInfo);
       }
-    const save=(r:number)=>{
+    const save=async (r:number)=>{
       console.log(r);
+      var working_id = `${AuthData.user.userData.user.roll_no}` + `${r+1}`;
+      let k:any = WorkExperience[r];
+      let work: any = {
+        work_id: working_id,
+        roll_no:`${AuthData.user.userData.user.roll_no}`,
+      };
+      for(let keys in k){
+        work[keys]=k[keys];
+      }
+      console.log(work);
+      const response = await axios.post("http://localhost:5000/add/student/workexperience", {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
+    },
+    work,
+  }); 
+  console.log(response);
+    if(response.status==200){
+      window.alert("Updated Successfully")
+    }
+    else{
+      window.alert("failed");
+    }
     }
   return (
     <div className="w-full sm:w-11/12 mx-auto  flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
@@ -72,8 +95,8 @@ useEffect(() => {
         Work Experience
       </h3>
 
-      {workExps.map(({company_name,location,role,desc,start_month,end_month}:any)=>
-      <div className='flex flex-col text-black mx-auto mb-3 w-11/12 p-2 bg-white border-2 border-neutral-300 rounded-md'>
+      {workExps.map(({work_id,company_name,location,role,description,start_month,end_month}:any)=>
+      <div className='flex flex-col text-black mx-auto mb-3 w-11/12 p-2 bg-white border-2 border-neutral-300 rounded-md' key={work_id}>
         <div className='flex items-end w-full flex-col'>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -85,7 +108,7 @@ useEffect(() => {
       </div>
       <h2 className='text-base text-center sm:text-left mb-2 mt-1'>{location}</h2>
       <h2 className='text-base font-semibold text-center sm:text-left mb-2 mt-2'>{role}</h2>
-      <p className='text-sm text-justify mb-3'>{desc}</p>
+      <p className='text-sm text-justify mb-3'>{description}</p>
       <div className='flex flex-col md:flex-row items-center justify-between'>
       
       </div>
@@ -93,7 +116,7 @@ useEffect(() => {
      )}
       {
         WorkExperience.map(({company_name,location,role,description,start_month,end_month,year}:any,x:number)=>(
-            <div className='flex flex-col items-center mx-auto mb-3 w-11/12 p-2 bg-white border-2 border-neutral-300 rounded-md'>
+            <div className='flex flex-col items-center mx-auto mb-3 w-11/12 p-2 bg-white border-2 border-neutral-300 rounded-md' key={x}>
                <div className='w-11/12'>
                <div className='flex flex-row items-center justify-between w-full text-black'>
                <h2 className='text-xl sm:text-2xl font-bold text-gray-900'>Work Experience {x+1}</h2>
