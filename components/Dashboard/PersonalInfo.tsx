@@ -74,7 +74,7 @@ const PersonalInfo = () => {
 
   const save = async () => {
     let student: any = {
-      roll_no:"19IT1024",
+      roll_no:`${AuthData.user.userData.user.roll_no}`,
     };
     for(let i=0;i<personalInfo.length;i++)
     {
