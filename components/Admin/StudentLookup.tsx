@@ -1,8 +1,8 @@
 "use client";
-// import { METHODS } from "http";
 import React from "react";
 // import { updatePersonalData } from "../../routes/routes.js";
 import axios from "axios";
+
 import { useAuth } from "../../contexts/AuthContext";
 import fileDownload from "js-file-download";
 
@@ -106,6 +106,9 @@ const StudentLookup = () => {
 				select: {},
 			},
 		};
+
+		let queries = {};
+
 		for (let i = 0; i < personalInfo.length; i++) {
 			if (personalInfo[i].status == true) {
 				selectData[personalInfo[i].id] = true;
@@ -120,7 +123,7 @@ const StudentLookup = () => {
 			}
 		}
 
-		let final_response = { select_fields: selectData, queries: queryData };
+		let final_response = { select_fields: {roll_no : true , first_name : true , email: true}, queries };
 
 		axios
 			.post("http://localhost:5000/download/excel", final_response, {
@@ -128,24 +131,20 @@ const StudentLookup = () => {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${AuthData.user.token}`,
-					// "Content-Disposition": "attachment; filename=template.xlsx",
 				},
 			})
 			.then((response) => {
-				const type = response.headers["content-type"];
-				const blob: any = new Blob([response.data], { type: type });
-				const link = document.createElement("a");
-				link.href = window.URL.createObjectURL(blob);
-				link.download = "file.xlsx";
+				console.log(response);
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'export.xlsx');
+				document.body.appendChild(link);
 				link.click();
 			});
 	};
 
-	// const url = window.URL.createObjectURL(blob);
-	// const a = document.createElement('a');
-	// a.href = url;
-	// a.download = 'data.xlsx';
-	// a.click();
+
 
 	const getCSV = async () => {
 		let selectData: any = {
@@ -178,16 +177,20 @@ const StudentLookup = () => {
 
 		axios
 			.post("http://localhost:5000/download/csv", final_response, {
-				// responseType: "arraybuffer",
+				responseType: "blob",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${AuthData.user.token}`,
 				},
 			})
-			.then((res) => {
-				console.log(res);
-				console.log(res.data);
-				fileDownload(res.data, "report.csv");
+			.then((response) => {
+				console.log(response);
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', 'export.csv');
+				document.body.appendChild(link);
+				link.click();
 			});
 	};
 
