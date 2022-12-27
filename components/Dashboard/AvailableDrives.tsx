@@ -1,6 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 import data from "./drives.json";
+import axios from "axios";
 const AvailableDrives = () => {
+	const AuthData : any = useAuth();
+	const[drive,setDrive]:any=useState();
+	const fetchDrive = async () =>
+	{
+		const response = await axios.get(`http://localhost:5000/filter/drive`, {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${AuthData.user.token}`
+			},
+		  });
+		console.log(response);
+	}
+	fetchDrive();
+	const apply = async() =>
+	{
+
+	}
 	let drives = data.drive;
 	return (
 		<div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
@@ -31,7 +50,7 @@ const AvailableDrives = () => {
 								>
 									Decline
 								</button>
-								<button className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
+								<button onClick={apply} className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
 									Accept
 								</button>
 							</div>
