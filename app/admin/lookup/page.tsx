@@ -3,7 +3,7 @@ import React from "react";
 import StudentLookup from "../../../components/Admin/StudentLookup";
 import { useAuth } from "../../../contexts/AuthContext";
 
-function page() {
+function Page() {
 	console.log(useAuth());
 	return (
 		<div>
@@ -12,4 +12,4 @@ function page() {
 	);
 }
 
-export default page;
+export default Page;

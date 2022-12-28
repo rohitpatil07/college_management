@@ -25,6 +25,7 @@ const AuthProvider = ({ children }) => {
 		// console.log(user.user.roll_no);
 
 		// setRole(user.user.role);
+		api.defaults.headers.Authorization = `Bearer ${token}`;
 		setToken(token);
 		setUserData(user);
 
@@ -35,6 +36,9 @@ const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		if (token) {
 			setIsAuthenticated(true);
+		}
+		else{
+			setIsAuthenticated(false);
 		}
 	}, [token]);
 

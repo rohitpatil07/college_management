@@ -19,11 +19,13 @@ function LoginPage() {
 		const data = { email, role, password };
 		const response = await AuthData.login(data);
 		const { token } = response.data;
-		const { role: userRole }: any = response.data.user;
+		const  userRole : string = response.data.user.role;
+		console.log(response.data)
 		if (token) {
 			console.log(response);
 			if (userRole == "student") router.push("/home");
-			else router.push("/admin/lookup");
+			else if(userRole =="admin" ) router.push("/admin/lookup");
+			else router.push("/company")
 		}
 	};
 
