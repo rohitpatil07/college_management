@@ -27,7 +27,7 @@ const SideNavBar = () => {
 				</Link>
 
 				<Link
-					href="/tpc/availableDrives"
+					href="/admin/dashboard"
 					className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100"
 				>
 					<svg
