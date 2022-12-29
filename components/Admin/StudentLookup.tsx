@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 // import { updatePersonalData } from "../../routes/routes.js";
 import axios from "axios";
 
@@ -7,123 +7,116 @@ import { useAuth } from "../../contexts/AuthContext";
 import fileDownload from "js-file-download";
 
 const StudentLookup = () => {
-	const [personalInfo, setPersonalInfo] = React.useState([
-		{
+	const [personalInfo, setPersonalInfo] = useState({
+		roll_no: {
+			value: "",
+			label: "Roll Number",
+			type: "text",
+			status: true,
+		},
+		first_name: {
 			value: "",
 			label: "First Name",
-			id: "first_name",
 			type: "text",
 			status: false,
 		},
-		{
+		middle_name: {
+			value: "",
+			label: "Middle Name",
+			type: "text",
+			status: false,
+		},
+		last_name: {
 			value: "",
 			label: "Last Name",
-			id: "last_name",
 			type: "text",
 			status: false,
 		},
-		{
+		email: {
 			value: "",
 			label: "Email Address",
-			id: "email",
 			type: "email",
 			status: false,
 		},
-		{ value: "", label: "Gender", id: "gender", type: "radio", status: false },
-		{
+		phone_number: {
 			value: "",
-			label: "Department",
-			id: "department",
+			label: "Phone Number",
+			type: "number",
+			status: false,
+		},
+		gender: { value: "", label: "Gender", type: "radio", status: false },
+		github: {
+			value: "",
+			label: "Github",
 			type: "text",
 			status: false,
 		},
-		{ value: "", label: "Batch", id: "batch", type: "text", status: false },
-	]);
-	const [academicInfo, setAcademicInfo] = React.useState([
-		{
+		linkedin: {
 			value: "",
-			label: "Roll Number",
-			id: "roll_no",
+			label: "LinkedIn",
 			type: "text",
 			status: false,
 		},
-		{
+		leetcode: {
 			value: "",
-			label: "Tenth Percentage",
-			id: "10percent",
+			label: "Leetcode",
 			type: "text",
 			status: false,
 		},
-		{
+		hackerrank: {
 			value: "",
-			label: "Twelth Percentage",
-			id: "12percent",
+			label: "Hackerrank",
 			type: "text",
 			status: false,
 		},
-		{ value: "", label: "CGPA", id: "cgpa", type: "text", status: false },
-		{ value: "", label: "Gap", id: "gap", type: "text", status: false },
-		{ value: "", label: "Live KT", id: "livekt", type: "text", status: false },
-		{ value: "", label: "Dead KT", id: "deadkt", type: "text", status: false },
-	]);
+	});
 
 	const AuthData: any = useAuth();
 	console.log(AuthData);
 
-	const updatePersonal = (val: string, i: string) => {
-		let newInfo = [...personalInfo];
-		for (let z = 0; z < newInfo.length; z++) {
-			if (newInfo[z].id == i) {
-				newInfo[z].value = val;
-				if (val == "") newInfo[z].status = false;
-				else newInfo[z].status = true;
-			}
-		}
-		// console.log(newInfo);
+	// const updatePersonal = (val: string, i: string) => {
+	// 	let newInfo = { ...personalInfo };
+	// 	for (let z = 0; z < newInfo.; z++) {
+	// 		if (newInfo[z].id == i) {
+	// 			newInfo[z].value = val;
+	// 			if (val == "") newInfo[z].status = false;
+	// 			else newInfo[z].status = true;
+	// 		}
+	// 	}
+	// 	// console.log(newInfo);
+	// 	setPersonalInfo(newInfo);
+	// };
+
+	const handleChange = (val: any, i: any) => {
+		let newInfo = { ...personalInfo };
+		newInfo[i].value = val;
 		setPersonalInfo(newInfo);
 	};
-	const updateAcademic = (val: string, i: string) => {
-		let newInfo = [...academicInfo];
-		for (let z = 0; z < newInfo.length; z++) {
-			if (newInfo[z].id == i) {
-				newInfo[z].value = val;
-				if (val == "") newInfo[z].status = false;
-				else newInfo[z].status = true;
-			}
-		}
-		// console.log(newInfo);
-		setAcademicInfo(newInfo);
+
+	// const handleSubmit = () => {};
+
+	const generateFinalFields = () => {
+		let select_fields = {};
+		let queries = {};
+		Object.keys(personalInfo).forEach((key) => {
+			if (personalInfo[key].status)
+				select_fields[key] = personalInfo[key].status;
+		});
+		Object.keys(personalInfo).forEach((key) => {
+			if (personalInfo[key].value != "") queries[key] = personalInfo[key].value;
+		});
+		return { select_fields, queries };
 	};
 
 	const getExcel = async () => {
-		let selectData: any = {
-			academic_info: {
-				select: {},
-			},
-		};
-		let queryData: any = {
-			academic_info: {
-				select: {},
-			},
+		const { select_fields, queries } = generateFinalFields();
+
+		let final_response = {
+			select_fields,
+			queries,
 		};
 
-		let queries = {};
-
-		for (let i = 0; i < personalInfo.length; i++) {
-			if (personalInfo[i].status == true) {
-				selectData[personalInfo[i].id] = true;
-				queryData[personalInfo[i].id] = personalInfo[i].value;
-			}
-		}
-		for (let i = 0; i < academicInfo.length; i++) {
-			if (academicInfo[i].status == true) {
-				selectData.academic_info.select[academicInfo[i].id] = true;
-				queryData.academic_info.select[academicInfo[i].id] =
-					academicInfo[i].value;
-			}
-		}
-
-		let final_response = { select_fields: {roll_no : true , first_name : true , email: true}, queries };
+		console.log(final_response);
 
 		axios
 			.post("http://localhost:5000/download/excel", final_response, {
@@ -136,42 +129,21 @@ const StudentLookup = () => {
 			.then((response) => {
 				console.log(response);
 				const url = window.URL.createObjectURL(new Blob([response.data]));
-				const link = document.createElement('a');
+				const link = document.createElement("a");
 				link.href = url;
-				link.setAttribute('download', 'export.xlsx');
+				link.setAttribute("download", "export.xlsx");
 				document.body.appendChild(link);
 				link.click();
 			});
 	};
 
-
-
 	const getCSV = async () => {
-		let selectData: any = {
-			academic_info: {
-				select: {},
-			},
-		};
-		let queryData: any = {
-			academic_info: {
-				select: {},
-			},
-		};
-		for (let i = 0; i < personalInfo.length; i++) {
-			if (personalInfo[i].status == true) {
-				selectData[personalInfo[i].id] = true;
-				queryData[personalInfo[i].id] = personalInfo[i].value;
-			}
-		}
-		for (let i = 0; i < academicInfo.length; i++) {
-			if (academicInfo[i].status == true) {
-				selectData.academic_info.select[academicInfo[i].id] = true;
-				queryData.academic_info.select[academicInfo[i].id] =
-					academicInfo[i].value;
-			}
-		}
+		const { select_fields, queries } = generateFinalFields();
 
-		let final_response = { select_fields: selectData, queries: queryData };
+		let final_response = {
+			select_fields,
+			queries,
+		};
 
 		console.log(final_response);
 
@@ -186,9 +158,9 @@ const StudentLookup = () => {
 			.then((response) => {
 				console.log(response);
 				const url = window.URL.createObjectURL(new Blob([response.data]));
-				const link = document.createElement('a');
+				const link = document.createElement("a");
 				link.href = url;
-				link.setAttribute('download', 'export.csv');
+				link.setAttribute("download", "export.csv");
 				document.body.appendChild(link);
 				link.click();
 			});
@@ -203,84 +175,93 @@ const StudentLookup = () => {
 				<p className="text-slate-400 text-sm">
 					Filter Students based on the required fields
 				</p>
-				<div className="w-full pt-10 grid grid-cols-2 gap-x-10 gap-y-4">
-					{personalInfo.map(({ value, label, id, type }: any) => (
-						<>
-							{id == "gender" ? (
-								<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-									Gender
-									<div className="flex flex-row justify-around items-center gap-24">
-										<div>
-											<input
-												className="bg-white"
-												type="radio"
-												id="gender"
-												name="gender"
-												value="M"
-												onChange={(e) => {
-													updatePersonal(e.target.value, id);
-												}}
-											/>
-											&nbsp;
-											<label>Male</label>
-										</div>
-										<div>
-											<input
-												type="radio"
-												id="gender"
-												name="gender"
-												value="F"
-												onChange={(e) => {
-													updatePersonal(e.target.value, id);
-												}}
-											/>
-											&nbsp;
-											<label>Female</label>
+				<div className="border shadow-lg rounded-lg p-5 my-5">
+					<h3 className="font-semibold">Select Fields Required in the Data</h3>
+					<hr className="py-3" />
+					<div className="flex flex-wrap gap-3 justify-between">
+						{Object.keys(personalInfo).map((e) => (
+							<p
+								className={`px-5 py-2 rounded-full cursor-pointer ${
+									personalInfo[e].status
+										? "bg-accent text-white"
+										: "bg-slate-200"
+								}`}
+								onClick={() => {
+									let newInfo = { ...personalInfo };
+									newInfo[e].status = !newInfo[e].status;
+									setPersonalInfo(newInfo);
+								}}
+							>
+								{personalInfo[e].label}
+							</p>
+						))}
+					</div>
+				</div>
+				<div className="w-full border shadow-lg rounded-lg p-8">
+					<h3 className="font-semibold">Filter Data through below fields</h3>
+					<hr />
+					<div className="pt-5 grid grid-cols-2 gap-x-10 gap-y-4">
+						{Object.keys(personalInfo).map((item: any) => (
+							<>
+								{item == "gender" ? (
+									<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+										Gender
+										<div className="flex flex-row justify-around items-center gap-24">
+											<div>
+												<input
+													className="bg-white"
+													type="radio"
+													id="gender"
+													name="gender"
+													value="M"
+													onChange={(e) => {
+														handleChange(e.target.value, item);
+													}}
+												/>
+												&nbsp;
+												<label>Male</label>
+											</div>
+											<div>
+												<input
+													type="radio"
+													id="gender"
+													name="gender"
+													value="F"
+													onChange={(e) => {
+														handleChange(e.target.value, item);
+													}}
+												/>
+												&nbsp;
+												<label>Female</label>
+											</div>
 										</div>
 									</div>
-								</div>
-							) : (
-								<div
-									className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium"
-									key={id}
-								>
-									<label>{label}</label>
-									<input
-										value={value}
-										className=" border rounded-md p-1"
-										type={type}
-										id={id}
-										name={id}
-										onChange={(e) => {
-											updatePersonal(e.target.value, id);
-										}}
-									></input>
-								</div>
-							)}
-						</>
-					))}
-					{academicInfo.map(({ value, label, id, type }: any) => (
-						<>
-							<div
-								className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium"
-								key={id}
-							>
-								<label>{label}</label>
-								<input
-									value={value}
-									className=" border rounded-md py-1 px-1"
-									type={type}
-									id={id}
-									name={id}
-									onChange={(e) => {
-										updateAcademic(e.target.value, id);
-									}}
-								></input>
-							</div>
-						</>
-					))}
+								) : (
+									<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+										<label>{personalInfo[item].label}</label>
+										<input
+											value={personalInfo[item].value}
+											className="border-2 rounded-md p-1"
+											type={personalInfo[item].type}
+											id={item}
+											name={personalInfo[item].label}
+											onChange={(e) => {
+												handleChange(e.target.value, item);
+											}}
+										></input>
+									</div>
+								)}
+							</>
+						))}
+					</div>
 				</div>
 				<br />
+				{/* <button
+					className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all"
+					onClick={handleSubmit}
+				>
+					Get Data
+				</button> */}
 				<div className="flex gap-10">
 					<button
 						className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all"
