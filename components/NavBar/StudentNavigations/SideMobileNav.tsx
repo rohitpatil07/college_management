@@ -47,7 +47,7 @@ const SideMobile = () => {
         </>
       )}
       {isOpen ? (
-        <aside className="absolute z-10 block sm:hidden flex flex-col bg-white min-h-screen h-inherit w-full text-slate-500">
+        <aside className="absolute z-10 sm:hidden flex flex-col bg-white min-h-screen h-inherit w-full text-slate-500">
           <div className="flex flex-col bg-white h-fit pb-24">
             <Link
               href="/home"

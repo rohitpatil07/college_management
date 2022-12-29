@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 const SideNavBar = () => {
 	return (
-		<aside className="xs:hidden sm:flex flex flex-col bg-white min-h-screen h-inherit sm:2/5 md:w-1/5 text-slate-500">
+		<aside className="hidden sm:flex flex-col bg-white min-h-screen h-inherit sm:2/5 md:w-1/5 text-slate-500">
 			<div className="flex flex-col bg-white pb-24">
 				<Link
 					href="/home"
