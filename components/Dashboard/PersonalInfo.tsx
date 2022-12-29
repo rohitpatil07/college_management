@@ -4,10 +4,14 @@ import { updatePersonalData } from "../../routes/routes.js";
 import axios from "axios";
 import api from "../../contexts/adapter";
 import { useAuth } from "../../contexts/AuthContext";
-
+import Loading from "../Loaders/Loading";
+import Swal from "sweetalert2";
 const PersonalInfo = () => {
 	const AuthData: any = useAuth();
-	// console.log(AuthData);
+	const [loadState, setLoadState] = useState('loading');
+	const [loading, setLoading] = useState(true);
+	const [updloading, setUpdateLoading] = useState(false);
+	const [disabling, setDisabling] = useState(true);
 	const [personalInfo, setPersonalInfo] = React.useState([
 		{ value: "", label: "First Name", id: "first_name", type: "text" },
 		{ value: "", label: "Middle Name", id: "middle_name", type: "text" },
@@ -23,6 +27,7 @@ const PersonalInfo = () => {
 		{ value: null, label: "Batch", id: "batch", type: "number" },
 		{ value: "", label: "College Email", id: "secondary_mail", type: "email" },
 		{ value: "", label: "College Name", id: "college_name", type: "text" },
+		{ value: "", label: "Profile Pic", id: "photo", type: "text" },
 	]);
 	const [stu_info, setstu_info]: any = useState();
 	const getProfileData = async () => {
@@ -36,8 +41,12 @@ const PersonalInfo = () => {
 			}
 		);
 		setstu_info(response.data);
+		setLoading(false);
 		for (let k = 0; k < personalInfo.length; k++) {
 			personalInfo[k].value = response.data[personalInfo[k].id];
+		}
+		if(response.data['photo']){
+			setPreviewSource(response.data['photo'])
 		}
 	};
 	useEffect(() => {
@@ -49,6 +58,13 @@ const PersonalInfo = () => {
 		for (let z = 0; z < newInfo.length; z++) {
 			if (newInfo[z].id == i) {
 				newInfo[z].value = val;
+				if(stu_info[i] == val){
+					console.log(stu_info[i]);
+					setDisabling(true);
+				}
+				else{
+					setDisabling(false);
+				}
 			}
 		}
 		setPersonalInfo(newInfo);
@@ -62,39 +78,50 @@ const PersonalInfo = () => {
 	};
 	const previewFile = (file: any) => {
 		const reader: any = new FileReader();
+		console.log("f",typeof(file));
 		reader.readAsDataURL(file);
 		reader.onloadend = () => {
 			setPreviewSource(reader.result);
-			personalInfo.push({
-				value: reader.result,
-				label: "Photo",
-				id: "photo",
-				type: "Base64EncodedImage",
-			});
+			personalInfo[personalInfo.length-1].value=reader.result;
+			console.log(personalInfo[personalInfo.length-1].value);
 		};
 	};
 
 	const save = async () => {
+		setLoadState('Updating');
+		setUpdateLoading(true);
 		let student: any = {
 			roll_no: `${AuthData.user.userData.user.roll_no}`,
 		};
+		console.log(personalInfo);
+		console.log(stu_info);
 		for (let i = 0; i < personalInfo.length; i++) {
 			if (stu_info[personalInfo[i].id] != personalInfo[i].value) {
 				student[personalInfo[i].id] = personalInfo[i].value;
 			}
 		}
-		const response = await axios.post("http://localhost:5000/add/student",student ,{
+		let data ={student};
+		const response = await axios.post("http://localhost:5000/add/student", data ,{
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${AuthData.user.token}`,
 			},
 		});
-		console.log(student);
-		console.log(response);
+		setUpdateLoading(false);
 		if (response.status == 200) {
-			window.alert("Updated Successfully");
+			Swal.fire({
+				icon: 'success',
+				title: 'Update Successfully',
+				showConfirmButton: false,
+				timer: 1500
+			  })
 		} else {
-			window.alert("failed");
+			Swal.fire({
+				icon: 'success',
+				title: 'Update Failed',
+				showConfirmButton: false,
+				timer: 1500
+			  })
 		}
 	};
 	return (
@@ -104,8 +131,13 @@ const PersonalInfo = () => {
 				Personal Info
 			</h3>
 			<br />
+			{loading ?<>
+			<Loading loadState={loadState}/>
+			</>
+			:
+			<>
 			<div className="w-[100px] h-[100px] relative rounded-full text-black">
-				<img className="rounded-full" src={previewsource} alt="profilePic" />
+				<img className="rounded-full w-[100px] h-[100px]" src={previewsource} alt="profilePic" />
 				<div className="text-slate-500 text-center absolute bg-white rounded-full bottom-[-10%] right-[32%] border-gray-300 border-solid border-2 w-8 h-8 overflow-hidden">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +195,7 @@ const PersonalInfo = () => {
 									</div>
 								</div>
 							</div>
-						) : (
+						) : id=='photo' ? (<></>) : (
 							<div
 								className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium"
 								key={id}
@@ -186,13 +218,35 @@ const PersonalInfo = () => {
 			</div>
 			<br />
 			<div className="w-full flex justify-center items-center">
-				<button
+				{disabling ? <button
+				disabled
 					className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
-					onClick={save}
 				>
 					Save
-				</button>
+				</button> :
+				<
+					div className="flex flex-col"
+				>
+				{
+					updloading ? <>
+					<Loading loadState={loadState}/>
+					</>
+					:<></>
+				}
+				<button
+				className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+				onClick={save}
+			>
+				Save
+			</button>
+				</div>
+				}
 			</div>
+			</>
+			}
+
+
+			
 			<br />
 		</div>
 	);
