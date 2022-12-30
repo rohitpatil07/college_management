@@ -8,7 +8,7 @@ import Loading from "../Loaders/Loading";
 import Swal from "sweetalert2";
 const PersonalInfo = () => {
 	const AuthData: any = useAuth();
-	const [loadState, setLoadState] = useState('loading');
+	const [loadState, setLoadState] = useState("loading");
 	const [loading, setLoading] = useState(true);
 	const [updloading, setUpdateLoading] = useState(false);
 	const [disabling, setDisabling] = useState(true);
@@ -45,8 +45,8 @@ const PersonalInfo = () => {
 		for (let k = 0; k < personalInfo.length; k++) {
 			personalInfo[k].value = response.data[personalInfo[k].id];
 		}
-		if(response.data['photo']){
-			setPreviewSource(response.data['photo'])
+		if (response.data["photo"]) {
+			setPreviewSource(response.data["photo"]);
 		}
 	};
 	useEffect(() => {
@@ -58,11 +58,10 @@ const PersonalInfo = () => {
 		for (let z = 0; z < newInfo.length; z++) {
 			if (newInfo[z].id == i) {
 				newInfo[z].value = val;
-				if(stu_info[i] == val){
+				if (stu_info[i] == val) {
 					console.log(stu_info[i]);
 					setDisabling(true);
-				}
-				else{
+				} else {
 					setDisabling(false);
 				}
 			}
@@ -78,17 +77,17 @@ const PersonalInfo = () => {
 	};
 	const previewFile = (file: any) => {
 		const reader: any = new FileReader();
-		console.log("f",typeof(file));
+		console.log("f", typeof file);
 		reader.readAsDataURL(file);
 		reader.onloadend = () => {
 			setPreviewSource(reader.result);
-			personalInfo[personalInfo.length-1].value=reader.result;
-			console.log(personalInfo[personalInfo.length-1].value);
+			personalInfo[personalInfo.length - 1].value = reader.result;
+			console.log(personalInfo[personalInfo.length - 1].value);
 		};
 	};
 
 	const save = async () => {
-		setLoadState('Updating');
+		setLoadState("Updating");
 		setUpdateLoading(true);
 		let student: any = {
 			roll_no: `${AuthData.user.userData.user.roll_no}`,
@@ -100,153 +99,163 @@ const PersonalInfo = () => {
 				student[personalInfo[i].id] = personalInfo[i].value;
 			}
 		}
-		let data ={student};
-		const response = await axios.post("http://localhost:5000/add/student", data ,{
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthData.user.token}`,
-			},
-		});
+		let data = { student };
+		const response = await axios.post(
+			"http://localhost:5000/add/student",
+			data,
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${AuthData.user.token}`,
+				},
+			}
+		);
 		setUpdateLoading(false);
 		if (response.status == 200) {
 			Swal.fire({
-				icon: 'success',
-				title: 'Update Successfully',
+				icon: "success",
+				title: "Update Successfully",
 				showConfirmButton: false,
-				timer: 1500
-			  })
+				timer: 1500,
+			});
 		} else {
 			Swal.fire({
-				icon: 'success',
-				title: 'Update Failed',
+				icon: "success",
+				title: "Update Failed",
 				showConfirmButton: false,
-				timer: 1500
-			  })
+				timer: 1500,
+			});
 		}
 	};
 	return (
-		<div className="w-full sm:w-11/12 mx-auto  flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
+		<div className="w-full sm:w-11/12 mx-auto flex flex-col items-center justify-around bg-white container rounded-lg">
 			<br />
 			<h3 className="text-xl sm:text-2xl font-bold text-gray-900">
 				Personal Info
 			</h3>
 			<br />
-			{loading ?<>
-			<Loading loadState={loadState}/>
-			</>
-			:
-			<>
-			<div className="w-[100px] h-[100px] relative rounded-full text-black">
-				<img className="rounded-full w-[100px] h-[100px]" src={previewsource} alt="profilePic" />
-				<div className="text-slate-500 text-center absolute bg-white rounded-full bottom-[-10%] right-[32%] border-gray-300 border-solid border-2 w-8 h-8 overflow-hidden">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 20 20"
-						fill="currentColor"
-						className="w-5 h-5 absolute top-[10%] left-1 cursor-pointer"
-					>
-						<path
-							fillRule="evenodd"
-							d="M1 8a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 018.07 3h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0016.07 6H17a2 2 0 012 2v7a2 2 0 01-2 2H3a2 2 0 01-2-2V8zm13.5 3a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM10 14a3 3 0 100-6 3 3 0 000 6z"
-							clipRule="evenodd"
+			{loading ? (
+				<>
+					<Loading loadState={loadState} />
+				</>
+			) : (
+				<>
+					<div className="w-[100px] h-[100px] relative rounded-full text-black">
+						<img
+							className="rounded-full w-[100px] h-[100px]"
+							src={previewsource}
+							alt="profilePic"
 						/>
-					</svg>
-					<input
-						className="absolute cursor-pointer top-0 scale-110 opacity-0"
-						type="file"
-						onChange={handlePhotoInputs}
-					/>
-				</div>
-			</div>
-			<br />
-			<div className="grid grid-cols-2 gap-y-4 gap-x-24 w-full px-20">
-				{personalInfo.map(({ value, label, id, type }: any) => (
-					<>
-						{id == "gender" ? (
-							<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-								Gender
-								<div className="flex flex-row justify-around items-center w-3/5">
-									<div>
-										<input
-											className="bg-white"
-											type="radio"
-											id="gender"
-											name="gender"
-											value="M"
-											onChange={(e) => {
-												UpdateData(e.target.value, id);
-											}}
-										/>
-										&nbsp;
-										<label>Male</label>
-									</div>
-									<div>
-										<input
-											type="radio"
-											id="gender"
-											name="gender"
-											value="F"
-											onChange={(e) => {
-												UpdateData(e.target.value, id);
-											}}
-										/>
-										&nbsp;
-										<label>Female</label>
-									</div>
-								</div>
-							</div>
-						) : id=='photo' ? (<></>) : (
-							<div
-								className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium"
-								key={id}
+						<div className="text-slate-500 text-center absolute bg-white rounded-full bottom-[-10%] right-[32%] border-gray-300 border-solid border-2 w-8 h-8 overflow-hidden">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+								className="w-5 h-5 absolute top-[10%] left-1 cursor-pointer"
 							>
-								<label>{label}</label>
-								<input
-									value={value}
-									className=" border rounded-mg py-1 px-1"
-									type={type}
-									id={id}
-									name={id}
-									onChange={(e) => {
-										UpdateData(e.target.value, id);
-									}}
-								></input>
+								<path
+									fillRule="evenodd"
+									d="M1 8a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 018.07 3h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0016.07 6H17a2 2 0 012 2v7a2 2 0 01-2 2H3a2 2 0 01-2-2V8zm13.5 3a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM10 14a3 3 0 100-6 3 3 0 000 6z"
+									clipRule="evenodd"
+								/>
+							</svg>
+							<input
+								className="absolute cursor-pointer top-0 scale-110 opacity-0"
+								type="file"
+								onChange={handlePhotoInputs}
+							/>
+						</div>
+					</div>
+					<br />
+					<div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-y-2 gap-x-14 lg:gap-x-24 px-10 sm:px-20">
+						{personalInfo.map(({ value, label, id, type }: any) => (
+							<>
+								{id == "gender" ? (
+									<div className="flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+										Gender
+										<div className="flex flex-row justify-around items-center w-1/2">
+											<div>
+												<input
+													className=""
+													type="radio"
+													id="gender"
+													name="gender"
+													value="M"
+													onChange={(e) => {
+														UpdateData(e.target.value, id);
+													}}
+												/>
+												&nbsp;
+												<label>Male</label>
+											</div>
+											<div>
+												<input
+													type="radio"
+													id="gender"
+													name="gender"
+													value="F"
+													onChange={(e) => {
+														UpdateData(e.target.value, id);
+													}}
+												/>
+												&nbsp;
+												<label>Female</label>
+											</div>
+										</div>
+									</div>
+								) : id == "photo" ? (
+									<></>
+								) : (
+									<div
+										className="flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium"
+										key={id}
+									>
+										<label>{label}</label>
+										<input
+											value={value}
+											className=" border rounded-mg py-1 px-1 w-6/12"
+											type={type}
+											id={id}
+											name={id}
+											onChange={(e) => {
+												UpdateData(e.target.value, id);
+											}}
+										></input>
+									</div>
+								)}
+							</>
+						))}
+					</div>
+					<br />
+					<div className="w-full flex justify-center items-center">
+						{disabling ? (
+							<button
+								disabled
+								className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+							>
+								Save
+							</button>
+						) : (
+							<div className="flex flex-col">
+								{updloading ? (
+									<>
+										<Loading loadState={loadState} />
+									</>
+								) : (
+									<></>
+								)}
+								<button
+									className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+									onClick={save}
+								>
+									Save
+								</button>
 							</div>
 						)}
-					</>
-				))}
-			</div>
-			<br />
-			<div className="w-full flex justify-center items-center">
-				{disabling ? <button
-				disabled
-					className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
-				>
-					Save
-				</button> :
-				<
-					div className="flex flex-col"
-				>
-				{
-					updloading ? <>
-					<Loading loadState={loadState}/>
-					</>
-					:<></>
-				}
-				<button
-				className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
-				onClick={save}
-			>
-				Save
-			</button>
-				</div>
-				}
-			</div>
-			</>
-			}
+					</div>
+				</>
+			)}
 
-
-			
 			<br />
 		</div>
 	);
