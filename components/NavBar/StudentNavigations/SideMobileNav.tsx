@@ -221,7 +221,7 @@ const SideMobile = () => {
               &nbsp;&nbsp; Applied Drives
             </Link>
             <Link
-              href="/"
+              href="/tpc/resume"
               onClick={() => {
                 setIsOpen(!isOpen);
               }}
