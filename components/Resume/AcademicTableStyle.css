@@ -1,0 +1,10 @@
+table,
+td,
+tr {
+	border: 2px solid black;
+	border-collapse: collapse;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-align: center;
+	font-size: small;
+}

@@ -168,17 +168,17 @@ const StudentLookup = () => {
 
 	return (
 		<div className="w-full flex justify-center items-center align-middle">
-			<div className="flex bg-white w-10/12 mt-5 flex-col px-20 pt-8 items-center rounded-2xl drop-shadow-lg">
+			<div className="flex bg-white w-10/12 mt-5 flex-col pt-8 items-center rounded-2xl drop-shadow-lg">
 				<h3 className="text-xl sm:text-2xl font-bold text-gray-900">
 					Student Lookup
 				</h3>
 				<p className="text-slate-400 text-sm">
 					Filter Students based on the required fields
 				</p>
-				<div className="border shadow-lg rounded-lg p-5 my-5">
+				<div className="border shadow-lg rounded-lg p-5 w-11/12 my-5">
 					<h3 className="font-semibold">Select Fields Required in the Data</h3>
 					<hr className="py-3" />
-					<div className="flex flex-wrap gap-3 justify-between">
+					<div className="flex flex-wrap gap-3">
 						{Object.keys(personalInfo).map((e) => (
 							<p
 								className={`px-5 py-2 rounded-full cursor-pointer ${
@@ -197,16 +197,16 @@ const StudentLookup = () => {
 						))}
 					</div>
 				</div>
-				<div className="w-full border shadow-lg rounded-lg p-8">
+				<div className="border shadow-lg rounded-lg p-8 w-11/12">
 					<h3 className="font-semibold">Filter Data through below fields</h3>
 					<hr />
-					<div className="pt-5 grid grid-cols-2 gap-x-10 gap-y-4">
+					<div className="pt-5 grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-4">
 						{Object.keys(personalInfo).map((item: any) => (
 							<>
 								{item == "gender" ? (
 									<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
 										Gender
-										<div className="flex flex-row justify-around items-center gap-24">
+										<div className="flex flex-row justify-around items-center w-1/2">
 											<div>
 												<input
 													className="bg-white"
@@ -241,7 +241,7 @@ const StudentLookup = () => {
 										<label>{personalInfo[item].label}</label>
 										<input
 											value={personalInfo[item].value}
-											className="border-2 rounded-md p-1"
+											className="border-2 rounded-md p-1 w-1/2"
 											type={personalInfo[item].type}
 											id={item}
 											name={personalInfo[item].label}

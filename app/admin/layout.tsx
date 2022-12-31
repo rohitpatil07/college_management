@@ -12,7 +12,7 @@ export default function PlacementLayout({
 			<div className="flex flex-col sm:flex-row overflow-hidden">
 				<AdminSideBarMobile />
 				<AdminSideBar />
-				<div className="w-screen sm:3/5 md:4/5">{children}</div>
+				<div className="w-screen">{children}</div>
 			</div>
 		</div>
 	);
