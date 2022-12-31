@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
+import Router from "next/router";
 const AvailableDrives = () => {
 	const AuthData : any = useAuth();
 	const[drive,setDrive]:any=useState(null);
@@ -30,12 +31,13 @@ const AvailableDrives = () => {
 			
 			
 		};
-		const response = await axios.post("http://localhost:5000/add/student/adrive",applieddrive ,{
+		const response = await axios.post("http://localhost:5000/add/student/applieddrive",applieddrive ,{
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${AuthData.user.token}`,
 			},
 		});
+
 	}
 	let drives = drive;
 	return (
