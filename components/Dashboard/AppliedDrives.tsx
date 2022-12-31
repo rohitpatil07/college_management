@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
-const AvailableDrives = () => {
+const AppliedDrives = () => {
 	const AuthData : any = useAuth();
 	const[drive,setDrive]:any=useState(null);
 	const fetchDrive = async () =>
 	{
-		const response = await axios.get(`http://localhost:5000/filter/edrive/${AuthData.user.userData.user.roll_no}`, {
+		const response = await axios.get(`http://localhost:5000/filter/student/applied/${AuthData.user.userData.user.roll_no}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
@@ -18,41 +18,15 @@ const AvailableDrives = () => {
 	useEffect(()=>{
 		fetchDrive();
 	},[]);
-	const apply = async(id:any) =>
-	{
-		const applied=drives[id];
-		let applieddrive: any = {
-			applieddrive:
-			{
-				drive_id:id,
-				roll_no: `${AuthData.user.userData.user.roll_no}`,
-			}
-			
-			
-		};
-		const response = await axios.post("http://localhost:5000/add/student/adrive",applieddrive ,{
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthData.user.token}`,
-			},
-		});
-	}
 	let drives = drive;
+	console.log(drive)
 	return (
 		<div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
 			<h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
-				Available Drives
+				Applied Drives
 			</h3>
-			
-			{drive==null? <>
-			
+			{drive==null ? <>
 			</> : 
-			drive.length==0?
-				<>
-				<h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
-					Maximum Offers Reached
-				   </h3>
-				</>:
 			<div className="flex flex-col gap-5">
 			{drives.map(({ company_name, role, desc, drive_id}: any) => (
 				<div key={drive_id}className="flex flex-col mx-auto mb-3 w-11/12 p-5 bg-white border-2 border-neutral-300 rounded-md">
@@ -71,8 +45,14 @@ const AvailableDrives = () => {
 							Check Here For More Info
 						</button>
 						<div className="flex flex-col-reverse md:flex-row items-center justify-between">
-							<button onClick={()=>{apply(drive_id)}} className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
-								Apply
+							{/* <button
+								className="p-1 w-48 mb-3 md:mb-0 md:ml-2 md:w-fit mx-auto px-10 rounded-md"
+								style={{ backgroundColor: "#c9243f", color: "white" }}
+							>
+								Decline */}
+							{/* </button> */}
+							<button  className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
+								Accept
 							</button>
 						</div>
 					</div>
@@ -85,4 +65,4 @@ const AvailableDrives = () => {
 	);
 };
 
-export default AvailableDrives;
+export default AppliedDrives;
