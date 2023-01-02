@@ -3,9 +3,42 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import api from "../../contexts/adapter";
 import { useAuth } from "../../contexts/AuthContext";
+import Loading from "../Loaders/Loading";
+import Swal from "sweetalert2";
+import ClipLoader from "react-spinners/ClipLoader";
 const AcademicDetails = () => {
 	const AuthData: any = useAuth();
-	const [stu_info, setstu_info]: any = useState();
+	const [stu_info, setstu_info]: any = useState({
+		tenth_percent: "",
+		tenth_start: "",
+		tenth_end: "",
+		twelveth_percent: "",
+		twelveth_start: "",
+		twelveth_end: "",
+		diploma_percent: "",
+		diploma_start: "",
+		diploma_end: "",
+		sem1_pointer: null,
+		sem2_pointer: null,
+		sem3_pointer: null,
+		sem4_pointer: null,
+		sem5_pointer: null,
+		sem6_pointer: null,
+		sem7_pointer: null,
+		sem8_pointer: null,
+		cgpa: "",
+		be_percent: "",
+		gap: "",
+		livekt: "",
+		deadkt: "",
+		masters_sem1_pointer: "",
+		masters_sem2_pointer: "",
+		masters_sem3_pointer: "",
+		masters_sem4_pointer: "",
+	})
+	const [loadState, setLoadState] = useState("loading");
+	const [loading, setLoading] = useState(true);
+	const [updloading, setUpdateLoading] = useState(false);
 	const [baseInfo, setBaseInfo] = React.useState<any>({
 		tenth_percent: "",
 		tenth_start: "",
@@ -16,14 +49,14 @@ const AcademicDetails = () => {
 		diploma_percent: "",
 		diploma_start: "",
 		diploma_end: "",
-		sem1_pointer: "",
-		sem2_pointer: "",
-		sem3_pointer: "",
-		sem4_pointer: "",
-		sem5_pointer: "",
-		sem6_pointer: "",
-		sem7_pointer: "",
-		sem8_pointer: "",
+		sem1_pointer: null,
+		sem2_pointer: null,
+		sem3_pointer: null,
+		sem4_pointer: null,
+		sem5_pointer: null,
+		sem6_pointer: null,
+		sem7_pointer: null,
+		sem8_pointer: null,
 		cgpa: "",
 		be_percent: "",
 		gap: "",
@@ -44,11 +77,15 @@ const AcademicDetails = () => {
 				},
 			}
 		);
-		setstu_info(response.data["academic_info"]);
+		console.log(response);
 		let kss = response.data["academic_info"];
-		for (let key in baseInfo) {
-			baseInfo[key] = kss[key];
+		if(kss){
+			setstu_info(response.data["academic_info"]);
+			for (let key in baseInfo) {
+				baseInfo[key] = kss[key];
+			}
 		}
+		setLoading(false);
 	};
 	useEffect(() => {
 		getProfileData();
@@ -71,7 +108,7 @@ const AcademicDetails = () => {
 				id: "twelveth_percent",
 				type: "number",
 			},
-			{ value: "", label: "Start Year", id: "twlveth_start", type: "number" },
+			{ value: "", label: "Start Year", id: "twelveth_start", type: "number" },
 			{ value: "", label: "End Year", id: "twelveth_end", type: "number" },
 			{
 				value: "",
@@ -419,7 +456,7 @@ const AcademicDetails = () => {
 								>
 									<legend>{label}</legend>
 									<input
-										placeholder="0.00"
+										type='number'
 										className="w-1/2 bg-white border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1 rounded-md"
 										id={id}
 										name={id}
@@ -490,7 +527,7 @@ const AcademicDetails = () => {
 						>
 							<legend>{label}</legend>
 							<input
-								placeholder="00.0000"
+								placeholder="0.00"
 								className="bg-white w-1/2 border-gray-300 border-solid border-2 rounded-mg text-slate-700 py-1 px-1 rounded-md"
 								id={id}
 								name={id}
@@ -507,17 +544,27 @@ const AcademicDetails = () => {
 	};
 
 	const save = async () => {
+		setUpdateLoading(true);
 		let academic: any = {
 			roll_no: `${AuthData.user.userData.user.roll_no}`,
+			sem1_pointer: parseFloat(stu_info['sem1_pointer']),
+			sem2_pointer: parseFloat(stu_info['sem2_pointer']),
+			sem3_pointer: parseFloat(stu_info['sem3_pointer']),
+			sem4_pointer: parseFloat(stu_info['sem4_pointer']),
+			sem5_pointer: parseFloat(stu_info['sem5_pointer']),
+			sem6_pointer: parseFloat(stu_info['sem6_pointer']),
+			sem7_pointer: parseFloat(stu_info['sem7_pointer']),
+			sem8_pointer: parseFloat(stu_info['sem8_pointer'])
 		};
 		for (let keys in baseInfo) {
 			if (baseInfo[keys] != stu_info[keys]) {
 				academic[keys] = baseInfo[keys];
 			}
 		}
+		const body = { academic : academic}
 		const response = await axios.post(
 			"http://localhost:5000/add/student/academicinfo",
-			academic,
+			body,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -525,10 +572,21 @@ const AcademicDetails = () => {
 				},
 			}
 		);
-		if (response.status == 200) {
-			window.alert("Updated Successfully");
+		setUpdateLoading(false);
+		if (response.data.status == 200) {
+			Swal.fire({
+				icon: "success",
+				title: "Update Successfull",
+				showConfirmButton: false,
+				timer: 1500,
+			});
 		} else {
-			window.alert("failed");
+			Swal.fire({
+				icon: "error",
+				title: "Update Failed",
+				showConfirmButton: false,
+				timer: 1500,
+			});
 		}
 	};
 	const [step, setStep] = React.useState(0);
@@ -546,6 +604,16 @@ const AcademicDetails = () => {
 				</button>
 			)}
 			{step == fieldGroups.length - 1 && (
+				<>
+				{updloading ? (
+				<button
+								disabled
+								className="flex items-center justify-center p-2 w-fit mx-auto px-8 py-2 rounded-md bg-gray-400 text-white"
+							>
+								Save
+								<ClipLoader className='ml-2' size={20} color="#d63636" />	
+							</button>
+				) : (
 				<button
 					onClick={save}
 					className="p-2 w-fit mx-auto px-5 rounded-mg"
@@ -554,6 +622,8 @@ const AcademicDetails = () => {
 				>
 					SAVE
 				</button>
+				)}
+				</>
 			)}
 			{step < fieldGroups.length - 1 && (
 				<button
@@ -596,10 +666,18 @@ const AcademicDetails = () => {
 	return (
 		<>
 			<div className="w-11/12 mx-auto flex flex-col items-center justify-around bg-white container rounded-lg">
+			{loading ? (
+				<div className="mx-auto my-5">
+					<Loading loadState={loadState} />
+				</div>
+			) : (
+				<>
 				<br />
 				{fieldGroups[step]}
 				<Navigation />
-				<Reference />
+				<Reference />	
+				</>
+			)}
 			</div>
 		</>
 	);
