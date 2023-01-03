@@ -55,9 +55,9 @@ const OfferDetails = () => {
             <button onClick={()=>setShowForm(!showForm)} className="px-3 w-fit ml-auto py-1 rounded bg-accent text-white hover:bg-red-700">
             Add Offer Letter
         </button>
+        <OfferForm showForm={showForm} offer_id={offer_id}/> 
         </div>
             }
-            <OfferForm showForm={showForm} offer_id={offer_id}/> 
           </div>
         ))}      
     </div>
