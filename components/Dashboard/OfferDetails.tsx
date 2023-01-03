@@ -6,19 +6,19 @@ import axios from 'axios';
 import { useAuth } from "../../contexts/AuthContext";
 const OfferDetails = () => {
   const AuthData: any = useAuth();
-    const [offer, setOffer] = useState([]);
-    const getOfferLetter = async (offer_id: string) => {
-      const response = await axios.get(
-        `http://localhost:5000/image/offerdownload/${offer_id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
-          },
-        }
-      );
-      console.log(response);
-    }
+    let offer:any  = data.offers;
+    // const getOfferLetter = async (offer_id: string) => {
+    //   const response = await axios.get(
+    //     `http://localhost:5000/image/offerdownload/${offer_id}`,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: `Bearer ${AuthData.user.token}`,
+    //       },
+    //     }
+    //   );
+    //   console.log(response);
+    // }
     const get_data=async()=>{
       const response = await axios.get(
         `http://localhost:5000/filter/student/offer/${AuthData.user.userData.user.roll_no}`,
@@ -43,7 +43,7 @@ const OfferDetails = () => {
             <h4>Package : {packages}</h4>
             {offer_letter ? 
            <div className='flex justify-end items-center w-100 text-white p-1 border-t-2 pt-2 mt-1'>
-           <button onClick={()=>{getOfferLetter(offer_id)}} className="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 mr-1">
+           <button  className="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 mr-1">
            Download
        </button>
        <button onClick={()=>setShowForm(!showForm)} className="px-3 py-1 rounded bg-accent text-white hover:bg-red-700">
@@ -55,9 +55,9 @@ const OfferDetails = () => {
             <button onClick={()=>setShowForm(!showForm)} className="px-3 w-fit ml-auto py-1 rounded bg-accent text-white hover:bg-red-700">
             Add Offer Letter
         </button>
-        <OfferForm showForm={showForm} offer_id={offer_id}/> 
         </div>
             }
+            <OfferForm showForm={showForm} offer_id={offer_id}/> 
           </div>
         ))}      
     </div>

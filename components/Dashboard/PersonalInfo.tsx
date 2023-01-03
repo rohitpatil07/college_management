@@ -231,7 +231,7 @@ const PersonalInfo = () => {
 						{disabling ? (
 							<button
 								disabled
-								className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+								className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-gray-300 text-white"
 							>
 								Save
 							</button>
