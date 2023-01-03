@@ -107,7 +107,7 @@ const SideNavBar = () => {
 							Projects
 						</Link>
 						<Link
-							href="/"
+							href="/tpc/editProfile/offerDetails"
 							className="px-8 py-2 font-medium hover:bg-blue-100 active:bg-blue-100"
 						>
 							Offer Details
