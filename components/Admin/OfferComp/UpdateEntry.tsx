@@ -3,14 +3,65 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import Swal from 'sweetalert2';
-import Loading from '../../Loaders/Loading';
+import ClipLoader from "react-spinners/ClipLoader";
 const UpdateEntry = () => {
   const AuthData: any = useAuth();
-  const [newInfo, setNewInfo] = useState({offers:[]});
-  const [loadState, setLoadState] = useState("update");
   const [stu_info, setStu_info] = useState<any>([]);
   const [roll_no, setRoll_no] = useState('');
   const[loading,setLoading] = useState(false);
+  const discard=async (id:string,i:number)=>{
+    console.log(stu_info);
+    console.log(i,stu_info.length-1);
+    if(i==(stu_info.length-1)){
+      const response = await axios.get(
+        `http://localhost:5000/delete/offer/${stu_info[i].offer_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+        }
+      );
+      console.log(response.data);
+    }
+    else{
+      let some_info = stu_info[i+1];
+      const response = await axios.get(
+        `http://localhost:5000/delete/offer/${stu_info[i].offer_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+        }
+      );
+      const response2 = await axios.get(
+        `http://localhost:5000/delete/offer/${some_info.offer_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+        }
+      );
+      delete(some_info.packages);
+      delete(some_info.company_name);
+      delete(some_info.role);
+      delete(some_info.offer_id);
+      delete(some_info.update);
+      some_info.package = parseFloat(some_info.package);
+      const body = { offer: some_info };
+      const response3 = await axios.post("http://localhost:5000/add/admin/student/offer", body, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AuthData.user.token}`,
+        },
+      });
+      console.log(response);
+      console.log(response2);
+      console.log(response3);
+    }
+  }
   const getOfferLetter = async (offer_id: string) => {
     const response = await axios.get(
       `http://localhost:5000/image/offerdownload/${offer_id}`,
@@ -79,7 +130,6 @@ const UpdateEntry = () => {
       }
       console.log(response.data);
       setStu_info(response.data.offers);
-      newInfo['offers'] = response.data.offers;
       setLoading(false);
     }
   }
@@ -165,7 +215,7 @@ const UpdateEntry = () => {
         </div>
         <div className='w-full flex flex-row flex-wrap justify-between'>
         {loading ?   <button className="px-3 py-1 rounded bg-gray-400 sm:text-xl text-white mb-3 flex flex-row items-center">Get Data
-        <Loading loadState='loading' />
+        <ClipLoader className='ml-2' size={20} color="#d63636" />
           </button> :
           <button onClick={get_info} className="px-3 py-1 rounded bg-green-600 sm:text-xl text-white hover:bg-green-700 mb-3">Get Data
           </button>
@@ -263,7 +313,14 @@ const UpdateEntry = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
                           </svg>
                           Edit
-                        </button></td>
+                        </button>
+                        <button onClick={() => { discard(offer_id,i) }} className="flex flex-row items-center my-2 px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700" >
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                          </svg>
+                          Delete
+                        </button>
+                        </td>
                     }
                   </tr>
                 ))}

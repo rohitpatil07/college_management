@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { updatePersonalData } from "../../routes/routes.js";
+import ClipLoader from "react-spinners/ClipLoader";
 import axios from "axios";
 import api from "../../contexts/adapter";
 import { useAuth } from "../../contexts/AuthContext";
@@ -31,6 +31,7 @@ const PersonalInfo = () => {
 	]);
 	const [stu_info, setstu_info]: any = useState();
 	const getProfileData = async () => {
+		let i = 0;
 		const response = await axios.get(
 			`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`,
 			{
@@ -59,7 +60,6 @@ const PersonalInfo = () => {
 			if (newInfo[z].id == i) {
 				newInfo[z].value = val;
 				if (stu_info[i] == val) {
-					console.log(stu_info[i]);
 					setDisabling(true);
 				} else {
 					setDisabling(false);
@@ -77,23 +77,22 @@ const PersonalInfo = () => {
 	};
 	const previewFile = (file: any) => {
 		const reader: any = new FileReader();
-		console.log("f", typeof file);
 		reader.readAsDataURL(file);
 		reader.onloadend = () => {
 			setPreviewSource(reader.result);
 			personalInfo[personalInfo.length - 1].value = reader.result;
-			console.log(personalInfo[personalInfo.length - 1].value);
 		};
+		setDisabling(false);
 	};
 
 	const save = async () => {
+		setDisabling(true);
 		setLoadState("Updating");
 		setUpdateLoading(true);
 		let student: any = {
 			roll_no: `${AuthData.user.userData.user.roll_no}`,
+			semester: stu_info['semester']
 		};
-		console.log(personalInfo);
-		console.log(stu_info);
 		for (let i = 0; i < personalInfo.length; i++) {
 			if (stu_info[personalInfo[i].id] != personalInfo[i].value) {
 				student[personalInfo[i].id] = personalInfo[i].value;
@@ -111,7 +110,7 @@ const PersonalInfo = () => {
 			}
 		);
 		setUpdateLoading(false);
-		if (response.status == 200) {
+		if (response.data.status == 200) {
 			Swal.fire({
 				icon: "success",
 				title: "Update Successfully",
@@ -120,11 +119,12 @@ const PersonalInfo = () => {
 			});
 		} else {
 			Swal.fire({
-				icon: "success",
+				icon: "error",
 				title: "Update Failed",
 				showConfirmButton: false,
 				timer: 1500,
 			});
+			setDisabling(false);
 		}
 	};
 	return (
@@ -231,19 +231,19 @@ const PersonalInfo = () => {
 						{disabling ? (
 							<button
 								disabled
-								className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-gray-300 text-white"
+								className="flex items-center justify-center p-2 w-fit mx-auto px-8 py-2 rounded-md bg-gray-400 text-white"
 							>
 								Save
-							</button>
-						) : (
-							<div className="flex flex-col">
 								{updloading ? (
 									<>
-										<Loading loadState={loadState} />
+										<ClipLoader className='ml-2' size={20} color="#d63636" />
 									</>
 								) : (
 									<></>
 								)}
+							</button>
+						) : (
+							<div className="flex flex-col">
 								<button
 									className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
 									onClick={save}
