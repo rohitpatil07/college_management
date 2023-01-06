@@ -44,7 +44,7 @@ const BarGraphs = (datas: any) => {
 		],
 	};
 	return (
-		<div className="w-10/12 md:w-2/3 m-auto xl:w-2/5 min-h-[500px]">
+		<div className="w-10/12 m-auto md:w-[40%] min-h-[400px]">
 			<Bar data={data} options={option} />
 		</div>
 	);

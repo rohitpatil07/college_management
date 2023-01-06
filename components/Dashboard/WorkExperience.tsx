@@ -31,9 +31,25 @@ const WorkExperience = () => {
         'Authorization': `Bearer ${AuthData.user.token}`
       },
     });
+    let month: any = {
+      Jan: "-01",
+      Feb: "-02",
+      Mar: "-03",
+      Apr: "-04",
+      May: "-05",
+      Jun: "-06",
+      Jul: "-07",
+      Aug: "-08",
+      Sep: "-09",
+      Oct: "-10",
+      Nov: "-11",
+      Dec: "-12",
+    };
     setWork2(response.data['work_experience']);
     for (let i = 0; i < response.data['work_experience'].length; i++) {
       response.data['work_experience'][i]['editing'] = false;
+      response.data['work_experience'][i]['start_month']=response.data['work_experience'][i].year + month[response.data['work_experience'][i]['start_month'].slice(0,3)];
+      response.data['work_experience'][i]['end_month']=response.data['work_experience'][i].year + month[response.data['work_experience'][i]['end_month'].slice(0,3)];
     }
     setworkExps(response.data['work_experience']);
     WorkExperience[0]['id'] = response.data['work_experience'].length + 1;
@@ -77,6 +93,39 @@ const WorkExperience = () => {
 
   const UpdateExistingData = (key: string, val: string, i: number) => {
     var newInfo = [...workExps];
+    let month: any = {
+      1 : "January",
+      2 : "February",
+      3 : "March",
+      4 : "April",
+      5 : "May",
+      6 : "June",
+      7 : "July",
+      8 : "August",
+      9 : "September",
+      10 : "October",
+     11 : "November",
+      12 : "December"
+    };
+    if(key=='start_month'){
+      let data:string = val.slice(val.length -2,val.length -1);
+      if(data=='1'){
+        newInfo[i]['start']=month[val.slice(val.length -2,val.length)];
+      }
+      else{
+        newInfo[i]['start']=month[val.slice(val.length -1,val.length)];
+      }
+    }
+    else if(key=='end_month'){
+      newInfo[i]['year']=parseInt(val.slice(0,4))
+      let data:string = val.slice(val.length -2,val.length -1);
+      if(data=='1'){
+        newInfo[i]['end']=month[val.slice(val.length -2,val.length)];
+      }
+      else{
+        newInfo[i]['end']=month[val.slice(val.length -1,val.length)];
+      }
+    }
     newInfo[i][key] = val;
     setworkExps(newInfo);
   }
@@ -86,6 +135,39 @@ const WorkExperience = () => {
     var info: any = newInfo[i];
     info[key] = val;
     let upvote = 0;
+    let month: any = {
+      1 : "January",
+      2 : "February",
+      3 : "March",
+      4 : "April",
+      5 : "May",
+      6 : "June",
+      7 : "July",
+      8 : "August",
+      9 : "September",
+      10 : "October",
+     11 : "November",
+      12 : "December"
+    };
+    if(key=='start_month'){
+      let data:string = val.slice(val.length -2,val.length -1);
+      if(data=='1'){
+        info['start']=month[val.slice(val.length -2,val.length)];
+      }
+      else{
+        info['start']=month[val.slice(val.length -1,val.length)];
+      }
+    }
+    if(key=='end_month'){
+      info['year']=parseInt(val.slice(0,4))
+      let data:string = val.slice(val.length -2,val.length -1);
+      if(data=='1'){
+        info['end']=month[val.slice(val.length -2,val.length)];
+      }
+      else{
+        info['end']=month[val.slice(val.length -1,val.length)];
+      }
+    }
     if (key == 'description') {
       upvote = 0;
     }
@@ -106,7 +188,7 @@ const WorkExperience = () => {
     setWorkExperience(newInfo);
   }
   const changeEditing = (id: string) => {
-    console.log(id);
+    // console.log(id);
     let work = [...workExps]
     for (let i = 0; i < work.length; i++) {
       if (work[i]['work_id'] == id) {
@@ -114,7 +196,7 @@ const WorkExperience = () => {
       }
     }
     setworkExps(work);
-    console.log(workExps);
+    // console.log(workExps);
   }
 
 
@@ -130,7 +212,12 @@ const WorkExperience = () => {
         work[keys] = k[keys];
       }
     }
+    work['start_month']=work['start'];
+    work['end_month']=work['end'];
     delete (work.editing);
+    delete(work.start);
+    delete(work.end);
+    // console.log(work);
     const body = { work: work };
     const response = await axios.post("http://localhost:5000/add/student/workexperience", body, {
       headers: {
@@ -139,7 +226,7 @@ const WorkExperience = () => {
       },
 
     });
-    console.log(response);
+    // console.log(response);
     setUpdateLoading(false);
     if (response.status == 200) {
       Swal.fire({
@@ -168,11 +255,21 @@ const WorkExperience = () => {
       work_id: working_id,
       roll_no: `${AuthData.user.userData.user.roll_no}`,
     };
+    for (let keys in work2[r]) {
+      if (k[keys] != work2[keys]) {
+        work[keys] = k[keys];
+      }
+    }
     delete (k.id);
     delete (k.disabling);
     for (let keys in k) {
       work[keys] = k[keys];
     }
+    work['start_month']=work['start'];
+    work['end_month']=work['end'];
+    delete(work.start);
+    delete(work.end);
+    // console.log(work);
     const body = { work: work };
     const response = await axios.post("http://localhost:5000/add/student/workexperience", body, {
       headers: {
@@ -181,7 +278,6 @@ const WorkExperience = () => {
       },
 
     });
-    console.log(response);
     setUpdateLoading(false);
     if (response.status == 200) {
       Swal.fire({
@@ -257,7 +353,7 @@ const WorkExperience = () => {
                   : <p className='text-sm text-justify mb-3'>{description}</p>
               }
               {editing ?
-                <button onClick={() => { saveExistingData(x) }} className="mt-2 mb-2 p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">Update
+                <button onClick={() => { saveExistingData(x) }} className="flex items-center mt-2 mb-2 p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">Update
                   {updloading ? (
                     <>
                       <ClipLoader className='ml-2' size={20} color="white" />
@@ -307,7 +403,7 @@ const WorkExperience = () => {
                       Save
                     </button>
                       :
-                      <button onClick={() => { save(x) }} className="mt-2 mb-2 p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">Save
+                      <button onClick={() => { save(x) }} className="flex items-center mt-2 mb-2 p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">Save
                         {updloading ? (
                           <>
                             <ClipLoader className='ml-2' size={20} color="white" />

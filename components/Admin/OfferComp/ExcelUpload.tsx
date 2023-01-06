@@ -60,14 +60,12 @@ const ExcelUpload = ({ showForm }: any) => {
           for(let j=0;j<drive.length;j++){
             if(drive[j]['company_name']==data[i]['company_name'] && drive[j]['package']==data[i]['package'] && drive[j]['role']==data[i]['role'])
             {
-              data[i]['company_id']=drive[i]['company_id'];
               data[i]['drive_id']=drive[i]['drive_id'];
-              delete(data[i].company_name);
               delete(data[i].role);
             }
           }
           }
-          console.log(data);
+          // console.log(data);
 
       const response = await axios.post("http://localhost:5000/add/admin/student/bulkoffers", data, {
         headers: {

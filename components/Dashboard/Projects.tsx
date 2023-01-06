@@ -135,7 +135,7 @@ const Projects = () => {
 
 
   const changeEditing = (id: string) => {
-    console.log(id);
+    // console.log(id);
     let proj = [...projectInfo]
     for (let i = 0; i < proj.length; i++) {
       if (proj[i]['proj_id'] == id) {
@@ -240,7 +240,7 @@ const Projects = () => {
                   : <p className='text-sm text-justify mb-3'>{proj_desc}</p>
               }
               {editing ?
-                <button onClick={() => { saveExistingData(x) }} className="mt-2 mb-2 p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">Update
+                <button onClick={() => { saveExistingData(x) }} className="flex items-center  mt-2 mb-2 p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">Update
                   {updloading ? (
                     <>
                       <ClipLoader className='ml-2' size={20} color="white" />
@@ -282,7 +282,7 @@ const Projects = () => {
                       Save
                     </button>
                       :
-                      <button onClick={() => { save(x) }} className="mt-2 mb-2 p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">Save
+                      <button onClick={() => { save(x) }} className="flex items-center mt-2 mb-2 p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">Save
                         {updloading ? (
                           <>
                             <ClipLoader className='ml-2' size={20} color="white" />

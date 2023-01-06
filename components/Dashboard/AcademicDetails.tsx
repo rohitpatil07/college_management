@@ -77,7 +77,7 @@ const AcademicDetails = () => {
 				},
 			}
 		);
-		console.log(response);
+		// console.log(response);
 		let kss = response.data["academic_info"];
 		if(kss){
 			setstu_info(response.data["academic_info"]);
@@ -573,7 +573,7 @@ const AcademicDetails = () => {
 			}
 		);
 		setUpdateLoading(false);
-		if (response.data.status == 200) {
+		if (response.status == 200) {
 			Swal.fire({
 				icon: "success",
 				title: "Update Successfull",

@@ -110,7 +110,7 @@ const PersonalInfo = () => {
 			}
 		);
 		setUpdateLoading(false);
-		if (response.data.status == 200) {
+		if (response.status == 200) {
 			Swal.fire({
 				icon: "success",
 				title: "Update Successfully",

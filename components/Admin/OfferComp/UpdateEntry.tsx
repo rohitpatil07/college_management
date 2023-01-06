@@ -9,9 +9,15 @@ const UpdateEntry = () => {
   const [stu_info, setStu_info] = useState<any>([]);
   const [roll_no, setRoll_no] = useState('');
   const[loading,setLoading] = useState(false);
+  const clear_info=()=>{
+    let clearedInfo = [...stu_info];
+    clearedInfo = [];
+    setStu_info(clearedInfo);
+    setRoll_no('');
+  }
   const discard=async (id:string,i:number)=>{
-    console.log(stu_info);
-    console.log(i,stu_info.length-1);
+    // console.log(stu_info);
+    // console.log(i,stu_info.length-1);
     if(i==(stu_info.length-1)){
       const response = await axios.get(
         `http://localhost:5000/delete/offer/${stu_info[i].offer_id}`,
@@ -22,11 +28,33 @@ const UpdateEntry = () => {
           },
         }
       );
-      console.log(response.data);
     }
     else{
       let some_info = stu_info[i+1];
       const response = await axios.get(
+        `http://localhost:5000/delete/offer/${stu_info[i+1].offer_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+        }
+      );
+      if(response){
+        delete(some_info.packages);
+        delete(some_info.role);
+        delete(some_info.offer_id);
+        delete(some_info.update);
+        some_info.package = parseFloat(some_info.package);
+        const body = { offer: some_info };
+        const response3 = await axios.post("http://localhost:5000/add/admin/student/offer", body, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AuthData.user.token}`,
+        },
+      });
+        if(response3){
+      const response2 = await axios.get(
         `http://localhost:5000/delete/offer/${stu_info[i].offer_id}`,
         {
           headers: {
@@ -35,32 +63,16 @@ const UpdateEntry = () => {
           },
         }
       );
-      const response2 = await axios.get(
-        `http://localhost:5000/delete/offer/${some_info.offer_id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
-          },
         }
-      );
-      delete(some_info.packages);
-      delete(some_info.company_name);
-      delete(some_info.role);
-      delete(some_info.offer_id);
-      delete(some_info.update);
-      some_info.package = parseFloat(some_info.package);
-      const body = { offer: some_info };
-      const response3 = await axios.post("http://localhost:5000/add/admin/student/offer", body, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
-        },
-      });
-      console.log(response);
-      console.log(response2);
-      console.log(response3);
+      }
     }
+    get_info();
+    Swal.fire({
+      icon: 'success',
+      title: 'Successfully Deleted Data',
+      showConfirmButton: false,
+      timer: 1500
+    })
   }
   const getOfferLetter = async (offer_id: string) => {
     const response = await axios.get(
@@ -119,16 +131,14 @@ const UpdateEntry = () => {
     else{
       for (let i = 0; i < response.data.offers.length; i++) {
         for(let j=0;j<drive.length;j++){
-          if(response.data.offers[i]['company_id']==drive[j]['company_id'] && response.data.offers[i]['drive_id']==drive[j]['drive_id']){
-            response.data.offers[i]['company_name']=drive[j]['company_name'];
-            response.data.offers[i]['drive_id']=drive[j]['drive_id'];
+          if(response.data.offers[i]['drive_id']==drive[j]['drive_id']){
             response.data.offers[i]['role']=drive[j]['role'];
           }
         }
         response.data.offers[i]['update'] = false;
         response.data.offers[i]['packages'] = response.data.offers[i]['package'];
       }
-      console.log(response.data);
+      // console.log(response.data);
       setStu_info(response.data.offers);
       setLoading(false);
     }
@@ -145,13 +155,11 @@ const UpdateEntry = () => {
     setStu_info(updtInfo);
   }
   const submit = async(i:number) => {
-    console.log("Hey",stu_info);
     let upvote=0;
     for(let j=0;j<drive.length;j++){
-      if(drive[j]['company_name']==stu_info[i]['company_name'] && drive[j]['role']==stu_info[i]['role'] && drive[j]['package']==stu_info[i]['packages']){
-        stu_info[i]['company_id']=drive[i]['company_id']
-        stu_info[i]['drive_id']=drive[i]['drive_id']
-        stu_info[i]['package']=parseInt(drive[i]['package'])
+      if(drive[j]['role']==stu_info[i]['role'] && drive[j]['package']==stu_info[i]['packages']){
+        stu_info[i]['drive_id']=drive[j]['drive_id']
+        stu_info[i]['package']=parseInt(drive[j]['package'])
         upvote+=1;
       }
     }
@@ -164,16 +172,14 @@ const UpdateEntry = () => {
       })
     }
     else{
-      console.log("Okay",stu_info[i]);
     let body={
       offer_id: stu_info[i].offer_id,
       update:{
-        company_id: stu_info[i].company_id,
+        company_name: stu_info[i].company_name,
         drive_id: stu_info[i].drive_id,
         package: stu_info[i].package
       },
     };
-    console.log("Okay",stu_info);
     const response = await axios.post("http://localhost:5000/add/admin/student/updateoffer", body ,{
 			headers: {
 				"Content-Type": "application/json",
@@ -196,6 +202,7 @@ const UpdateEntry = () => {
         timer: 1500
       })
     }
+    get_info();
   }
   }
   return (
@@ -220,7 +227,7 @@ const UpdateEntry = () => {
           <button onClick={get_info} className="px-3 py-1 rounded bg-green-600 sm:text-xl text-white hover:bg-green-700 mb-3">Get Data
           </button>
         }
-          <button onClick={get_info} className="px-3 py-1 rounded bg-red-600 sm:text-xl text-white hover:bg-red-700 mb-3">Clear</button>
+          <button onClick={clear_info} className="px-3 py-1 rounded bg-red-600 sm:text-xl text-white hover:bg-red-700 mb-3">Clear</button>
 
         </div>
       </div>
@@ -314,10 +321,11 @@ const UpdateEntry = () => {
                           </svg>
                           Edit
                         </button>
-                        <button onClick={() => { discard(offer_id,i) }} className="flex flex-row items-center my-2 px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700" >
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
-                          </svg>
+                        <button onClick={() => { discard(offer_id,i) }} className="flex flex-row items-center my-2 px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700" >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+</svg>
+
                           Delete
                         </button>
                         </td>

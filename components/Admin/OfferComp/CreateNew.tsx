@@ -44,7 +44,7 @@ const CreateNew = ({ createForm }: any) => {
       company_id:0,
       drive_id:0,
     };
-    console.log(newInfo);
+    // console.log(newInfo);
     if (newInfo['roll_no'] == '' || newInfo['company_name'] == '' || newInfo['package'] == '' || newInfo['role']=='') {
       Swal.fire({
         icon: 'error',
@@ -55,11 +55,10 @@ const CreateNew = ({ createForm }: any) => {
     }
     else {
       setLoading(true);
-      console.log(drive);
+      // console.log(drive);
       for(let i=0;i<drive.length;i++){
         if(drive[i]['company_name']==newInfo['company_name'] && drive[i]['package']==newInfo['package'] && drive[i]['role']==newInfo['role'])
         {
-          offer['company_id']=drive[i]['company_id'];
           offer['drive_id']=drive[i]['drive_id'];
         }
       }
@@ -71,7 +70,7 @@ const CreateNew = ({ createForm }: any) => {
           offer[key]=newInfo[key]
         }
       }
-      delete(offer.company_name);
+      delete(offer.company_id);
       delete(offer.role);
       const body = { offer: offer };
       const response = await axios.post("http://localhost:5000/add/admin/student/offer", body, {
