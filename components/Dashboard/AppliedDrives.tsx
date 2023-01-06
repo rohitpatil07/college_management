@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 const AppliedDrives = () => {
 	const AuthData : any = useAuth();
+	console.log(AuthData)
 	const[drive,setDrive]:any=useState(null);
 	const fetchDrive = async () =>
 	{

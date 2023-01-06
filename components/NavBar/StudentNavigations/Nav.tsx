@@ -64,9 +64,15 @@ const Nav = () => {
 				<div className="flex flex-row items-center">
 					<div className="flex flex-col items-end">
 						<h5 className="text-sm text-slate-700 font-medium">
-							{`${AuthData.user.userData.user.role}` == "student"
-								? `${AuthData.user.userData.user.first_name} ${AuthData.user.userData.user.last_name}`
-								: `${AuthData.user.userData.user.role}`}
+							{`${AuthData.user.userData.user.role}` == "student"?
+								`${AuthData.user.userData.user.first_name} ${AuthData.user.userData.user.last_name}`
+							:
+							`${AuthData.user.userData.user.role}` == "admin"?
+									`${AuthData.user.userData.user.role}`:
+							`${AuthData.user.userData.user.role}` == "company"?
+								    `${AuthData.user.userData.user.company_name}`:
+								" "
+							}
 						</h5>
 						<h6 className="text-xs text-slate-500">
 							{`${AuthData.user.userData.user.role}` == "student"

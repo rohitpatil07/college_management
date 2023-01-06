@@ -2,6 +2,7 @@
 import React , {useState} from "react";
 import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
+import Swal from "sweetalert2";
 
 const CreateDrive = () => {
 	const AuthData : any  = useAuth();
@@ -54,7 +55,22 @@ const CreateDrive = () => {
 						drive: drives, // This is the body part
 					}
 					});
-					const queries = {
+					if (response.status == 200) {
+						Swal.fire({
+							icon: "success",
+							title: "Update Successfully",
+							showConfirmButton: false,
+							timer: 1500,
+						});
+					} else {
+						Swal.fire({
+							icon: "error",
+							title: "Update Failed..Please Try Again",
+							showConfirmButton: false,
+							timer: 1500,
+						});
+					}
+			const queries = {
 						gender : {contains : drives.gender},
 						department: {contains : ""},
 						gap : {lte : drives.gap},
@@ -64,11 +80,8 @@ const CreateDrive = () => {
 						tenth_percent : {gte : drives.tenth_percent},
 						twelveth_percent : {gte : drives.twelveth_percent},
 					}
-				    console.log(queries);
 					const message=`Notice for ${AuthData.user.userData.user.company_name} Placement Drive`
 					const subject=`Notification for  ${AuthData.user.userData.user.company_name} drive  for ${drives["role"]}`
-					console.log(message);
-                    console.log(subject);
 					const noti = await axios.post("http://localhost:5000/filter/notify",
 						{ queries , message , subject },
 						{
@@ -79,6 +92,7 @@ const CreateDrive = () => {
 						});
 					console.log(response.data);
 			        console.log(noti);
+
 		} catch (error) {
 			alert(error);
 		}
