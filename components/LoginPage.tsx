@@ -24,6 +24,7 @@ function LoginPage() {
 		if (token) {
 			console.log(response);
 			if (userRole == "student") router.push("/home");
+			else if (userRole == "faculty") router.push("/faculty/dashboard");
 			else if (userRole == "admin") router.push("/admin/lookup");
 			else router.push("/company");
 		}
