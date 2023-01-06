@@ -77,7 +77,7 @@ const AcademicDetails = () => {
 				},
 			}
 		);
-		setstu_info(response.data["academic_info"]);
+		// console.log(response);
 		let kss = response.data["academic_info"];
 		if(kss){
 			setstu_info(response.data["academic_info"]);
@@ -572,8 +572,14 @@ const AcademicDetails = () => {
 				},
 			}
 		);
+		setUpdateLoading(false);
 		if (response.status == 200) {
-			window.alert("Updated Successfully");
+			Swal.fire({
+				icon: "success",
+				title: "Update Successfull",
+				showConfirmButton: false,
+				timer: 1500,
+			});
 		} else {
 			Swal.fire({
 				icon: "error",
