@@ -1,10 +1,12 @@
+
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import Router from "next/router";
 const AvailableDrives = () => {
 	const AuthData : any = useAuth();
-	const[drive,setDrive]:any=useState(null);
+	console.log(AuthData)
+	const[drive,setDrive]:any=useState();
 	const fetchDrive = async () =>
 	{
 		const response = await axios.get(`http://localhost:5000/filter/edrive/${AuthData.user.userData.user.roll_no}`, {
@@ -14,6 +16,7 @@ const AvailableDrives = () => {
 			},
 		  });
 		console.log(response)
+		console.log(response.data)
 		setDrive(response.data);
 	}
 	useEffect(()=>{
@@ -21,7 +24,7 @@ const AvailableDrives = () => {
 	},[]);
 	const apply = async(id:any) =>
 	{
-		const applied=drives[id];
+		const applied=drive[id];
 		let applieddrive: any = {
 			applieddrive:
 			{
@@ -39,7 +42,6 @@ const AvailableDrives = () => {
 		});
 
 	}
-	let drives = drive;
 	return (
 		<div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
 			<h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
@@ -48,16 +50,16 @@ const AvailableDrives = () => {
 			
 			{drive==null? <>
 			
-			</> : 
+			</> :    
 			drive.length==0?
 				<>
 				<h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
-					Maximum Offers Reached
+					Maximum Offers Reached or not eligible for any drive
 				   </h3>
 				</>:
 			<div className="flex flex-col gap-5">
-			{drives.map(({ company_name, role, desc, drive_id}: any) => (
-				<div key={drive_id}className="flex flex-col mx-auto mb-3 w-11/12 p-5 bg-white border-2 border-neutral-300 rounded-md">
+			{drive.map(({ company_name, role, desc, drive_id}: any) => (
+				<div key={drive_id} className="flex flex-col mx-auto mb-3 w-11/12 p-5 bg-white border-2 border-neutral-300 rounded-md">
 					<div className="flex flex-col-reverse sm:flex-row items-center justify-between">
 						<h2 className="text-xl font-semibold text-center">
 							{company_name}
