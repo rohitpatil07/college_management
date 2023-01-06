@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import NextResume from "../../../components/Resume/NextResume";
 

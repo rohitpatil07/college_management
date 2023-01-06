@@ -157,13 +157,22 @@ const SideMobile = () => {
                   Projects
                 </Link>
                 <Link
-                  href="/"
+                  href="/tpc/editProfile/offerDetails"
                   className="px-8 py-2 font-medium hover:bg-blue-100 active:bg-blue-100"
                   onClick={() => {
                     setIsOpen(!isOpen);
                   }}
                 >
                   Offer Details
+                </Link>
+                <Link
+                  href="/tpc/editProfile/additionalInfo"
+                  className="px-8 py-2 font-medium hover:bg-blue-100 active:bg-blue-100"
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                  }}
+                >
+                  Additional Info
                 </Link>
                 <Link
                   href="/tpc/editProfile/changePassword"

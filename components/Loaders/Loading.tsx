@@ -13,15 +13,14 @@ const Loading = ({loadState}:any) => {
                         <ClipLoader color="#d63636" size={50} />
                     </div>
                 </>
-                : <div className='flex'>
-                    <h3 className='text-2xl sm:text-4xl mb-5'>{loadState}</h3>
-                    <div className='hidden sm:block mt-4'>
+                : <>
+                    <div className='hidden sm:block'>
                         <PulseLoader color="#d63636" />
                     </div>
-                    <div className='block sm:hidden mt-2'>
-                        <PulseLoader color="#d63636" size={10} />
+                    <div className='block sm:hidden'>
+                        <PulseLoader color="#d63636" size={5} />
                     </div>
-                </div>
+                    </>
             }
         </div>
     )

@@ -32,7 +32,24 @@ const Dashboard = () => {
 				},
 			}
 		);
-		setTopStudents(response.data);
+		for(let i=0;i<response.data.top10studentplaced.length;i++){
+			if(response.data.top10studentplaced[i].offers.length==2){
+				if(parseInt(response.data.top10studentplaced[i].offers[1].package)>parseInt(response.data.top10studentplaced[i].offers[2].package)){
+					response.data.top10studentplaced[i]['packages']=response.data.top10studentplaced[i].offers[0]['package'];
+					response.data.top10studentplaced[i]['company_name']=response.data.top10studentplaced[i].offers[0].company_name;
+				}
+				else{
+					response.data.top10studentplaced[i]['packages']=response.data.top10studentplaced[i].offers[1]['package'];
+					response.data.top10studentplaced[i]['company_name']=response.data.top10studentplaced[i].offers[1].company_name;
+				}
+			}
+			else{
+				response.data.top10studentplaced[i]['packages']=response.data.top10studentplaced[i].offers[0]['package'];
+				response.data.top10studentplaced[i]['company_name']=response.data.top10studentplaced[i].offers[0].company_name;
+			}
+		}
+
+		setTopStudents(response.data.top10studentplaced);
 	};
 	const getStudentCompanyWise = async () => {
 		const response = await axios.get(
@@ -110,7 +127,7 @@ const Dashboard = () => {
 	return (
 		<div className="w-full flex justify-center items-center align-middle">
 			<div className="flex bg-white w-11/12 mt-5 flex-col pt-8 items-center rounded-2xl drop-shadow-lg">
-				<h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+				<h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5">
 					Dashboard
 				</h3>
 				{lpaWiseStudents.length == 0 ||
@@ -121,7 +138,7 @@ const Dashboard = () => {
 				deptWiseStudentsLabels.length == 0 ? (
 					<></>
 				) : (
-					<div className="w-11/12 justify-around gap-2 flex flex-col xl:flex-row flex-wrap">
+					<div className="w-11/12 justify-around gap-2 flex flex-row flex-wrap">
 						<BarGraphs
 							datas={lpaWiseStudents}
 							labels={lpaWiseStudentsLabels}
@@ -137,6 +154,35 @@ const Dashboard = () => {
 							labels={deptWiseStudentsLabels}
 							label={deptWiseHeading}
 						/>
+						 {topStudents.length>0 ? 
+                <div className="w-10/12 m-auto md:w-[40%] min-h-[400px] border-2 rounded-2xl drop-shadow-2xl overflow-auto">
+					<table className='table-fixed border-collapse border-spacing-x-4 border-spacing-y-2 mt-3'>
+                    <thead>
+                        <tr className='text-lg font-semibold text-gray-900'>
+						<td className='pr-1 sm:pr-2'>Roll No</td>
+                                                <td className='pl-1 sm:pl-2'>Name</td>
+                                                <td className='pl-1 sm:pl-2'>Email</td>
+												<td className='pl-1 sm:pl-2'>Company</td>
+                                                <td className='pl-1 sm:pl-2'>Package</td>
+                                                <td className='pl-1 sm:pl-2'>Count Offers</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+					{topStudents.map(({ roll_no, first_name, last_name, email,_count,offers,packages,company_name }: any, i: number) => (
+                                            <tr className='cursor-pointer border-b border-slate-400 text-sm py-2'>
+                                                <td className='pr-1 sm:pr-2'>{roll_no}</td>
+                                                <td className='pl-1 sm:pl-2'>{first_name} {last_name}</td>
+                                                <td className='pl-1 sm:pl-2'>{email}</td>
+												<td className='pl-1 sm:pl-2'>{company_name}</td>
+                                                <td className='pl-1 sm:pl-2'>{packages}</td>
+                                                <td className='pl-1 sm:pl-2'>{_count.offers}</td>
+                                            </tr>
+                    ))}
+                    </tbody>
+                </table>
+				</div> :
+                    <></>
+                }
 					</div>
 				)}
 			</div>
