@@ -10,6 +10,10 @@ const Subject = ({ subject_id }: any) => {
   const router = useRouter();
   const AuthData: any = useAuth();
   const [modules, setModules]: any = useState(null);
+  const [newmodule, setNewModule] = useState({
+    module_number: '',
+    module_name:''
+  });
   const [addmodule, setAddModule] = useState(false);
   const [subjectInfo, setSubjectInfo]: any = useState(null);
   const get_module = async () => {
@@ -37,6 +41,18 @@ const Subject = ({ subject_id }: any) => {
     );
     console.log(response.data);
     setSubjectInfo(response.data);
+  }
+  const changeValue=(value: string,key: string)=>{
+    let changedValue: any={...newmodule};
+    changedValue[key]=value;
+    setNewModule(changedValue);
+  }
+  const add_module=()=>{
+    const uploadmodule={
+      subject_id: subject_id,
+      module_number: parseInt(newmodule.module_number),
+      module_name: newmodule.module_name
+    }
   }
   useEffect(() => {
     get_module();
@@ -134,7 +150,9 @@ const Subject = ({ subject_id }: any) => {
                         <label>Module Number</label>
                         <input
                           className=" border rounded-mg py-1 px-1 w-7/12"
+                          value={newmodule.module_number}
                           type='number'
+                          onChange={(e)=>changeValue(e.target.value,'module_number')}
                         ></input>
                       </div>
                       <div
@@ -143,14 +161,16 @@ const Subject = ({ subject_id }: any) => {
                         <label>Module Name</label>
                         <input
                           className=" border rounded-mg py-1 px-1 w-7/12"
+                          value={newmodule.module_name}
                           type='text'
+                          onChange={(e)=>changeValue(e.target.value,'module_name')}
                         ></input>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="w-full bg-gray-50 px-4 py-3 flex items-center justify-center">
-                  <button onClick={() => { setAddModule(!addmodule) }} className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">Add</button>
+                  <button onClick={() => { add_module() }} className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">Add</button>
                 </div>
               </div>
             </div>
