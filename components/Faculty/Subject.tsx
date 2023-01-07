@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Loading from "../Loaders/Loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 const Subject = ({ subject_id }: any) => {
   const router = useRouter();
@@ -47,12 +48,41 @@ const Subject = ({ subject_id }: any) => {
     changedValue[key]=value;
     setNewModule(changedValue);
   }
-  const add_module=()=>{
+  const add_module=async()=>{
     const uploadmodule={
       subject_id: subject_id,
       module_number: parseInt(newmodule.module_number),
       module_name: newmodule.module_name
     }
+    console.log(uploadmodule)
+    const response = await axios({
+      method: 'post',
+      url: "http://localhost:5000/lms/form/addmodule",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
+      }, 
+      data: {
+        module: uploadmodule, // This is the body part
+      }
+      });
+      console.log(response)
+      if (response.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: " Module Created Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Module Creation  Failed..Please Try Again",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+
   }
   useEffect(() => {
     get_module();
