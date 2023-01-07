@@ -112,17 +112,34 @@ const Subject = ({ subject_id }: any) => {
           <div className="fixed inset-0 z-10 overflow-y-auto">
             <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 
-              <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <div className="relative transform overflow-hidden rounded-3xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md">
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className='w-full'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" onClick={() => { setAddModule(!addmodule) }} className="cursor-pointer w-6 h-6 text-red-600 ml-auto">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                    <div className="text-center">
+                    <div className="text-center my-3">
                       <h3 className="text-lg font-medium leading-6 text-gray-900" id="modal-title">Add New Module</h3>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.</p>
+                      <div className="mt-2 mx-5">
+                      <div
+										className="mt-8 mb-4 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium"
+									>
+										<label>Module Number</label>
+										<input
+											className=" border rounded-mg py-1 px-1 w-7/12"
+											type='number'
+										></input>
+									</div>
+                  <div
+										className="mt-8 mb-4 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium"
+									>
+										<label>Module Name</label>
+										<input
+											className=" border rounded-mg py-1 px-1 w-7/12"
+											type='text'
+										></input>
+									</div>
                       </div>
                     </div>
                 </div>
