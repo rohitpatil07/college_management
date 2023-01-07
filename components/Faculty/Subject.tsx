@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-const Subject = ({ subject_id }: any) => {
+const Subject = ({ subject_id, subject_name }: any) => {
   const router = useRouter();
   const AuthData: any = useAuth();
   const [modules, setModules]: any = useState(null);
@@ -135,17 +135,20 @@ const Subject = ({ subject_id }: any) => {
           </svg>
           General Resourcess
         </div>
-        {modules ? <div className='flex flex-col md:flex-row justify-evenly items-center w-full mb-5'>
+        {modules ? <div className='flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5'>
           {modules.map(({ subject_id, module_name, module_number, module_id }: any, i: number) =>
-            <div key={module_number} className='flex flex-col items-center w-10/12 scale-90 md:scale-100 md:w-72 xl:w-2/5 xl:scale-90 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white'>
+           <div key={module_number} className='flex flex-col items-center w-10/12 scale-90 sm:w-3/5 md:w-2/5 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white'>
               <img src={`/subjects/subject${i + 1}.jpg`} alt={module_name} className="w-full min-h-[10rem] object-cover rounded-xl" />
               <div className="text-lg sm:text-xl font-medium text-gray-900 my-4 text-center">{module_number}. {module_name}</div>
               <Link href={{
-                pathname: "/faculty/subject",
+                pathname: "/faculty/modules",
                 query:
                 {
                   module_id: module_id,
-                  module_name: module_name
+                  module_name: module_name,
+                  subject_id: subject_id,
+                  subject_name: subject_name,
+                  module_number: module_number
                 }
               }} className="mb-4 w-fit mx-auto px-16 py-2 rounded-full bg-accent text-white hover:scale-105 transition-all">
                 Open
