@@ -23,7 +23,7 @@ const Subject = ({ subject_id }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${AuthData.user.token}`,
+          Authorization: `Bearer ${AuthData.user.token}`,
         },
       }
     );
@@ -36,7 +36,7 @@ const Subject = ({ subject_id }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${AuthData.user.token}`,
+          Authorization: `Bearer ${AuthData.user.token}`,
         },
       }
     );

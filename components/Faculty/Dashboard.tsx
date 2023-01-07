@@ -16,7 +16,7 @@ const Dashboard = () => {
 			{
 				headers: {
 					"Content-Type": "application/json",
-					// Authorization: `Bearer ${AuthData.user.token}`,
+					Authorization: `Bearer ${AuthData.user.token}`,
 				},
 			}
 		);
@@ -50,7 +50,7 @@ const Dashboard = () => {
 					All Subjects
 				</h3>
 				<div className='border-t-4 my-2 py-3 w-11/12 flex flex-row flex-wrap items-center justify-between'>
-					<button className="flex items-center p-2 w-fit px-4 py-2 rounded-lg bg-accent text-white hover:scale-105 transition-all">
+					<button onClick={()=>router.push('/faculty/addSub')} className="flex items-center p-2 w-fit px-4 py-2 rounded-lg bg-accent text-white hover:scale-105 transition-all">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-1">
 							<path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
 						</svg>
@@ -60,10 +60,10 @@ const Dashboard = () => {
 						Filter Subjects
 					</button>
 				</div>
-				{subjects ? <div className='flex flex-col md:flex-row justify-evenly items-center w-full mb-5'>
+				{subjects ? <div className='flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5'>
 					{subjects.map(({ subject_id, subject_name, semester, department, batch, type }: any, i: number) =>
-						<div key={subject_id} className='flex flex-col items-center w-10/12 scale-90 md:scale-100 md:w-72 xl:w-2/5 xl:scale-90 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white'>
-							<img src={`/subjects/subject${i + 1}.jpg`} alt={subject_name} className="w-full min-h-[10rem] object-cover rounded-xl" />
+						<div key={subject_id} className='flex flex-col items-center w-10/12 scale-90 sm:w-3/5 md:w-2/5 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white'>
+							<img src={`/subjects/subject${i + 1}.jpg`} alt={subject_name} className="w-full h-[15rem] min-h-[10rem] object-cover rounded-xl" />
 							<div className="text-lg sm:text-xl font-medium text-gray-900 my-4 text-center">{subject_name}</div>
 							<Link href={{
 								pathname: "/faculty/subject",
