@@ -30,7 +30,7 @@ const Dashboard = () => {
 			<div className="flex bg-slate-100 sm:bg-white w-full sm:w-11/12 mt-5 flex-col pt-8 items-center sm:rounded-2xl sm:drop-shadow-lg">
 				<div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
 					<Link
-						href="/faculty/dashboard"
+						href="/lms/dash"
 						className="flex flex-row items-center pb-2 mb-1 border-b border-slate-300"
 					>
 						<svg
@@ -51,31 +51,6 @@ const Dashboard = () => {
 				<h3 className="text-xl sm:text-2xl font-medium text-gray-900">
 					All Subjects
 				</h3>
-				<div className="border-t-4 my-2 py-3 w-11/12 flex flex-row flex-wrap items-center justify-between">
-					<Link
-						href={"/faculty/addSub"}
-						className="flex items-center p-2 w-fit px-4 py-2 rounded-lg bg-accent text-white hover:scale-105 transition-all"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							strokeWidth={1.5}
-							stroke="currentColor"
-							className="w-6 h-6 mr-1"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-							/>
-						</svg>
-						Add New Subject
-					</Link>
-					<button className="mt-1 sm:mt-0 p-2 w-fit px-4 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">
-						Filter Subjects
-					</button>
-				</div>
 				{subjects ? (
 					<div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
 						{subjects.map(
@@ -104,7 +79,7 @@ const Dashboard = () => {
 									</div>
 									<Link
 										href={{
-											pathname: "/faculty/subject",
+											pathname: "/lms/subject",
 											query: {
 												subject_id: subject_id,
 												subject_name: subject_name,

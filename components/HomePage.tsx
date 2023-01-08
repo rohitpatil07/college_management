@@ -40,7 +40,7 @@ const HomePage = () => {
 							Lorem ipsum dolor sit amet pretium consectetur adipiscing elit.
 						</span>
 						<Link
-							href="/"
+							href="/lms/dash"
 							className="p-2 w-fit mx-auto px-5 rounded-3xl bg-accent text-white hover:scale-105 transition-all"
 						>
 							Go To LMS
