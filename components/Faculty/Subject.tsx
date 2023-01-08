@@ -66,7 +66,6 @@ const Subject = ({ subject_id, subject_name }: any) => {
         module: uploadmodule, // This is the body part
       }
       });
-      console.log(response)
       if (response.status == 200) {
         Swal.fire({
           icon: "success",
