@@ -76,7 +76,6 @@ const AddSubject = () => {
 			batch: `${year}`,
 			type: "RE",
 		});
-		console.log(newSubject);
 	};
 	return (
 		<div className="w-full bg-slate-100 sm:bg-white sm:w-11/12 mx-auto flex flex-col items-center justify-around bg-white container sm:rounded-xl sm:drop-shadow-xl">
