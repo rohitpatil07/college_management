@@ -73,7 +73,7 @@ const DriveInfo = ()=>
 			<h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
 				View Drive Candidates
 			</h3>
-			{stu==null || undefined? <>
+			{stu==null? <>
 			</> : 
 			stu.length==0?
 			<>

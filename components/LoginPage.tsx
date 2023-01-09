@@ -5,6 +5,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 function LoginPage() {
 	const router = useRouter();
@@ -18,15 +19,36 @@ function LoginPage() {
 		console.log(role);
 		const data = { email, role, password };
 		const response = await AuthData.login(data);
-		const { token } = response.data;
-		const userRole: string = response.data.user.role;
+		console.log(response);
 		console.log(response.data);
-		if (token) {
-			console.log(response);
-			if (userRole == "student") router.push("/home");
-			else if (userRole == "faculty") router.push("/faculty/dashboard");
-			else if (userRole == "admin") router.push("/admin/lookup");
-			else router.push("/company");
+		if (response.data=="You are not authorized" || Object.keys(response.data).length==0 || response.data.length==0)
+		{
+			Swal.fire({
+				icon: "error",
+				title: "Login Failed,Incorrect Credentials",
+				showConfirmButton: false,
+				timer: 1500,
+			});
+	}
+		else
+		{
+			
+				const { token } = response.data;
+				const userRole: string = response.data.user.role;
+			
+				if (token) {
+					console.log(response);
+					Swal.fire({
+						icon: "success",
+						title: "Login Successfull",
+						showConfirmButton: false,
+						timer: 1500,
+					});
+					if (userRole == "student") router.push("/home");
+					else if (userRole == "faculty") router.push("/faculty/dashboard");
+					else if (userRole == "admin") router.push("/admin/lookup");
+					else router.push("/company");
+				}
 		}
 	};
 

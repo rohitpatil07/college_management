@@ -92,7 +92,7 @@ function NextResume() {
 					/>
 				     :
 					<Image
-						src={`data:image/jpg; base64, ${base}`}
+						src={`data:image/jpeg; base64, ${base}`}
 						className="translate-y-10 mx-5 z-10 w-[150px] h-[150px] rounded-full bg-white"
 						alt="Profile"
 						width={150}
