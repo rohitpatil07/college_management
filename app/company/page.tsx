@@ -1,11 +1,18 @@
-import React from 'react'
+"use client";
+import React from "react";
+import { useState, useEffect } from "react";
+import WelcomeModal from "../../components/Company/WelcomeModal";
 
 const CompanyHome = () => {
-  return (
-    <div className='text-3xl'>
-      This is Company Page Page
-    </div>
-  )
-}
+	const [showModal, setShowModal] = useState(false);
+	useEffect(() => {
+		setShowModal(true);
+	}, []);
+	return (
+		<div>
+			{showModal && <WelcomeModal />}
+		</div>
+	);
+};
 
-export default CompanyHome
+export default CompanyHome;

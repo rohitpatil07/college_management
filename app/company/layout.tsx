@@ -10,7 +10,7 @@ export default function PlacementLayout({
 			<NavBar />
 			<div className="flex flex-col sm:flex-row overflow-hidden">
 				<CompanySideBar />
-				<div className="w-screen sm:3/5 md:4/5">{children}</div>
+				<div className="w-screen">{children}</div>
 			</div>
 		</div>
 	);
