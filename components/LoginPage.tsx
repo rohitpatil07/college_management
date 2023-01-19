@@ -15,6 +15,41 @@ function LoginPage() {
 
 	const AuthData: any = useAuth();
 
+	const fpassword = async () => {
+		if (email)
+		{
+			const response = await axios({
+				method: 'post',
+				url: "http://localhost:5000/auth/forgot_mail",
+				headers: {
+					'Content-Type': 'application/json',
+				}, 
+				data: {
+					email: email,
+					role:role // This is the body part
+				}
+				});
+			console.log(response)
+			Swal.fire({
+				icon: "error",
+				title: `E-mail sent to ${email} to recover password`,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
+		else
+		{
+			Swal.fire({
+				icon: "error",
+				title: `Please enter your email address`,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
+
+	}
+
+
 	const handleSubmit = async () => {
 		console.log(role);
 		const data = { email, role, password };
@@ -106,12 +141,12 @@ function LoginPage() {
 								<input type="checkbox" name="remember" id="" />
 								<label htmlFor="remember">Remember Me</label>
 							</div>
-							<Link
+							<button
 								className="flex justify-center hover:text-blue-500"
-								href="/"
+								onClick={fpassword}
 							>
 								Forgot Password?
-							</Link>
+							</button>
 						</div>
 					</form>
 				</div>

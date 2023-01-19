@@ -29,7 +29,7 @@ const CreateDrive = () => {
 	const handleSubmit = async (e : React.FormEvent) =>{
 		e.preventDefault();
 		try {
-			setDrives({
+			const gear={
 				company_id : AuthData.user.userData.user.company_id,
 				role:drives.role,
 				package:Number(drives.package),
@@ -43,7 +43,7 @@ const CreateDrive = () => {
 				gap:Number(drives.gap),
 				livekt:Number(drives.livekt),
 				deadkt:Number(drives.deadkt)
-			});
+			};
 			const response = await axios({
 					method: 'post',
 					url: "http://localhost:5000/add/company/drive",
@@ -52,20 +52,20 @@ const CreateDrive = () => {
 						'Authorization': `Bearer ${AuthData.user.token}`
 					}, 
 					data: {
-						drive: drives, // This is the body part
+						drive: gear, // This is the body part
 					}
 					});
 					if (response.status == 200) {
 						Swal.fire({
 							icon: "success",
-							title: "Update Successfully",
+							title: "Drive Created  Successfully",
 							showConfirmButton: false,
 							timer: 1500,
 						});
 					} else {
 						Swal.fire({
 							icon: "error",
-							title: "Update Failed..Please Try Again",
+							title: "Drive Creation Failed..Please Try Again",
 							showConfirmButton: false,
 							timer: 1500,
 						});
