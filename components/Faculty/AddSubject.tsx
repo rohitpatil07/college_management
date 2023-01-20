@@ -14,15 +14,25 @@ const AddSubject = () => {
 		semester: 1,
 		department: "",
 		batch: `${year}`,
-		type: "RE",
+		type: "MD",
+		email:`${AuthData.user.userData.user.email}`,
+		division:"A"
 	});
 	const [updloading, setUpdateLoading] = useState(false);
+	const div =["A","B"];
+	const subDiv = ["A1","A2","A3","A4","B1","B2","B3","B4"];
 	const [checkFormCompletionStatus, setCheckFormCompletionStatus] =
 		useState(false);
 	const UpdateData = (value: any, key: string) => {
 		let changedValue: any = { ...newSubject };
 		changedValue[key] = value;
 		let upvote = 0;
+		if(key=='type' && value=='LAB'){
+			changedValue['division'] = 'A1';
+		}
+		if(key=='type' && value!='LAB'){
+			changedValue['division'] = 'A';
+		}
 		for (let keys in changedValue) {
 			if (changedValue[keys] == "") {
 				upvote += 1;
@@ -36,6 +46,7 @@ const AddSubject = () => {
 		setNewSubject(changedValue);
 	};
 	const [showSubType, setShowSubType] = useState(false);
+	const [showDivType, setShowDivType] = useState(false);
 	const [showBatchType, setShowBatchType] = useState(false);
 	const [showSemesterType, setShowSemesterType] = useState(false);
 	const save = async () => {
@@ -52,6 +63,7 @@ const AddSubject = () => {
 				subject: newSubject,
 			},
 		});
+		console.log(response);
 		if (response.status == 200) {
 			Swal.fire({
 				icon: "success",
@@ -74,7 +86,9 @@ const AddSubject = () => {
 			semester: 1,
 			department: "",
 			batch: `${year}`,
-			type: "RE",
+			type: "MD",
+			email:`${AuthData.user.userData.user.email}`,
+		division:"A"
 		});
 	};
 	return (
@@ -104,6 +118,169 @@ const AddSubject = () => {
 							UpdateData(e.target.value, "subject_name");
 						}}
 					></input>
+				</div>
+				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+					<label>Type</label>
+					<div className="relative text-left inline-block w-7/12">
+						<div>
+							<button
+								onClick={() => {
+									setShowSubType(!showSubType);
+								}}
+								className="inline-flex w-full justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+							>
+								{newSubject.type == "MD"
+									? "Regular"
+									: newSubject.type == "DLO"
+									? "Department Level Opt..."
+									: newSubject.type == "ILO"
+									? "Institute Level Optional"
+									: newSubject.type == "LAB"
+									? "LAB"
+								:""}
+								{showSubType ? (
+									""
+								) : (
+									<svg
+										className="-mr-1 ml-2 h-5 w-5"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											fill-rule="evenodd"
+											d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+											clip-rule="evenodd"
+										/>
+									</svg>
+								)}
+							</button>
+						</div>
+						{showSubType ? (
+							<div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+								<div className="py-1">
+									<button
+										onClick={() => {
+											UpdateData("MD", "type");
+											setShowSubType(!showSubType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										Regular
+									</button>
+									<button
+										onClick={() => {
+											UpdateData("LAB", "type");
+											setShowSubType(!showSubType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										LAB
+									</button>
+									<button
+										onClick={() => {
+											UpdateData("DLO", "type");
+											setShowSubType(!showSubType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										Deparment Level Optional
+									</button>
+									<button
+										onClick={() => {
+											UpdateData("ILO", "type");
+											setShowSubType(!showSubType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										Institute Level Optional
+									</button>
+								</div>
+							</div>
+						) : (
+							""
+						)}
+					</div>
+				</div>
+				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+					<label>Division</label>
+					<div className="relative text-left inline-block w-7/12">
+						<div>
+							<button
+								onClick={() => {
+									setShowDivType(!showDivType);
+								}}
+								className="inline-flex w-full justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+							>
+								{newSubject.division}
+								{showDivType ? (
+									""
+								) : (
+									<svg
+										className="-mr-1 ml-2 h-5 w-5"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											fill-rule="evenodd"
+											d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+											clip-rule="evenodd"
+										/>
+									</svg>
+								)}
+							</button>
+						</div>
+						{showDivType ? (
+							<>
+							{
+								newSubject.type=='LAB' ? 
+										<div  className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+								<div className="py-1">
+									
+									{
+										subDiv.map((value:string,x:number)=>(
+											<button
+											key={x}
+										onClick={() => {
+											UpdateData(subDiv[x], "division");
+											setShowDivType(!showDivType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										{value}
+									</button>
+										))
+									}
+								</div>
+							</div>
+								:		<div  className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+								<div className="py-1">
+									
+									{
+										div.map((value:string,x:number)=>(
+											<button
+											key={x}
+										onClick={() => {
+											UpdateData(div[x], "division");
+											setShowDivType(!showDivType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										{value}
+									</button>
+										))
+									}
+								</div>
+							</div>
+							}
+							</>
+						) : (
+							""
+						)}
+					</div>
 				</div>
 				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
 					<label>Semester</label>
@@ -329,80 +506,6 @@ const AddSubject = () => {
 										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
 									>
 										{year}
-									</button>
-								</div>
-							</div>
-						) : (
-							""
-						)}
-					</div>
-				</div>
-
-				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-					<label>Type</label>
-					<div className="relative text-left inline-block w-7/12">
-						<div>
-							<button
-								onClick={() => {
-									setShowSubType(!showSubType);
-								}}
-								className="inline-flex w-full justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
-							>
-								{newSubject.type == "RE"
-									? "Regular"
-									: newSubject.type == "DLO"
-									? "Department Level Opt..."
-									: newSubject.type == "ILO"
-									? "Institute Level Optional"
-									: ""}
-								{showSubType ? (
-									""
-								) : (
-									<svg
-										className="-mr-1 ml-2 h-5 w-5"
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 20 20"
-										fill="currentColor"
-										aria-hidden="true"
-									>
-										<path
-											fill-rule="evenodd"
-											d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-											clip-rule="evenodd"
-										/>
-									</svg>
-								)}
-							</button>
-						</div>
-						{showSubType ? (
-							<div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-								<div className="py-1">
-									<button
-										onClick={() => {
-											UpdateData("RE", "type");
-											setShowSubType(!showSubType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										Regular
-									</button>
-									<button
-										onClick={() => {
-											UpdateData("DLO", "type");
-											setShowSubType(!showSubType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										Deparment Level Optional
-									</button>
-									<button
-										onClick={() => {
-											UpdateData("ILO", "type");
-											setShowSubType(!showSubType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										Institute Level Optional
 									</button>
 								</div>
 							</div>

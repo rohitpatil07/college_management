@@ -82,6 +82,7 @@ function LoginPage() {
 					if (userRole == "student") router.push("/home");
 					else if (userRole == "faculty") router.push("/faculty/dashboard");
 					else if (userRole == "admin") router.push("/admin/lookup");
+					else if (userRole == "lms_admin") router.push("/lms_admin/lookup");
 					else router.push("/company");
 				}
 		}
@@ -113,6 +114,7 @@ function LoginPage() {
 							<option value="student">Student</option>
 							<option value="faculty">Faculty</option>
 							<option value="admin">Admin</option>
+							<option value="lms_admin">LMS Admin</option>
 							<option value="company">Company</option>
 						</select>
 						<label className="mt-6" htmlFor="email">
