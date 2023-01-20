@@ -28,17 +28,18 @@ const CreateDrive = () => {
     }
 	const handleSubmit = async (e : React.FormEvent) =>{
 		e.preventDefault();
+		console.log(drives);
 		try {
 			const gear={
 				company_id : AuthData.user.userData.user.company_id,
 				role:drives.role,
-				package:Number(drives.package),
+				package:parseInt(drives.package),
 				job_location:drives.job_location,
 				role_desc:drives.role_desc,
-				cgpa:Number(drives.cgpa),
-				be_percent: Number(drives.be_percent),
-				tenth_percent:Number(drives.tenth_percent),
-				twelveth_percent:Number(drives.twelveth_percent),
+				cgpa:parseInt(drives.cgpa),
+				be_percent: parseInt(drives.be_percent),
+				tenth_percent:parseInt(drives.tenth_percent),
+				twelveth_percent:parseInt(drives.twelveth_percent),
 				gender:drives.gender,
 				gap:Number(drives.gap),
 				livekt:Number(drives.livekt),
