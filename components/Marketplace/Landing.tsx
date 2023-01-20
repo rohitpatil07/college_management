@@ -45,18 +45,26 @@ const Landing = () => {
 							MARKETPLACE
 						</h1>
 					</div>
-					<p className="text-slate-800 font-medium text-justify text-sm sm:text-lg">
-						Dolore pariatur adipisicing pariatur velit laborum. Excepteur non
-						amet veniam proident nostrud qui cupidatat. Sit velit esse aute sit
-						fugiat. Quis non duis ipsum sunt.
+					<p className="text-slate-800 font-medium text-justify py-2 text-sm sm:text-md">
+						Discover the convenience of our college campus marketplace. Buy and
+						sell products with ease within our community of students and
+						faculty. Our user-friendly platform makes it easy to connect with
+						sellers within campus and find what you need. Join now and start
+						exploring all your campus has to offer.
 					</p>
 					<div className="flex w-full xl:w-fit gap-5 flex-col xl:flex-row items-start">
-						<button className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all w-full xl:w-fit">
+						<Link
+							href="/marketplace/products"
+							className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all w-full xl:w-fit"
+						>
 							Buy/Sell Products
-						</button>
-						<button className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all w-full xl:w-fit">
+						</Link>
+						<Link
+							href="/marketplace/lostfound"
+							className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all w-full xl:w-fit"
+						>
 							Lost and Found
-						</button>
+						</Link>
 					</div>
 				</div>
 				<div className="relative flex w-full md:w-1/2 p-5">

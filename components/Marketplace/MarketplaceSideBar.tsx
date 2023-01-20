@@ -35,13 +35,13 @@ function MarketplaceSideBar() {
 				</button>
 			</div>
 			<aside
-				className={`sm:flex flex-col bg-white h-[100%] w-full sm:w-fit text-slate-500 ${
+				className={`sm:flex flex-col bg-white h-fit sm:h-[100%] w-full sm:w-fit text-slate-500 ${
 					isOpen ? "hidden" : "flex"
 				}`}
 			>
 				<div className="flex flex-col bg-white pb-24">
 					<Link
-						href="company/notify"
+						href="/marketplace"
 						className="flex flex-row items-center font-medium  px-2 py-2 sm:pr-4 border sm:border-none hover:bg-blue-100 active:bg-blue-100 whitespace-nowrap"
 					>
 						<svg
@@ -61,7 +61,7 @@ function MarketplaceSideBar() {
 						Marketplace
 					</Link>
 					<Link
-						href="company/notify"
+						href="/marketplace/products"
 						className="flex flex-row items-center font-medium  px-2 py-2 sm:pr-4 border sm:border-none hover:bg-blue-100 active:bg-blue-100 whitespace-nowrap"
 					>
 						<svg
@@ -81,7 +81,7 @@ function MarketplaceSideBar() {
 						Buy/Sell Products
 					</Link>
 					<Link
-						href="company/createdrive"
+						href="marketplace/lostfound"
 						className="flex flex-row items-center font-medium  px-2 py-2 sm:pr-4 border sm:border-none hover:bg-blue-100 active:bg-blue-100"
 					>
 						<svg
@@ -101,7 +101,7 @@ function MarketplaceSideBar() {
 						Lost and Found
 					</Link>
 					<Link
-						href="company/viewdrive"
+						href="marketplace/myproducts"
 						className="flex flex-row items-center font-medium  px-2 py-2 sm:pr-4 border sm:border-none hover:bg-blue-100 active:bg-blue-100"
 					>
 						<svg
@@ -121,7 +121,7 @@ function MarketplaceSideBar() {
 						My Products
 					</Link>
 					<Link
-						href="company/viewdrive"
+						href="marketplace/transactions"
 						className="flex flex-row items-center font-medium  px-2 py-2 sm:pr-4 border sm:border-none hover:bg-blue-100 active:bg-blue-100"
 					>
 						<svg
