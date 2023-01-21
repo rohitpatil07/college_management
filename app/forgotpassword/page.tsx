@@ -3,6 +3,8 @@ import React , {useState} from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 const ForgotPassword = () => {
 
@@ -10,6 +12,7 @@ const ForgotPassword = () => {
 	const AuthData : any  = useAuth();
 	const searchParams:any = useSearchParams();
 	const tok=searchParams.get('token');
+	const router = useRouter();
 	const [form, setForm] = useState({
 		password : "",
 		password2:" "
@@ -43,7 +46,22 @@ const ForgotPassword = () => {
 
 			console.log(response);
 			console.log(response.data)
-
+			if ((response.status == 200) && (response.data=="Password Updated")) {
+				Swal.fire({
+					icon: "success",
+					title: "Password Updated  Successfully",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+				router.push('/login');
+			} else {
+				Swal.fire({
+					icon: "error",
+					title: "Password Updation Failed..Please Try Again",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			}
 			setForm({
 				password : "",
 				password2: " "

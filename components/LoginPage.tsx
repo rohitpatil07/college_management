@@ -31,7 +31,7 @@ function LoginPage() {
 				});
 			console.log(response)
 			Swal.fire({
-				icon: "error",
+				icon: "info",
 				title: `E-mail sent to ${email} to recover password`,
 				showConfirmButton: false,
 				timer: 1500,
