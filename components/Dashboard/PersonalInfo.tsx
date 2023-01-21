@@ -88,7 +88,7 @@ const PersonalInfo = () => {
 		  else {
 			Swal.fire({
 			  icon: "warning",
-			  title: "Please Enter File Formats Of Pdf, Ppt, Docs, Jpeg",
+			  title: "Please Enter File Formats Of Jpg Jpeg",
 			  showConfirmButton: false,
 			  timer: 1500,
 			});
