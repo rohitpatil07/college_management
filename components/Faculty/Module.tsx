@@ -66,7 +66,6 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
     }
     const post_material=async()=>{
       const uploadmaterial={
-        subject_id: subject_id,
         module_id: parseInt(module_id),
         file_type: fileType,
         file: material,
@@ -83,6 +82,8 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
           reading: uploadmaterial, // This is the body part
         }
         });
+        console.log(response);
+        console.log(response.data)
         if (response.status == 200) {
           Swal.fire({
             icon: "success",
@@ -115,10 +116,12 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
 			a.download = `${file_name}.${file_type}`;
 			a.click();
 		  });
+      console.log(response)
     }
+  
     useEffect(() => {
       get_material()
-    }, []);
+    }, [readingmaterial]);
   return (
     <div className="w-full flex justify-center items-center align-middle">
         <div className="flex bg-white w-11/12 mt-5 flex-col pt-8 items-center rounded-2xl drop-shadow-lg">
