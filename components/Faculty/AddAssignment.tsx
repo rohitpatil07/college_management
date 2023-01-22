@@ -5,25 +5,36 @@ import axios from "axios";
 import api from "../../contexts/adapter";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
+import { useSearchParams } from 'next/navigation'
 const AddAssignment = (subject_id:any) => {
 	const AuthData: any = useAuth();
 	const [fileType, setfileType]: any = useState();
 	const [readingmaterial, setreadingmaterial]:any = useState(null);
 	const [material, setmaterial] = useState();
 	const [materialname, setmaterialname]: any = useState('');
+	const [assign,setAssign]:any=useState('');
+	const searchParams:any = useSearchParams();
+	const subjectid=parseInt(searchParams.get('subject_id'))
 	let year = new Date().getFullYear();
 	const [newAssign, setNewAssign] = useState({
-		subject_id: subject_id,
 		assign_name: "",
-		assign_des: 1,
+		assign_des: "",
 		file_name: "",
 		file_type:"",
 		file: "",
 		links: "",
-		deadlinedAt:"",
+		deadlinedate:"",
+		deadlinetime:"",
 
 	});
+	const handleFormFieldChange = (fieldName : any , e : any) => {
+    	setNewAssign({...newAssign , [fieldName]:e.target.value});
+    }
 	const fileChange=(file: any)=>{
+		const fil=file.target.files[0]
+		let s=fil.name
+		let stop=s.indexOf('.')
+		setmaterialname(s.slice(0,stop))
 		const reader: any = new FileReader();
 			reader.readAsDataURL(file.target.files[0]);
 		if(file.target.files[0].type=='application/vnd.openxmlformats-officedocument.presentationml.presentation'){
@@ -58,25 +69,27 @@ const AddAssignment = (subject_id:any) => {
 			timer: 1500,
 		  });
 		}
-		}
-	const [updloading, setUpdateLoading] = useState(false);
-	const [showSubType, setShowSubType] = useState(false);
-	const [showDivType, setShowDivType] = useState(false);
-	const [showBatchType, setShowBatchType] = useState(false);
-	const [showSemesterType, setShowSemesterType] = useState(false);
+	}
+	const assignment={
+		subject_id:subjectid,
+		assign_name: newAssign.assign_name,
+		assign_des: newAssign.assign_des,
+		file_name:materialname ,
+		file_type:fileType,
+		file: material,
+		links: newAssign.links,
+		//"2023-02-02T12:00:00Z"
+		//"2023-01-22T23:03Z"
+		deadlineAt:newAssign.deadlinedate+"T"+newAssign.deadlinetime+"Z",
+	};
 	const save = async () => {
-		setUpdateLoading(true);
-		const response = await axios({
-			method: "post",
-			url: "http://localhost:5000/lms/form/addsubject",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthData.user.token}`,
-			},
-			data: {
-				assignment: newAssign,
-			},
-		});
+		const response = await axios.post("http://localhost:5000/lms/form/faculty/upsertAssignment", assignment, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${AuthData.user.token}`
+      },
+
+    });
 		console.log(response);
 		if (response.status == 200) {
 			Swal.fire({
@@ -93,46 +106,30 @@ const AddAssignment = (subject_id:any) => {
 				timer: 1500,
 			});
 		}
-		setUpdateLoading(false);
-		setNewAssign({
-			subject_id: subject_id,
-			assign_name: "",
-			assign_des: 1,
-			file_name: "",
-			file_type:"",
-			file: "",
-			links: "",
-			deadlinedAt:"",
-		});
+	
 	};
 	return (
 		<div className="w-full bg-slate-100 sm:bg-white sm:w-11/12 mx-auto flex flex-col items-center justify-around bg-white container sm:rounded-xl sm:drop-shadow-xl">
+			
 			<h3 className="text-xl sm:text-2xl font-medium text-gray-900 my-8">
 				Add Assignment
 			</h3>
 			<div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-y-2 gap-x-14 lg:gap-x-24 px-10 sm:px-20">
-			
 				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
 					<label>Name</label>
 					<input
-						value={newAssign.assign_name}
 						className="rounded-md border border-gray-300 py-1 px-1 w-7/12"
 						type="text"
-						onChange={(e) => {
-							UpdateData(e.target.value, "assign_name");
-						}}
+						onChange={(e)=>{handleFormFieldChange("assign_name" , e)}}
 					></input>
 				</div>
 				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
 					<label>Assignment Description</label>
 					<input
-						value={newAssign.assign_des}
 						maxLength={200}
 						className="rounded-md border border-gray-300 py-1 px-1 w-7/12"
 						type="text"
-						onChange={(e) => {
-							UpdateData(e.target.value, "assign_des");
-						}}
+						onChange={(e)=>{handleFormFieldChange("assign_des" , e)}}
 					></input>
 				</div>
 				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
@@ -151,39 +148,39 @@ const AddAssignment = (subject_id:any) => {
 						maxLength={200}
 						className="rounded-md border border-gray-300 py-1 px-1 w-7/12"
 						type="text"
-						onChange={(e) => {
-							UpdateData(e.target.value, "links");
-						}}
+						onChange={(e)=>{handleFormFieldChange("links" , e)}}
 					></input>
 				</div>
 				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
 					<label>Enter deadline date</label>
+					<input
+						maxLength={200}
+						className="rounded-md border border-gray-300 py-1 px-1 w-7/12"
+						type="date"
+						onChange={(e)=>{handleFormFieldChange("deadlinedate" , e)}}
+					></input>
+				</div>
+				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+					<label>Enter deadline day time</label>
+					<input
+						maxLength={200}
+						className="rounded-md border border-gray-300 py-1 px-1 w-7/12"
+						type="time"
+						step="1"
+						onChange={(e)=>{handleFormFieldChange("deadlinetime" , e)}}
+					></input>
 				</div>
 			<div className="my-12 w-full flex justify-center items-center">
-				{checkFormCompletionStatus ? (
 					<button
 						className="p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
 						onClick={save}
 					>
 						Save
 					</button>
-				) : (
-					<button
-						disabled
-						className="flex items-center justify-center p-2 w-fit mx-auto px-8 py-2 rounded-md bg-accent text-white"
-					>
-						Save
-						{updloading ? (
-							<>
-								<ClipLoader className="ml-2" size={20} color="#d63636" />
-							</>
-						) : (
-							<></>
-						)}
-					</button>
-				)}
+	
 			</div>
 		</div>
+	</div>
 	);
 };
 

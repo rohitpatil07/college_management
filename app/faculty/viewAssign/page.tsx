@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import AddAssignment from "../../../components/Faculty/AddAssignment";
+import ViewAssignment from "../../../components/Faculty/ViewAssignment";
 const Page = () => {
 	  return (
 		<div className="mx-auto w-full flex flex-col bg-slate-100 ">
@@ -22,7 +22,7 @@ const Page = () => {
           Home / Dashboard / Add
         </Link>
       </div>
-      <AddAssignment/>
+      <ViewAssignment/>
     </div>
 	  );
 }
