@@ -6,26 +6,46 @@ import Loading from "../Loaders/Loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { get } from "https";
 
 const LmsAdminLookUp = () => {
   const router = useRouter();
   const AuthData: any = useAuth();
   const [showFilters, setShowFilters] = useState(false);
   const [allFaculty, setAllFaculty] = useState([]);
-  const serial_no = [0, 1, 2, 3, 4, 5, 6];
-  const serial_text = ["All Faculties", "Faculty By Dept", "Faculty By Mail"];
-  const [selected_serial_no, setselected_serial_no] = useState(serial_no[0]);
-  let variable = "";
-  const modal_text = ["department", "Email"];
+  const [allSubjects, setAllSubjects] = useState([]);
+  const [subswitch, setsubSwitch] = useState(false);
+  const serial_text = [
+    "All Faculties",
+    "Faculty By Dept",
+    "Faculty By Mail",
+    "Subject Of Faculty",
+    "Subject By Department",
+    "All subjects",
+  ];
+  const modal_text: any = [
+    "Department",
+    "Email",
+    "Faculty Email",
+    ["Batch", "Department", "Sem"],
+  ];
   const [modal_number, setmodal_number] = useState(0);
   const [modal, setmodal] = useState(false);
   const [modal_current_input, setmodal_current_input] = useState("");
+  const [modal_dept_input, setmodal_dept_input] = useState(["", "", ""]);
+  const deptInput = (i: number, value: string) => {
+    let particular_dept_input = [...modal_dept_input];
+    particular_dept_input[i] = value;
+    setmodal_dept_input(particular_dept_input);
+  };
   const [current_text, setcurrent_text] = useState(serial_text[0]);
   const on_serial_click = (i: number) => {
     console.log(i);
+    console.log(AuthData);
     setcurrent_text(serial_text[i]);
-    setselected_serial_no(serial_no[i]);
-    console.log("h", selected_serial_no);
+    if (i == 0) {
+      get_faculty(0);
+    }
     if (i == 1) {
       setmodal_number(0);
       setmodal(true);
@@ -34,13 +54,108 @@ const LmsAdminLookUp = () => {
       setmodal_number(1);
       setmodal(true);
     }
-    if (i == 0) {
-      get_faculty();
+    if (i == 3) {
+      setmodal_number(2);
+      setmodal(true);
+    }
+    if (i == 4) {
+      setmodal_number(3);
+      setmodal(true);
+    }
+    if (i == 5) {
+      get_subject(0,'');
     }
   };
-  const get_faculty = async () => {
-    console.log(selected_serial_no);
-    if (selected_serial_no == 0) {
+  const search = (x: number) => {
+    console.log(x);
+    if (x == 0) {
+      get_faculty(1);
+    }
+    if (x == 1) {
+      get_faculty(2);
+    }
+    if (x == 2) {
+      get_subject(1,'');
+    }
+    if (x == 3) {
+      get_subject(2,'');
+    }
+  };
+  const get_subject = async (i: number,email:string) => {
+    setsubSwitch(true);
+    if(email){
+      setcurrent_text(serial_text[3])
+const response = await axios({
+          method: "post",
+          url: "http://localhost:5000/lms/filter/facultysubjects",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+          data: {
+            email: `${email}`,
+          },
+        });
+        setAllSubjects(response.data);
+    }
+    else{
+      if (i == 0) {
+      const response = await axios.get(
+        "http://localhost:5000/lms/filter/allsubjects",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      setAllSubjects(response.data);
+    }
+    if (i == 1) {
+      if (modal_current_input == "") {
+        window.alert("Enter Text");
+      } else {
+        const response = await axios({
+          method: "post",
+          url: "http://localhost:5000/lms/filter/facultysubjects",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+          data: {
+            email: `${modal_current_input}`,
+          },
+        });
+        setAllSubjects(response.data);
+      }
+    }
+    if (i == 2) {
+      if (
+        modal_dept_input[0] == "" ||
+        modal_dept_input[1] == "" ||
+        modal_dept_input[2] == ""
+      ) {
+        window.alert("Enter Text");
+      } else {
+        const response = await axios.get(
+          `http://localhost:5000/lms/filter/department/subject/${modal_dept_input[0]}/${modal_dept_input[1]}/${modal_dept_input[2]}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${AuthData.user.token}`,
+            },
+          }
+        );
+        setAllSubjects(response.data);
+      }
+    }
+    }
+    setmodal_current_input("");
+  };
+  const get_faculty = async (i: number) => {
+    setsubSwitch(false);
+    if (i == 0) {
       const response = await axios.get(
         "http://localhost:5000/lms/filter/allfaculties",
         {
@@ -50,15 +165,14 @@ const LmsAdminLookUp = () => {
           },
         }
       );
-
       console.log(response.data);
       setAllFaculty(response.data);
     }
-    if (selected_serial_no == 1) {
+    if (i == 1) {
       if (modal_current_input == "") {
         window.alert("Enter Text");
       } else {
-        console.log(modal_current_input, selected_serial_no);
+        console.log(modal_current_input);
         const response = await axios.get(
           `http://localhost:5000/lms/filter/faculty/${modal_current_input}`,
           {
@@ -71,11 +185,11 @@ const LmsAdminLookUp = () => {
         setAllFaculty(response.data);
       }
     }
-    if (selected_serial_no == 2) {
+    if (i == 2) {
       if (modal_current_input == "") {
         window.alert("Enter Text");
       } else {
-        console.log(modal_current_input, selected_serial_no);
+        console.log(modal_current_input);
         const response = await axios.get(
           `http://localhost:5000/lms/filter/mailfaculty/${modal_current_input}`,
           {
@@ -88,13 +202,14 @@ const LmsAdminLookUp = () => {
         setAllFaculty(response.data);
       }
     }
+    setmodal_current_input("");
   };
   useEffect(() => {
-    get_faculty();
+    get_faculty(0);
   }, []);
   return (
-    <div className="w-full flex justify-center items-center align-middle">
-      <div className="flex bg-slate-100 sm:bg-white w-full sm:w-11/12 mt-5 flex-col pt-8 items-center sm:rounded-2xl sm:drop-shadow-lg">
+    <div className="w-full flex justify-center items-center align-middl">
+      <div className="flex bg-slate-100 sm:bg-white w-full sm:w-11/12 mt-5 flex-col pt-8 items-center sm:rounded-2xl sm:drop-shadow-lg overflow-scroll">
         <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
           <Link
             href="/lms_admin/lookup"
@@ -168,24 +283,88 @@ const LmsAdminLookUp = () => {
               ""
             )}
           </div>
-  
         </div>
         <div>
-              <>
-                {allFaculty.map(({college_name
-,department
-,photo,secondary_mail
-,phone_number
-,middle_name
-,linkedin
-,last_name
-,gender
-,first_name
-,email}: any,i: number) => (
-                  <div>{first_name}</div>
-                ))}
-              </>
-          </div>
+          <>
+            {subswitch ? (
+              <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
+                {allSubjects.map(
+                  (
+                    {
+                      subject_id,
+                      subject_code,
+                      subject_name,
+                      semester,
+                      email,
+                      division,
+                      department,
+                      batch,
+                    }: any,
+                    i: number
+                  ) => (
+                    <div
+                      key={subject_id}
+                      className="flex flex-col items-center w-10/12 scale-90 sm:w-3/5 md:w-2/5 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white"
+                    >
+                      {subject_name}
+                    </div>
+                  )
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
+                {allFaculty.map(
+                  (
+                    {
+                      college_name,
+                      department,
+                      photo,
+                      secondary_mail,
+                      phone_number,
+                      middle_name,
+                      linkedin,
+                      last_name,
+                      gender,
+                      first_name,
+                      email,
+                    }: any,
+                    i: number
+                  ) => (
+                    <div
+                      key={i}
+                      className="flex flex-col items-center px-5 w-10/12 scale-90 sm:w-3/5 md:w-2/5 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white"
+                    >
+                      {photo ? (
+                        <img
+                          src={`data:image/jpeg; base64, ${photo}`}
+                          className="w-[50px] h-[50px] sm:w-[75px] sm:h-[75px] rounded-full bg-white pt-2"
+                          alt="Profile"
+                        />
+                      ) : (
+                        <img
+                          src="/avatar.png"
+                          className="w-[50px] h-[50px] sm:w-[75px] sm:h-[75px] rounded-full bg-white pt-2"
+                          alt="Profile"
+                        />
+                      )}
+
+                      <h2 className="text-center text-lg sm:text-xl font-medium text-gray-900 my-4 text-center">
+                        {first_name} {middle_name} {last_name}{" "}
+                        {gender == "M" ? "sir" : "ma'am"}
+                      </h2>
+                       <h2 className="text-sm sm:text-md font-light text-gray-500  text-center ">
+                        {email}
+                      </h2>
+                      <button onClick={()=>{get_subject(1,email)}} className="my-4 w-fit mx-auto px-3 py-1 sm:px-16 sm:py-2 rounded-full bg-accent text-white hover:scale-105 transition-all">
+                  Subjects
+                </button>
+                    </div>
+                  )
+                )}
+              </div>
+            )}
+          </>
+        </div>
       </div>
 
       {modal ? (
@@ -196,21 +375,40 @@ const LmsAdminLookUp = () => {
                 Search
               </h3>
             </div>
-            <div className="mb-8 mt-2 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-              <label>{modal_text[modal_number]}</label>
-              <input
-                className="rounded-md border border-gray-700 py-1 px-1 w-7/12"
-                value={modal_current_input}
-                onChange={(e) => {
-                  setmodal_current_input(e.target.value);
-                }}
-                type="text"
-              ></input>
-            </div>
+
+            {modal_number == 3 ? (
+              <>
+                {modal_text[3].map((value: string, x: number) => (
+                  <div className="mb-8 mt-2 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+                    <label>{modal_text[modal_number][x]}</label>
+                    <input
+                      className="rounded-md border border-gray-700 py-1 px-1 w-7/12"
+                      value={modal_dept_input[x]}
+                      onChange={(e) => {
+                        deptInput(x, e.target.value);
+                      }}
+                      type="text"
+                    ></input>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <div className="mb-8 mt-2 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+                <label>{modal_text[modal_number]}</label>
+                <input
+                  className="rounded-md border border-gray-700 py-1 px-1 w-7/12"
+                  value={modal_current_input}
+                  onChange={(e) => {
+                    setmodal_current_input(e.target.value);
+                  }}
+                  type="text"
+                ></input>
+              </div>
+            )}
             <div className="flex justify-end items-center w-100 border-t text-white p-3">
               <button
                 onClick={() => {
-                  get_faculty();
+                  search(modal_number);
                   setmodal(false);
                 }}
                 className="px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 mr-2"
