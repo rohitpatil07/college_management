@@ -9,7 +9,7 @@ const AddSubject = () => {
 	const AuthData: any = useAuth();
 	let year = new Date().getFullYear();
 	const [newSubject, setNewSubject] = useState({
-		subject_id: "",
+		subject_code: "",
 		subject_name: "",
 		semester: 1,
 		department: "",
@@ -81,7 +81,7 @@ const AddSubject = () => {
 		}
 		setUpdateLoading(false);
 		setNewSubject({
-			subject_id: "",
+			subject_code: "",
 			subject_name: "",
 			semester: 1,
 			department: "",
@@ -98,13 +98,13 @@ const AddSubject = () => {
 			</h3>
 			<div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-y-2 gap-x-14 lg:gap-x-24 px-10 sm:px-20">
 				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-					<label>Subject Id</label>
+					<label>Subject Code</label>
 					<input
-						value={newSubject.subject_id}
+						value={newSubject.subject_code}
 						className="rounded-md border border-gray-300 py-1 px-1 w-7/12"
 						type="text"
 						onChange={(e) => {
-							UpdateData(e.target.value, "subject_id");
+							UpdateData(e.target.value, "subject_code");
 						}}
 					></input>
 				</div>

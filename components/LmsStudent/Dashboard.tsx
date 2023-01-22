@@ -9,22 +9,30 @@ import Image from "next/image";
 const Dashboard = () => {
 	const router = useRouter();
 	const AuthData: any = useAuth();
+	console.log(AuthData)
 	const [subjects, setSubjects]: any = useState(null);
+	const viewSubject = {
+		roll_no:`${AuthData.user.userData.user.roll_no}`,
+		semester: parseInt(`${AuthData.user.userData.user.semester}`),
+		batch: parseInt(`${AuthData.user.userData.user.batch}`),
+		department: `${AuthData.user.userData.user.department}`,
+	};
 	const get_subject = async () => {
-		const response = await axios.get(
-			"http://localhost:5000/lms/filter/allSubjects",
+		const response = await axios.post(
+			`http://localhost:5000/lms/filter/student/subjects`,viewSubject,
 			{
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${AuthData.user.token}`,
 				},
+				
 			}
 		);
 		setSubjects(response.data);
 	};
 	useEffect(() => {
 		get_subject();
-	}, []);
+	}, [subjects]);
 	return (
 		<div className="w-full flex justify-center items-center align-middle">
 			<div className="flex bg-slate-100 sm:bg-white w-full sm:w-11/12 mt-5 flex-col pt-8 items-center sm:rounded-2xl sm:drop-shadow-lg">

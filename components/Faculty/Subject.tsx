@@ -27,6 +27,7 @@ const Subject = ({ subject_id, subject_name }: any) => {
 				},
 			}
 		);
+		console.log(response.data)
 		setModules(response.data);
 	};
 	const current_subject = async () => {
@@ -48,7 +49,7 @@ const Subject = ({ subject_id, subject_name }: any) => {
 	};
 	const add_module = async () => {
 		const uploadmodule = {
-			subject_id: subject_id,
+			subject_id: parseInt(subject_id),
 			module_number: parseInt(newmodule.module_number),
 			module_name: newmodule.module_name,
 		};
@@ -82,7 +83,7 @@ const Subject = ({ subject_id, subject_name }: any) => {
 	useEffect(() => {
 		get_module();
 		current_subject();
-	}, []);
+	}, [modules]);
 	return (
 		<div className="w-full flex justify-center items-center align-middle">
 			<div className="flex bg-white w-11/12 mt-5 flex-col pt-8 items-center rounded-2xl drop-shadow-lg">
