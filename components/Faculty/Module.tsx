@@ -212,7 +212,9 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
                   </div>
                 </div>
                 <div className="w-full bg-gray-50 px-4 py-3 flex items-center justify-center">
-                  <button onClick={post_material} className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">Add</button>
+                  <button onClick={
+                    post_material
+                    } className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">Add</button>
                 </div>
               </div>
             </div>
