@@ -37,7 +37,7 @@ const ViewDrive = () => {
 	}
 	useEffect(()=>{
 		fetchDrive();
-	},[]);
+	},[drive]);
 	
 	return (
 		<div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">

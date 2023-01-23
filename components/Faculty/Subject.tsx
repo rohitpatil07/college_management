@@ -157,7 +157,13 @@ const Subject = ({ subject_id, subject_name }: any) => {
 					</svg>
 					Quiz
 				</div>
-				<div className="px-4 py-6 text-sm w-11/12 flex flex-wrap cursor-pointer mt-2 mb-2 border-solid border-2 border-neutral-200 shadow-xl drop-shadow-xl rounded-xl">
+				<Link href={{
+							pathname:"faculty/assign",
+							query:
+							{
+								subject_id:subject_id
+							}
+						}} className="px-4 py-6 text-sm w-11/12 flex flex-wrap cursor-pointer mt-2 mb-2 border-solid border-2 border-neutral-200 shadow-xl drop-shadow-xl rounded-xl">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -173,7 +179,7 @@ const Subject = ({ subject_id, subject_name }: any) => {
 						/>
 					</svg>
 					Assignments
-				</div>
+				</Link>
 				<div className="px-4 py-6 text-sm w-11/12 flex flex-wrap cursor-pointer mt-2 mb-2 border-solid border-2 border-neutral-200 shadow-xl drop-shadow-xl rounded-xl">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -304,6 +310,7 @@ const Subject = ({ subject_id, subject_name }: any) => {
 									<button
 										onClick={() => {
 											add_module();
+											setAddModule(false);
 										}}
 										className="inline-flex w-full justify-center rounded-md border border-transparent bg-accent px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
 									>
