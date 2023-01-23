@@ -6,15 +6,17 @@ import api from "../../contexts/adapter";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import { useSearchParams } from 'next/navigation'
-const AddAssignment = (subject_id:any) => {
+const SubmitAssignment = () => {
 	const AuthData: any = useAuth();
+    const roll_no=`${AuthData.user.userData.user.roll_no}`
 	const [fileType, setfileType]: any = useState();
 	const [readingmaterial, setreadingmaterial]:any = useState(null);
 	const [material, setmaterial] = useState();
 	const [materialname, setmaterialname]: any = useState('');
 	const [assign,setAssign]:any=useState('');
 	const searchParams:any = useSearchParams();
-	const subjectid=parseInt(searchParams.get('subject_id'))
+	const subjectid=parseInt(searchParams.get('subject_id'));
+    const assignmentid=parseInt(searchParams.get('assignment_id'))
 	let year = new Date().getFullYear();
 	const [newAssign, setNewAssign] = useState({
 		assign_name: "",
@@ -22,9 +24,6 @@ const AddAssignment = (subject_id:any) => {
 		file_name: "",
 		file_type:"",
 		file: "",
-		links: "",
-		deadlinedate:"",
-		deadlinetime:"",
 
 	});
 	const handleFormFieldChange = (fieldName : any , e : any) => {
@@ -71,17 +70,16 @@ const AddAssignment = (subject_id:any) => {
 		}
 	}
 	const assignment={
-		subject_id:subjectid,
-		assign_name: newAssign.assign_name,
-		assign_des: newAssign.assign_des,
-		file_name:materialname ,
+        assignment_id:assignmentid,
+		submission_des: newAssign.assign_des,
+		file_name:newAssign.file_name ,
 		file_type:fileType,
 		file: material,
-		links: newAssign.links,
-		deadlineAt:newAssign.deadlinedate+"T"+newAssign.deadlinetime+"Z",
+        roll_no:roll_no
 	};
+    console.log(assignment)
 	const save = async () => {
-		const response = await axios.post("http://localhost:5000/lms/form/faculty/upsertAssignment", assignment, {
+		const response = await axios.post("http://localhost:5000/lms/form/student/submitAssignment", assignment, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`
@@ -92,14 +90,14 @@ const AddAssignment = (subject_id:any) => {
 		if (response.status == 200) {
 			Swal.fire({
 				icon: "success",
-				title: " Assignment Created Successfully",
+				title: " Assignment Sumitted Successfully",
 				showConfirmButton: false,
 				timer: 1500,
 			});
 		} else {
 			Swal.fire({
 				icon: "error",
-				title: "Assignment Creation  Failed..Please Try Again",
+				title: "Assignment Submission  Failed..Please Try Again",
 				showConfirmButton: false,
 				timer: 1500,
 			});
@@ -110,17 +108,9 @@ const AddAssignment = (subject_id:any) => {
 		<div className="w-full bg-slate-100 sm:bg-white sm:w-11/12 mx-auto flex flex-col items-center justify-around bg-white container sm:rounded-xl sm:drop-shadow-xl">
 			
 			<h3 className="text-xl sm:text-2xl font-medium text-gray-900 my-8">
-				Add Assignment
+				Add Assignment Submission
 			</h3>
 			<div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-y-2 gap-x-14 lg:gap-x-24 px-10 sm:px-20">
-				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-					<label>Name</label>
-					<input
-						className="rounded-md border border-gray-300 py-1 px-1 w-7/12"
-						type="text"
-						onChange={(e)=>{handleFormFieldChange("assign_name" , e)}}
-					></input>
-				</div>
 				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
 					<label>Assignment Description</label>
 					<input
@@ -140,32 +130,11 @@ const AddAssignment = (subject_id:any) => {
 								></input>
 				</div>
 				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-					<label>Add Links for reference</label>
+					<label>Enter File Name</label>
 					<input
-						value={newAssign.links}
-						maxLength={200}
 						className="rounded-md border border-gray-300 py-1 px-1 w-7/12"
 						type="text"
-						onChange={(e)=>{handleFormFieldChange("links" , e)}}
-					></input>
-				</div>
-				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-					<label>Enter deadline date</label>
-					<input
-						maxLength={200}
-						className="rounded-md border border-gray-300 py-1 px-1 w-7/12"
-						type="date"
-						onChange={(e)=>{handleFormFieldChange("deadlinedate" , e)}}
-					></input>
-				</div>
-				<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-					<label>Enter deadline day time</label>
-					<input
-						maxLength={200}
-						className="rounded-md border border-gray-300 py-1 px-1 w-7/12"
-						type="time"
-						step="1"
-						onChange={(e)=>{handleFormFieldChange("deadlinetime" , e)}}
+						onChange={(e)=>{handleFormFieldChange("file_name" , e)}}
 					></input>
 				</div>
 			<div className="my-12 w-full flex justify-center items-center">
@@ -182,4 +151,4 @@ const AddAssignment = (subject_id:any) => {
 	);
 };
 
-export default AddAssignment;
+export default SubmitAssignment;
