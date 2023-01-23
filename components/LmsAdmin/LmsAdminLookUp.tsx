@@ -2,11 +2,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
-import Loading from "../Loaders/Loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import { get } from "https";
+import FacultSkeleton from "./Skeletons/FacultSkeleton";
+import SubjectSkeleton from "./Skeletons/SubjectSkeleton";
 
 const LmsAdminLookUp = () => {
   const router = useRouter();
@@ -15,6 +14,8 @@ const LmsAdminLookUp = () => {
   const [allFaculty, setAllFaculty] = useState([]);
   const [allSubjects, setAllSubjects] = useState([]);
   const [subswitch, setsubSwitch] = useState(false);
+  const [facultyLoading, setfacultyLoading] = useState(false);
+  const [subjectLoading, setsubjectLoading] = useState(false);
   const serial_text = [
     "All Faculties",
     "Faculty By Dept",
@@ -63,7 +64,7 @@ const LmsAdminLookUp = () => {
       setmodal(true);
     }
     if (i == 5) {
-      get_subject(0,'');
+      get_subject(0, "");
     }
   };
   const search = (x: number) => {
@@ -75,71 +76,36 @@ const LmsAdminLookUp = () => {
       get_faculty(2);
     }
     if (x == 2) {
-      get_subject(1,'');
+      get_subject(1, "");
     }
     if (x == 3) {
-      get_subject(2,'');
+      get_subject(2, "");
     }
   };
-  const get_subject = async (i: number,email:string) => {
+  const get_subject = async (i: number, email: string) => {
+    setsubjectLoading(true);
     setsubSwitch(true);
-    if(email){
-      setcurrent_text(serial_text[3])
-const response = await axios({
-          method: "post",
-          url: "http://localhost:5000/lms/filter/facultysubjects",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
-          },
-          data: {
-            email: `${email}`,
-          },
-        });
-        setAllSubjects(response.data);
-    }
-    else{
-      if (i == 0) {
-      const response = await axios.get(
-        "http://localhost:5000/lms/filter/allsubjects",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
-          },
-        }
-      );
-      console.log(response.data);
+    if (email) {
+      setcurrent_text(serial_text[3]);
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:5000/lms/filter/facultysubjects",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AuthData.user.token}`,
+        },
+        data: {
+          email: `${email}`,
+        },
+      });
+      response.data.sort(function (a: any, b: any) {
+        return b.batch - a.batch;
+      });
       setAllSubjects(response.data);
-    }
-    if (i == 1) {
-      if (modal_current_input == "") {
-        window.alert("Enter Text");
-      } else {
-        const response = await axios({
-          method: "post",
-          url: "http://localhost:5000/lms/filter/facultysubjects",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
-          },
-          data: {
-            email: `${modal_current_input}`,
-          },
-        });
-        setAllSubjects(response.data);
-      }
-    }
-    if (i == 2) {
-      if (
-        modal_dept_input[0] == "" ||
-        modal_dept_input[1] == "" ||
-        modal_dept_input[2] == ""
-      ) {
-        window.alert("Enter Text");
-      } else {
+    } else {
+      if (i == 0) {
         const response = await axios.get(
-          `http://localhost:5000/lms/filter/department/subject/${modal_dept_input[0]}/${modal_dept_input[1]}/${modal_dept_input[2]}`,
+          "http://localhost:5000/lms/filter/allsubjects",
           {
             headers: {
               "Content-Type": "application/json",
@@ -147,13 +113,61 @@ const response = await axios({
             },
           }
         );
+        response.data.sort(function (a: any, b: any) {
+          return b.batch - a.batch;
+        });
         setAllSubjects(response.data);
       }
-    }
+      if (i == 1) {
+        if (modal_current_input == "") {
+          window.alert("Enter Text");
+        } else {
+          const response = await axios({
+            method: "post",
+            url: "http://localhost:5000/lms/filter/facultysubjects",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${AuthData.user.token}`,
+            },
+            data: {
+              email: `${modal_current_input}`,
+            },
+          });
+          response.data.sort(function (a: any, b: any) {
+            return b.batch - a.batch;
+          });
+          setAllSubjects(response.data);
+        }
+      }
+      if (i == 2) {
+        if (
+          modal_dept_input[0] == "" ||
+          modal_dept_input[1] == "" ||
+          modal_dept_input[2] == ""
+        ) {
+          window.alert("Enter Text");
+        } else {
+          const response = await axios.get(
+            `http://localhost:5000/lms/filter/department/subject/${modal_dept_input[0]}/${modal_dept_input[1]}/${modal_dept_input[2]}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${AuthData.user.token}`,
+              },
+            }
+          );
+          response.data.sort(function (a: any, b: any) {
+            return b.batch - a.batch;
+          });
+          setAllSubjects(response.data);
+        }
+      }
     }
     setmodal_current_input("");
+    setsubjectLoading(false);
   };
   const get_faculty = async (i: number) => {
+    setfacultyLoading(true);
     setsubSwitch(false);
     if (i == 0) {
       const response = await axios.get(
@@ -203,13 +217,14 @@ const response = await axios({
       }
     }
     setmodal_current_input("");
+    setfacultyLoading(false);
   };
   useEffect(() => {
     get_faculty(0);
   }, []);
   return (
-    <div className="w-full flex justify-center items-center align-middl">
-      <div className="flex bg-slate-100 sm:bg-white w-full sm:w-11/12 mt-5 flex-col pt-8 items-center sm:rounded-2xl sm:drop-shadow-lg overflow-scroll">
+    <div className="w-full flex justify-center items-center align-middle">
+      <div className="flex bg-slate-100 sm:bg-white w-full sm:w-11/12 mt-5 flex-col pt-8 items-center sm:rounded-2xl sm:drop-shadow-lg overflow-auto">
         <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
           <Link
             href="/lms_admin/lookup"
@@ -233,7 +248,7 @@ const response = await axios({
         <h3 className="text-xl sm:text-2xl font-medium text-gray-900">
           LMS LookUp
         </h3>
-        <div className="border-t-4 my-2 py-3 w-11/12 flex flex-row flex-wrap items-end justify-end ">
+        <div className="border-t-4 my-2 py-3 w-full md:w-11/12 flex flex-row flex-wrap items-end justify-end ">
           <div className="relative text-left inline-block w-full md:w-6/12">
             <div>
               <button
@@ -287,6 +302,8 @@ const response = await axios({
         <div>
           <>
             {subswitch ? (
+              <>
+              {subjectLoading ? <SubjectSkeleton/>:
               <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
                 {allSubjects.map(
                   (
@@ -299,69 +316,104 @@ const response = await axios({
                       division,
                       department,
                       batch,
+                      type,
                     }: any,
                     i: number
                   ) => (
                     <div
                       key={subject_id}
-                      className="flex flex-col items-center w-10/12 scale-90 sm:w-3/5 md:w-2/5 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white"
+                      className="px-4 py-6 text-sm w-11/12 flex flex-wrap items-center justify-between cursor-pointer mt-2 mb-2 border-solid border-2 border-neutral-200 shadow-xl drop-shadow-xl rounded-xl"
                     >
-                      {subject_name}
+                      <div className="flex flex-wrap items-center justify-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-4 h-4 mr-1"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+                          />
+                        </svg>
+                        {subject_name}
+                      </div>
+                      <div className="flex flex-wrap items-center ">
+                        | {batch} {department == "NA" ? "" : `| ${department}`}{" "}
+                        {division == "NA" ? "" : `| ${division}`} | {semester} |{" "}
+                        {type}
+                      </div>
                     </div>
                   )
                 )}
               </div>
+              }
+              </>
             ) : (
-              <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
-                {allFaculty.map(
-                  (
-                    {
-                      college_name,
-                      department,
-                      photo,
-                      secondary_mail,
-                      phone_number,
-                      middle_name,
-                      linkedin,
-                      last_name,
-                      gender,
-                      first_name,
-                      email,
-                    }: any,
-                    i: number
-                  ) => (
-                    <div
-                      key={i}
-                      className="flex flex-col items-center px-5 w-10/12 scale-90 sm:w-3/5 md:w-2/5 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white"
-                    >
-                      {photo ? (
-                        <img
-                          src={`data:image/jpeg; base64, ${photo}`}
-                          className="w-[50px] h-[50px] sm:w-[75px] sm:h-[75px] rounded-full bg-white pt-2"
-                          alt="Profile"
-                        />
-                      ) : (
-                        <img
-                          src="/avatar.png"
-                          className="w-[50px] h-[50px] sm:w-[75px] sm:h-[75px] rounded-full bg-white pt-2"
-                          alt="Profile"
-                        />
-                      )}
+              <>
+                {facultyLoading ? (
+                  <FacultSkeleton />
+                ) : (
+                  <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
+                    {allFaculty.map(
+                      (
+                        {
+                          college_name,
+                          department,
+                          photo,
+                          secondary_mail,
+                          phone_number,
+                          middle_name,
+                          linkedin,
+                          last_name,
+                          gender,
+                          first_name,
+                          email,
+                        }: any,
+                        i: number
+                      ) => (
+                        <div
+                          key={i}
+                          className="flex flex-col items-center px-5 w-full scale-90 sm:w-full md:w-2/5 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white"
+                        >
+                          {photo ? (
+                            <img
+                              src={`data:image/jpeg; base64, ${photo}`}
+                              className="w-[50px] h-[50px] sm:w-[75px] sm:h-[75px] rounded-full bg-white mt-2"
+                              alt="Profile"
+                            />
+                          ) : (
+                            <img
+                              src="/avatar.png"
+                              className="w-[50px] h-[50px] sm:w-[75px] sm:h-[75px] rounded-full bg-white mt-2"
+                              alt="Profile"
+                            />
+                          )}
 
-                      <h2 className="text-center text-lg sm:text-xl font-medium text-gray-900 my-4 text-center">
-                        {first_name} {middle_name} {last_name}{" "}
-                        {gender == "M" ? "sir" : "ma'am"}
-                      </h2>
-                       <h2 className="text-sm sm:text-md font-light text-gray-500  text-center ">
-                        {email}
-                      </h2>
-                      <button onClick={()=>{get_subject(1,email)}} className="my-4 w-fit mx-auto px-3 py-1 sm:px-16 sm:py-2 rounded-full bg-accent text-white hover:scale-105 transition-all">
-                  Subjects
-                </button>
-                    </div>
-                  )
+                          <h2 className="text-center text-lg sm:text-xl font-medium text-gray-900 my-4 text-center">
+                            {first_name} {middle_name} {last_name}{" "}
+                            {gender == "M" ? "sir" : "ma'am"}
+                          </h2>
+                          <h2 className="text-sm sm:text-md font-light text-gray-500  text-center ">
+                            {email}
+                          </h2>
+                          <button
+                            onClick={() => {
+                              get_subject(1, email);
+                            }}
+                            className="my-4 w-fit mx-auto px-3 py-1 sm:px-16 sm:py-2 rounded-full bg-accent text-white hover:scale-105 transition-all"
+                          >
+                            Subjects
+                          </button>
+                        </div>
+                      )
+                    )}
+                  </div>
                 )}
-              </div>
+              </>
             )}
           </>
         </div>
