@@ -10,10 +10,8 @@ const FacultyEditAssignment = () => {
 	const AuthData: any = useAuth();
     const roll_no=`${AuthData.user.userData.user.roll_no}`
 	const [fileType, setfileType]: any = useState();
-	const [readingmaterial, setreadingmaterial]:any = useState(null);
 	const [material, setmaterial] = useState();
 	const [materialname, setmaterialname]: any = useState('');
-	const [assign,setAssign]:any=useState('');
 	const searchParams:any = useSearchParams();
 	const subjectid=parseInt(searchParams.get('subject_id'));
     const assignmentid=parseInt(searchParams.get('assignment_id'))
@@ -80,7 +78,6 @@ const FacultyEditAssignment = () => {
         roll_no:roll_no,
 		deadlineAt:newAssign.deadlinedate+"T"+newAssign.deadlinetime+"Z",
 	};
-    console.log(assignment)
 	const save = async () => {
 		const response = await axios.post("http://localhost:5000/lms/form/faculty/upsertAssignment", assignment, {
       headers: {

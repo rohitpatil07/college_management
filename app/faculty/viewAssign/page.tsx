@@ -1,12 +1,25 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from 'next/navigation';
 import ViewAssignment from "../../../components/Faculty/ViewAssignment";
 const Page = () => {
+  const searchParams:any = useSearchParams();
+	const subjectid=searchParams.get('subject_id');
+	const subjectname=searchParams.get('subject_name');
+	const assname=searchParams.get('assignment_name');
+  const deadline=searchParams.get('deadline');
 	  return (
 		<div className="mx-auto w-full flex flex-col bg-slate-100 ">
       <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
-        <Link href='/faculty/assign' className="flex flex-row items-center pb-2 my-1 border-b border-slate-300">
+        <Link  href={{
+							pathname:"faculty/assign",
+							query:
+							{
+								subject_id:subjectid,
+								subject_name:subjectname
+							}
+						}}  className="flex flex-row items-center pb-2 my-1 border-b border-slate-300">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -19,10 +32,10 @@ const Page = () => {
               clipRule="evenodd"
             />
           </svg>
-          Home / Dashboard / Add
+          Home / Dashboard / {subjectname} / {assname} / Submissions
         </Link>
       </div>
-      <ViewAssignment/>
+      <ViewAssignment deadline={deadline}/>
     </div>
 	  );
 }

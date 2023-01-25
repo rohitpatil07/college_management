@@ -5,110 +5,345 @@ import { useAuth } from "../../contexts/AuthContext";
 import Loading from "../Loaders/Loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import Swal from "sweetalert2";
 const Dashboard = () => {
-	const router = useRouter();
-	const AuthData: any = useAuth();
-	console.log(AuthData)
-	const [subjects, setSubjects]: any = useState(null);
-	const viewSubject = {
-		roll_no:`${AuthData.user.userData.user.roll_no}`,
-		semester: parseInt(`${AuthData.user.userData.user.semester}`),
-		batch: parseInt(`${AuthData.user.userData.user.batch}`),
-		department: `${AuthData.user.userData.user.department}`,
-	};
-	const get_subject = async () => {
-		const response = await axios.post(
-			`http://localhost:5000/lms/filter/student/subjects`,viewSubject,
-			{
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
-				},
-				
-			}
-		);
-		setSubjects(response.data);
-	};
-	useEffect(() => {
-		get_subject();
-	}, [subjects]);
-	return (
-		<div className="w-full flex justify-center items-center align-middle">
-			<div className="flex bg-slate-100 sm:bg-white w-full sm:w-11/12 mt-5 flex-col pt-8 items-center sm:rounded-2xl sm:drop-shadow-lg">
-				<div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
-					<Link
-						href="/lms/dash"
-						className="flex flex-row items-center pb-2 mb-1 border-b border-slate-300"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 20 20"
-							fill="currentColor"
-							className="w-4 h-4 mr-2"
-						>
-							<path
-								fillRule="evenodd"
-								d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z"
-								clipRule="evenodd"
-							/>
-						</svg>
-						Home / Dashboard
-					</Link>
-				</div>
-				<h3 className="text-xl sm:text-2xl font-medium text-gray-900">
-					All Subjects
-				</h3>
-				{subjects ? (
-					<div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
-						{subjects.map(
-							(
-								{
-									subject_id,
-									subject_name,
-									semester,
-									department,
-									batch,
-									type,
-								}: any,
-								i: number
-							) => (
-								<div
-									key={subject_id}
-									className="flex flex-col items-center w-10/12 scale-90 sm:w-3/5 md:w-2/5 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white"
-								>
-									<img
-										src={`/subjects/subject${i + 1}.jpg`}
-										alt={subject_name}
-										className="w-full h-[15rem] min-h-[10rem] object-cover rounded-xl"
-									/>
-									<div className="text-lg sm:text-xl font-medium text-gray-900 my-4 text-center">
-										{subject_name}
-									</div>
-									<Link
-										href={{
-											pathname: "/lms/subject",
-											query: {
-												subject_id: subject_id,
-												subject_name: subject_name,
-											},
-										}}
-										className="mb-4 w-fit mx-auto px-16 py-2 rounded-full bg-accent text-white hover:scale-105 transition-all"
-									>
-										Open
-									</Link>
-								</div>
-							)
-						)}
-					</div>
-				) : (
-					<>
-						<Loading loadState="loading" />
-					</>
-				)}
-			</div>
-		</div>
-	);
+  const router = useRouter();
+  const AuthData: any = useAuth();
+  const [subjects, setSubjects]: any = useState(null);
+  const [showForm, setshowForm] = useState(false);
+  const [showFormButton, setshowFormButton] = useState(false);
+  const [formData, setFormData]: any = useState();
+  const viewSubject = {
+    roll_no: `${AuthData.user.userData.user.roll_no}`,
+    semester: parseInt(`${AuthData.user.userData.user.semester}`),
+    batch: parseInt(`${AuthData.user.userData.user.batch}`),
+    department: `${AuthData.user.userData.user.department}`,
+  };
+  const get_subject = async () => {
+    const response = await axios.post(
+      `http://localhost:5000/lms/filter/student/subjects`,
+      viewSubject,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AuthData.user.token}`,
+        },
+      }
+    );
+    if (response.data["enrolled_data"]) {
+      setshowFormButton(true);
+      setSubjects(response.data["enrolled_data"]);
+      let zeebag: any = [];
+      let zendai: any = [];
+      for (let i = 0; i < response.data["form_data"].length; i++) {
+        zeebag.push(Object.entries(response.data["form_data"][i]));
+      }
+
+      setFormData(zeebag);
+    } else {
+      setSubjects(response.data);
+    }
+    console.log(response.data);
+  };
+  const [subjectId, setsubjectId] = useState<number[]>([]);
+  const setting_form_data = (
+    array_no: number,
+    index_no: number,
+    d: number,
+    id: number
+  ) => {
+    let forms = [...formData];
+    let subId = [...subjectId];
+    for (let i = 0; i < forms[array_no][d][1].length; i++) {
+      if (subId.includes(forms[array_no][d][1][i]["subject_id"])) {
+        subId.splice(subId.indexOf(forms[array_no][d][1][i]["subject_id"]), 1);
+      }
+    }
+    subId.push(id);
+    setsubjectId(subId);
+    setFormData(forms);
+    //console.log(formData[array_no][1][index_no],id);
+  };
+  const submit_opt_sub_resp=async()=>{
+	const body={
+		roll_no:[`${AuthData.user.userData.user.roll_no}`],
+		subject_id: subjectId
+	}
+	console.log(body);
+	 const response = await axios.post(
+      `http://localhost:5000/lms/form/addDILO`,
+      body,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AuthData.user.token}`,
+        },
+      }
+    );
+	console.log(response);
+	 if (response.status == 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Response Received",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+	  setshowForm(false);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Failed To Add Subjects",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  }
+  useEffect(() => {
+    get_subject();
+  }, [subjects]);
+  return (
+    <div className="w-full flex justify-center items-center align-middle">
+      <div className="flex bg-slate-100 sm:bg-white w-full sm:w-11/12 mt-5 flex-col pt-8 items-center sm:rounded-2xl sm:drop-shadow-lg">
+        <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
+          <Link
+            href="/lms/dash"
+            className="flex flex-row items-center pb-2 mb-1 border-b border-slate-300"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-4 h-4 mr-2"
+            >
+              <path
+                fillRule="evenodd"
+                d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Home / Dashboard
+          </Link>
+        </div>
+        <h3 className="text-xl sm:text-2xl font-medium text-gray-900">
+          All Subjects
+        </h3>
+        <div className="border-t-4 my-2 py-3 w-11/12 flex flex-row flex-wrap items-center justify-between">
+          <button className="mt-1 sm:mt-0 p-2 w-fit px-4 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">
+            Select Semester
+          </button>
+          {showFormButton ? (
+            <button
+              onClick={() => {
+                setshowForm(true);
+              }}
+              className="mt-1 sm:mt-0 p-2 w-fit px-4 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+            >
+              Select Opt Subjects
+            </button>
+          ) : (
+            ""
+          )}
+        </div>
+        {subjects ? (
+          <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
+            {subjects.map(
+              (
+                {
+                  subject_id,
+                  subject_name,
+                  semester,
+                  department,
+                  batch,
+                  type,
+                }: any,
+                i: number
+              ) => (
+                <div
+                  key={subject_id}
+                  className="flex flex-col items-center w-10/12 scale-90 sm:w-3/5 md:w-2/5 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white"
+                >
+                  <img
+                    src={`/subjects/subject${i + 1}.jpg`}
+                    alt={subject_name}
+                    className="w-full h-[15rem] min-h-[10rem] object-cover rounded-xl"
+                  />
+                  <div className="text-lg sm:text-xl font-medium text-gray-900 my-4 text-center">
+                    {subject_name}
+                  </div>
+                  <Link
+                    href={{
+                      pathname: "/lms/subject",
+                      query: {
+                        subject_id: subject_id,
+                        subject_name: subject_name,
+                      },
+                    }}
+                    className="mb-4 w-fit mx-auto px-16 py-2 rounded-full bg-accent text-white hover:scale-105 transition-all"
+                  >
+                    Open
+                  </Link>
+                </div>
+              )
+            )}
+          </div>
+        ) : (
+          <>
+            <Loading loadState="loading" />
+          </>
+        )}
+      </div>
+      {showForm ? (
+        <div className="w-screen h-screen fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50">
+          <div className="bg-white border-solid border-2 border-neutral-200 rounded-lg px-4 mx-auto sm:mx-0 w-11/12 sm:w-10/12">
+            <div className="border-b-2 border-gray-700 py-2 flex flex-row justify-between">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
+                Optional Subjects Form
+              </h3>
+              <button
+                onClick={() => {
+                  setshowForm(false);
+                }}
+                className="w-fit h-fit rounded-full text-black hover:bg-red-500 hover:text-white"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div>
+              {formData ? (
+                <>
+                  {formData.map((value: any, i: number) => (
+                    <>
+                      {value.map((z: any, d: number) => (
+                        <>
+                          {z[0].includes("D") ? (
+                            <>
+                              <h2 className="text-black text-lg">
+                                DLO Subjects {z[0].slice(-1)}
+                              </h2>
+                              {z[1].map(
+                                (
+                                  {
+                                    batch,
+                                    department,
+                                    division,
+                                    email,
+                                    semester,
+                                    subject_code,
+                                    subject_id,
+                                    subject_name,
+                                    type,
+                                  }: any,
+                                  k: number
+                                ) => (
+                                  <div className="flex flex-row  items-center">
+                                    <input
+                                      type="radio"
+                                      id={type + z[0].slice(-1)}
+                                      name={type + z[0].slice(-1)}
+                                      onClick={() => {
+                                        setting_form_data(i, k, d, subject_id);
+                                      }}
+                                      className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-500 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                    />
+                                    <div className="flex flex-col w-full m-2 bg-gray-100 p-2 rounded-xl drop-shadow-xl">
+                                      <div className="flex flex-row justify-between items center sm:border-b-2 sm:border-b-gray-500">
+                                        <h2 className="text-gray-700 text-lg">
+                                          {subject_name}
+                                        </h2>
+                                        <h2 className="text-gray-700 text-lg">
+                                          {subject_code}
+                                        </h2>
+                                      </div>
+                                      <h2 className="hidden sm:block text-gray-500 text-lg">
+                                        Faculty Mail : {email}
+                                      </h2>
+                                    </div>
+                                  </div>
+                                )
+                              )}
+                            </>
+                          ) : (
+                            <>
+                              <h2 className="text-black text-lg">
+                                ILO Subjects {z[0].slice(-1)}
+                              </h2>
+                              {z[1].map(
+                                (
+                                  {
+                                    batch,
+                                    department,
+                                    division,
+                                    email,
+                                    semester,
+                                    subject_code,
+                                    subject_id,
+                                    subject_name,
+                                    type,
+                                  }: any,
+                                  k: number
+                                ) => (
+                                  <div className="flex flex-row  items-center">
+                                    <input
+                                      type="radio"
+                                      id={type + z[0].slice(-1)}
+                                      name={type + z[0].slice(-1)}
+                                      onClick={() => {
+                                        setting_form_data(i, k, d, subject_id);
+                                      }}
+                                      className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-500 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                    />
+                                    <div className="flex flex-col w-full m-2 bg-gray-100 p-2 rounded-xl drop-shadow-xl">
+                                      <div className="flex flex-row justify-between items center sm:border-b-2 sm:border-b-gray-500">
+                                        <h2 className="text-gray-700 text-lg">
+                                          {subject_name}
+                                        </h2>
+                                        <h2 className="text-gray-700 text-lg">
+                                          {subject_code}
+                                        </h2>
+                                      </div>
+                                      <h2 className="hidden sm:block text-gray-500 text-lg">
+                                        Faculty Mail : {email}
+                                      </h2>
+                                    </div>
+                                  </div>
+                                )
+                              )}
+                            </>
+                          )}
+                        </>
+                      ))}
+                    </>
+                  ))}
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="flex justify-center items-center w-100 mt-3 border-t text-white p-3">
+              <button onClick={submit_opt_sub_resp} className="px-3 py-1 rounded bg-accent text-white hover:scale-105 mr-2 transition-all">
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+    </div>
+  );
 };
 
 export default Dashboard;
