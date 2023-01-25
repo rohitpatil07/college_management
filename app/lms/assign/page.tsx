@@ -5,15 +5,17 @@ import StuAssignment from "../../../components/LmsStudent/StuAssignment";
 import Link from "next/link";
 const Page = () => {
 	const searchParams:any = useSearchParams();
-	const assignmentid=searchParams.get('assignment_id');
+	const subjectid=searchParams.get('subject_id');
+  const subjectname=searchParams.get('subject_name');
 	  return (
 		<div className="mx-auto w-full flex flex-col bg-slate-100 ">
        <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
-        <Link href={{
-								pathname: "/lms/viewAssign",
+         <Link href={{
+								pathname: "/lms/subject",
 								query:
 								{
-									assignment_id: assignmentid,
+									subject_id: subjectid,
+									subject_name: subjectname
 								}
 							}} className="flex flex-row items-center pb-2 my-1 border-b border-slate-300">
           <svg
@@ -28,7 +30,7 @@ const Page = () => {
               clipRule="evenodd"
             />
           </svg>
-          Home / Dashboard /
+          Home / Dashboard / {subjectname} / Assignments
         </Link>
       </div> 
       <StuAssignment />
