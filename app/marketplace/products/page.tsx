@@ -1,5 +1,5 @@
 import React from "react";
-import ProductListings from "../../../components/Company/ProductListings";
+import ProductListings from "../../../components/Marketplace/ProductListings";
 const page = () => {
 	return <ProductListings />;
 };
