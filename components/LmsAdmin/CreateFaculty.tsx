@@ -16,7 +16,8 @@ const CreateFaculty = () => {
 				secondary_mail:"",
 				password:"",
 				department:"",
-				photo:""
+				photo:"",
+				designation:""
 	})
 
 	const handleFormFieldChange = (fieldName : any , e : any) => {
@@ -63,7 +64,8 @@ const CreateFaculty = () => {
 				secondary_mail:faculty.secondary_mail,
 				password:faculty.password,
 				department:faculty.department,
-				photo:faculty.photo
+				photo:faculty.photo,
+				designation:faculty.designation
 			};
 			const response = await axios({
 					method: 'post',
@@ -184,6 +186,13 @@ const CreateFaculty = () => {
 					<input
 						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
 						onChange={(e)=>{handleFormFieldChange("department" , e)}}
+					></input>
+				</div>
+				<div className="w-full flex flex-col">
+					<h2 className="text-left mb-3">Designation</h2>
+					<input
+						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
+						onChange={(e)=>{handleFormFieldChange("designation" , e)}}
 					></input>
 				</div>
 				<div className="w-full flex flex-col">

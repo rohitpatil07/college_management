@@ -18,6 +18,28 @@ const ViewAssignment = ({ deadline }: any) => {
   const [addmaterial, setAddMaterial] = useState(false);
   const searchParams: any = useSearchParams();
   const assignmentid = parseInt(searchParams.get("assignment_id"));
+  const assign_name=searchParams.get("assign_name");
+  console.log(assign_name)
+
+  const downloadZip = async () => {
+    console.log(assignmentid);
+    const response = await axios
+      .get(`http://localhost:5000/lms/download/getzip/${assignmentid}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AuthData.user.token}`,
+        },
+        responseType: "blob",
+      })
+      .then((response) => {
+        const blob = response.data;
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${assign_name}_submissions.zip`;
+        a.click();
+      });
+  }
   const get_material = async () => {
     const response = await axios.get(
       `http://localhost:5000/lms/filter/faculty/getassignment/${assignmentid}`,
@@ -81,10 +103,10 @@ const ViewAssignment = ({ deadline }: any) => {
     console.log(response.data.student_submissions);
     setreadingmaterial(response.data.student_submissions);
   };
-  const downloadMat = async ({ assignment_id, file_name, file_type }: any) => {
+  const downloadMat = async ({ assignment_id, file_name, file_type,roll_no }: any) => {
     console.log(assignment_id, file_name, file_type);
     const response = await axios
-      .get(`http://localhost:5000/lms/download/getmaterial/${assignment_id}`, {
+      .get(`http://localhost:5000/lms/download/getsubmission/${assignment_id}/${roll_no}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,
@@ -146,7 +168,7 @@ const ViewAssignment = ({ deadline }: any) => {
               <div className="w-full px-2">
                <div className='flex flex-wrap items-center justify-between border-b-2 border-b-gray-500 my-1'>
                         <input onChange={(e)=>getAssByRoll(e.target.value)} className="rounded-md border border-gray-700 py-1 px-1 my-1" placeholder="Enter Roll No." type='text' />
-                        <button className="my-1  w-fit px-4 py-2 rounded-md bg-gray-500 text-white hover:scale-105 transition-all flex items-center justify-between text-sm">Download All
+                        <button onClick={downloadZip} className="my-1  w-fit px-4 py-2 rounded-md bg-gray-500 text-white hover:scale-105 transition-all flex items-center justify-between text-sm">Download All
                         <svg stroke="white"
               className="w-5 h-5 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><path fill="#00b8df" d="M47 112h10v6H47zM37 118h10v6H37zM47 100h10v6H47zM37 106h10v6H37zM47 88h10v6H47zM37 94h10v6H37zM47 76h10v6H47zM37 82h10v6H37zM47 64h10v6H47zM37 70h10v6H37zM56 29H40c-1.1 0-2 .9-2 2v25c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V31c0-1.1-.9-2-2-2zm-3 16H43V34h10v11zM104 80c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24zm10.882 16.988-.113.176-8.232 11.438c-.548.866-1.508 1.398-2.537 1.398s-1.989-.532-2.536-1.397l-8.346-11.614a3.01 3.01 0 0 1 .01-2.994 3.01 3.01 0 0 1 2.596-1.494H100V86c0-1.654 1.346-3 3-3h2c1.654 0 3 1.346 3 3v6.5h4.276c1.065 0 2.061.572 2.596 1.494a3.01 3.01 0 0 1 .01 2.994z"/><path fill="#ff9a30" d="m84 125.95-.05.05H84zM114 77v-.05l-.05.05z"/><path fill="#00b8df" d="M111.071 44.243 71.757 4.929A9.936 9.936 0 0 0 64.687 2H24c-5.514 0-10 4.486-10 10v104c0 5.514 4.486 10 10 10h59.95l-4-4H24c-3.309 0-6-2.691-6-6V12c0-3.309 2.691-6 6-6h40.687c1.603 0 3.109.624 4.242 1.757l39.314 39.314A6.044 6.044 0 0 1 110 51.313V72.95l4 4V51.313c0-2.67-1.04-5.181-2.929-7.07z"/><path fill="#fff" d="m113.95 77 .05-.05-4-4"/></svg>
                         </button>
@@ -178,6 +200,7 @@ const ViewAssignment = ({ deadline }: any) => {
                                 assignment_id,
                                 file_name,
                                 file_type,
+                                roll_no
                               });
                             }}
                             className="w-8 h-8 mr-1 cursor-pointer"

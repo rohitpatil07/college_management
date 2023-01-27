@@ -424,7 +424,8 @@ const Assignment = ({ subject_id, subject_name }: any) => {
                               subject_id:subject_id,
                               subject_name:subject_name,
                               assignment_name:assign_name,
-                              deadline:deadlineAt
+                              deadline:deadlineAt,
+                              assign_name:assign_name
                             },
                           }}
                           className="p-1 my-1 text-sm bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
