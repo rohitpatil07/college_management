@@ -6,7 +6,7 @@ import Loading from "../Loaders/Loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
-const Module = ({module_id,subject_id,module_name,module_number}: any) => {
+const Module = ({module_id,subject_id,module_name,module_number,subject_name}: any) => {
   const router = useRouter();
   const AuthData: any = useAuth();
   const [readingmaterial, setreadingmaterial]:any = useState(null);
@@ -141,6 +141,10 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
                 query:
                 {
                   module_id:module_id,
+                  subject_id:subject_id,
+                  module_name:module_name,
+                  module_number:module_number,
+                  subject_name:subject_name
                 }
               }} className="flex items-center p-2 w-fit px-4 py-2 rounded-lg bg-accent text-white hover:scale-105 transition-all ml-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-1">

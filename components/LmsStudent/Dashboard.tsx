@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 const Dashboard = () => {
   const router = useRouter();
   const AuthData: any = useAuth();
-  const [subjects, setSubjects]: any = useState(null);
+  const [subjects, setSubjects]: any = useState([]);
   const [showForm, setshowForm] = useState(false);
   const [showFormButton, setshowFormButton] = useState(false);
   const [formData, setFormData]: any = useState();
@@ -144,7 +144,7 @@ const Dashboard = () => {
             ""
           )}
         </div>
-        {subjects ? (
+        {subjects && subjects.length!=0 ? (
           <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
             {subjects.map(
               (
@@ -155,6 +155,7 @@ const Dashboard = () => {
                   department,
                   batch,
                   type,
+                  email
                 }: any,
                 i: number
               ) => (
@@ -176,6 +177,7 @@ const Dashboard = () => {
                       query: {
                         subject_id: subject_id,
                         subject_name: subject_name,
+                        email:email
                       },
                     }}
                     className="mb-4 w-fit mx-auto px-16 py-2 rounded-full bg-accent text-white hover:scale-105 transition-all"

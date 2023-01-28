@@ -69,9 +69,7 @@ const PersonalInfo = () => {
 		}
 		setPersonalInfo(newInfo);
 	};
-	const [previewsource, setPreviewSource] = React.useState(
-		"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-	);
+	const [previewsource, setPreviewSource] = React.useState();
 	const handlePhotoInputs = (e: any) => {
 		const file = e.target.files[0];
 		previewFile(file);
@@ -154,7 +152,7 @@ const PersonalInfo = () => {
 					<div className="w-[100px] h-[100px] relative rounded-full text-black">
 						<img
 							className="rounded-full w-[100px] h-[100px]"
-							src={`data:image/jpg; base64, ${previewsource}`}
+							src={previewsource ? `data:image/jpg; base64, ${previewsource}` : './avatar.png'}
 							alt="profilePic"
 						/>
 						<div className="text-slate-500 text-center absolute bg-white rounded-full bottom-[-10%] right-[32%] border-gray-300 border-solid border-2 w-8 h-8 overflow-hidden">

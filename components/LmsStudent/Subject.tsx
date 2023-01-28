@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-const Subject = ({ subject_id, subject_name }: any) => {
+const Subject = ({ subject_id, subject_name,email }: any) => {
 	const router = useRouter();
 	const AuthData: any = useAuth();
 	const [modules, setModules]: any = useState(null);
@@ -122,6 +122,7 @@ const Subject = ({ subject_id, subject_name }: any) => {
 												subject_id: subject_id,
 												subject_name: subject_name,
 												module_number: module_number,
+												email:email
 											},
 										}}
 										className="mb-5 w-fit mx-auto px-16 py-2 rounded-full bg-accent text-white hover:scale-105 transition-all"
