@@ -26,7 +26,7 @@ const Page = () => {
           Home / Dashboard / {subjectname}
         </Link>
       </div>
-      <Subject subject_id={subjectid}/>
+      <Subject subject_id={subjectid} subject_name={subjectname}/>
     </div>
 	  );
 }

@@ -51,9 +51,9 @@ const AvailableDrives = () => {
 			{drive==null? <>
 			
 			</> :    
-			drive.length==0?
+			drive.length==0 || Object.keys(drive).length==0?
 				<>
-				<h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
+				<h3 className="text-2xl sm:text-1xl mb-5 font-bold text-gray-900">
 					Maximum Offers Reached or not eligible for any drive
 				   </h3>
 				</>:
