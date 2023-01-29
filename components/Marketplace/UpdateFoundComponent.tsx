@@ -38,7 +38,7 @@ const UpdateFoundComponent = () => {
 
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/market/lost_items/addLostItem",
+				"http://localhost:5000/market/lost_items/updateLostItem",
 				{ lost_item: item_data },
 				{
 					headers: {
