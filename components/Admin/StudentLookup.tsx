@@ -4,9 +4,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import { useAuth } from "../../contexts/AuthContext";
-import fileDownload from "js-file-download";
+// import fileDownload from "js-file-download";
+import ClipLoader from "react-spinners/ClipLoader";
+
+import BasicTable from "./Tables";
 
 const StudentLookup = () => {
+	const [loading, setLoading] = useState<boolean>(false);
+	const [receivedData, setReceivedData] = useState<any>([]);
+	const [page, setPage] = useState<number>(1);
+	const [isNextDisabled, setIsNextDisabled] = useState<boolean>(false);
 	const [personalInfo, setPersonalInfo] = useState({
 		roll_no: {
 			value: "",
@@ -93,7 +100,22 @@ const StudentLookup = () => {
 		setPersonalInfo(newInfo);
 	};
 
-	// const handleSubmit = () => {};
+	const getDashboarData = async (queryBody: any, page: number) => {
+		const result = await fetch(
+			`http://localhost:5000/filter/dashboard/${page}&10`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${AuthData.user.token}`,
+				},
+				body: JSON.stringify(queryBody),
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => data);
+		return result;
+	};
 
 	const generateFinalFields = () => {
 		let select_fields = {};
@@ -106,6 +128,47 @@ const StudentLookup = () => {
 			if (personalInfo[key].value != "") queries[key] = personalInfo[key].value;
 		});
 		return { select_fields, queries };
+	};
+
+	const handleSubmit = (event: any) => {
+		event.preventDefault();
+		const queryBody = generateFinalFields();
+		console.log(queryBody);
+		setLoading(true);
+		getDashboarData(queryBody, page)
+			.then((data) => {
+				console.log(data);
+				setReceivedData(data?.students);
+				setLoading(false);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const handleNext = () => {
+		const queryBody = generateFinalFields();
+		setLoading(true);
+		getDashboarData(queryBody, page + 1).then((data) => {
+			setReceivedData(data?.students);
+			if (data.next < page) {
+				setIsNextDisabled(true);
+			} else {
+				setPage((prev) => prev + 1);
+				setIsNextDisabled(false);
+			}
+			setLoading(false);
+		});
+	};
+
+	const handlePrevious = () => {
+		const queryBody = generateFinalFields();
+		setLoading(true);
+		getDashboarData(queryBody, page - 1).then((data) => {
+			setReceivedData(data?.students);
+			setLoading(false);
+			setPage((prev) => prev - 1);
+		});
 	};
 
 	const getExcel = async () => {
@@ -167,7 +230,7 @@ const StudentLookup = () => {
 	};
 
 	return (
-		<div className="w-full flex justify-center items-center align-middle">
+		<div className="w-full flex justify-center items-center align-middle flex-col">
 			<div className="flex bg-white w-10/12 mt-5 flex-col pt-8 items-center rounded-2xl drop-shadow-lg">
 				<h3 className="text-xl sm:text-2xl font-bold text-gray-900">
 					Student Lookup
@@ -176,7 +239,23 @@ const StudentLookup = () => {
 					Filter Students based on the required fields
 				</p>
 				<div className="border shadow-lg rounded-lg p-5 w-11/12 my-5">
-					<h3 className="font-semibold">Select Fields Required in the Data</h3>
+					<div className="flex w-full flex-wrap justify-between items-center">
+						<h3 className="font-semibold">
+							Select Fields Required in the Data
+						</h3>
+						<button
+							className="bg-slate-500 px-3 py-1 rounded my-2 text-white hover:bg-slate-600 transition-all"
+							onClick={() => {
+								let newInfo = { ...personalInfo };
+								Object.keys(newInfo).map((e) => {
+									newInfo[e].status = true;
+									setPersonalInfo(newInfo);
+								});
+							}}
+						>
+							Select all
+						</button>
+					</div>
 					<hr className="py-3" />
 					<div className="flex flex-wrap gap-3">
 						{Object.keys(personalInfo).map((e) => (
@@ -256,27 +335,53 @@ const StudentLookup = () => {
 					</div>
 				</div>
 				<br />
-				{/* <button
+				<button
 					className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all"
 					onClick={handleSubmit}
 				>
 					Get Data
-				</button> */}
-				<div className="flex gap-10">
-					<button
-						className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all"
-						onClick={getExcel}
-					>
-						Get Excel
-					</button>
-					<button
-						className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all"
-						onClick={getCSV}
-					>
-						Get CSV
-					</button>
-				</div>
+				</button>
+
 				<br />
+			</div>
+			{loading && <ClipLoader className="text-xl m-2" color="#C9243F" />}
+			<div className="flex bg-white w-10/12 mt-5 flex-col items-center rounded-2xl drop-shadow-lg">
+				{receivedData.length > 0 && (
+					<>
+						<div className="w-full flex justify-between rounded-t-2xl bg-slate-200 p-2 items-center flex-col sm:flex-row">
+							<button
+								className="p-2 bg-accent text-white mx-4 px-8 rounded-lg hover:scale-105 transition-all"
+								onClick={handlePrevious}
+							>
+								{`< Previous`}
+							</button>
+							<h3 className="font-semibold text-xl py-5">Data Preview</h3>
+							<button
+								className="p-2 bg-accent text-white mx-4 px-8 rounded-lg hover:scale-105 transition-all"
+								onClick={handleNext}
+							>
+								{`Next >`}
+							</button>
+						</div>
+						<div className="w-full p-5 overflow-x-auto">
+							<BasicTable data={receivedData} />
+						</div>
+						<div className="flex gap-10 my-5 flex-col sm:flex-row">
+							<button
+								className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all"
+								onClick={getExcel}
+							>
+								Get Excel
+							</button>
+							<button
+								className="p-2 bg-accent text-white mx-auto px-8 rounded-lg hover:scale-105 transition-all"
+								onClick={getCSV}
+							>
+								Get CSV
+							</button>
+						</div>
+					</>
+				)}
 			</div>
 		</div>
 	);
