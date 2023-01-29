@@ -4,8 +4,10 @@ import Loading from "../Loaders/Loading";
 import Link from "next/link";
 import axios from "axios";
 import ImagePreview from "./ImagePreview";
+import { useAuth } from "../../contexts/AuthContext";
 
 const LostAndFound = () => {
+	const AuthData : any = useAuth();
 	const [lostItems, setLostItems] = useState([]);
 	const [modalDisplay, setModayDisplay] = useState(false);
 	const [itemName, setItemName] = useState("");
@@ -20,6 +22,7 @@ const LostAndFound = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
+						Authorization: `Bearer ${AuthData.user.token}`,
 					},
 				}
 			);
@@ -32,6 +35,7 @@ const LostAndFound = () => {
 	useEffect(() => {
 		getLostItems();
 	}, []);
+
 
 	const [lostItemToggle, setLostItemToggle] = useState(true);
 	return (
@@ -191,7 +195,9 @@ const LostAndFound = () => {
 															Contact Owner
 														</button>
 														<button
-															onClick={() => {}}
+															onClick={() => {
+																
+															}}
 															className="w-full mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
 														>
 															Discuss
