@@ -3,13 +3,36 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Loading from "../Loaders/Loading";
 import axios from "axios";
+import ImagePreview from "./ImagePreview";
+import { useAuth } from "../../contexts/AuthContext";
 
 const ProductListings = () => {
+	const AuthData: any = useAuth();
 	const [products, setProducts]: any = useState([]);
 	const [modalDisplay, setModayDisplay] = useState(false);
 	const [productId, setProductId]: any = useState([]);
 	const [productName, setProductName]: any = useState([]);
 	const [owner, setOwner]: any = useState([]);
+	const [showImagePreview, setShowImagePreview] = useState(false);
+	const [currentImage, setCurrentImage] = useState("");
+	const [isOpen, setIsOpen] = useState(false);
+	const productCategories = [
+		"Books",
+		"Mobiles & Accessories",
+		"Clothing",
+		"Electronics",
+		"Computer Hardware",
+		"Sports",
+		"Cars/Motorcycles",
+		"Fashion Accessories",
+		"Home Appliances",
+		"Medical Equipment",
+		"Others",
+	];
+
+	const [selectedCategories, setSelectedCategories] = useState<Array<String>>(
+		[]
+	);
 
 	const getProduct = async () => {
 		try {
@@ -18,7 +41,7 @@ const ProductListings = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						// Authorization: `Bearer ${AuthData.user.token}`,
+						Authorization: `Bearer ${AuthData.user.token}`,
 					},
 				}
 			);
@@ -28,6 +51,22 @@ const ProductListings = () => {
 			console.log(error);
 		}
 	};
+
+	const handleCheckboxChange = (e: any) => {
+		const { value } = e.target;
+		if (selectedCategories.includes(value)) {
+			setSelectedCategories(selectedCategories.filter((cat) => cat !== value));
+		} else {
+			setSelectedCategories([...selectedCategories, value]);
+		}
+	};
+
+	const filteredProducts = selectedCategories.length
+		? products.filter((product: any) =>
+				selectedCategories.includes(product.category)
+		  )
+		: products;
+
 	useEffect(() => {
 		getProduct();
 	}, []);
@@ -72,8 +111,11 @@ const ProductListings = () => {
 					<h3 className="text-xl sm:text-2xl font-medium text-gray-900">
 						Recently Uploaded Products
 					</h3>
-					<div className="border-t-4 my-2 py-3 w-11/12 flex flex-col sm:flex-row items-center justify-between">
-						<button className="flex items-center p-2 w-fit px-4 py-2 rounded-lg bg-accent text-white hover:scale-105 transition-all">
+					<div className="border-t-4 pt-3 w-11/12 flex flex-col sm:flex-row items-center justify-between">
+						<Link
+							href="/marketplace/products/addProduct"
+							className="flex items-center p-2 w-fit px-4 py-2 rounded-lg bg-accent text-white hover:scale-105 transition-all"
+						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -89,91 +131,145 @@ const ProductListings = () => {
 								/>
 							</svg>
 							Add New Products
-						</button>
-						<button className="flex mt-1 sm:mt-0 p-2 w-fit px-4 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">
-							Filter Products
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								strokeWidth="1.5"
-								stroke="currentColor"
-								className="w-6 h-6 ml-1"
+						</Link>
+						<div>
+							<button
+								onClick={() => setIsOpen(!isOpen)}
+								className="flex mt-1 sm:mt-0 p-2 w-[12rem] justify-center px-4 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
 							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-								/>
-							</svg>
-						</button>
-					</div>
-					{products.length > 0 ? (
-						<div className="w-11/12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-center justify-items-center">
-							{products.map(
-								(
-									{
-										product_id,
-										product_name,
-										product_image,
-										owner,
-										owner_role,
-										price,
-										category,
-										product_desc,
-									}: any,
-									i: number
-								) => (
-									<div
-										key={product_id}
-										className="flex flex-col items-center w-full drop-shadow-2xl rounded-xl overflow-hidden bg-white"
-									>
-										{product_image != null ? (
-											<img
-												src={product_image}
-												alt={product_name}
-												className="w-full min-h-[10rem] object-cover rounded-xl"
-											/>
-										) : (
-											<div className="w-full min-h-[10rem] object-cover rounded-xl flex items-center justify-center bg-gray-300">
-												{" "}
-												<p className="">No image uploaded</p>
-											</div>
-										)}
-										<div className="w-full flex justify-between px-5 py-2 items-center gap-5">
-											<div className="text-lg sm:text-xl font-medium text-gray-900 my-4 whitespace-nowrap overflow-hidden text-ellipsis">
-												{product_name}
-											</div>
-											<h1 className="font-semibold text-accent text-2xl">
-												₹{price}
-											</h1>
+								Filter Products
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									strokeWidth="1.5"
+									stroke="currentColor"
+									className="w-6 h-6 ml-1"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+									/>
+								</svg>
+							</button>
+							<div className="flex justify-end">
+								{isOpen ? (
+									<div className="flex justify-end">
+										<div className="bg-white text-slate-700 w-[12rem] py-2 font-medium text-sm rounded-b-lg absolute z-10 drop-shadow-lg">
+											{productCategories.map((item) => {
+												return (
+													<div
+														className="flex items-center p-2 gap-2 border-b"
+														key={item}
+													>
+														<input
+															type="checkbox"
+															value={item}
+															onChange={handleCheckboxChange}
+															checked={selectedCategories.includes(item)}
+															name={item}
+															id={item}
+														/>
+														<p>{item}</p>
+													</div>
+												);
+											})}
 										</div>
-										<div className="text-gray-600 text-[0.75rem] text-justify mx-5 mb-5">
-											{product_desc != null
-												? product_desc
-												: "No description provided"}
-										</div>
-										<button
-											onClick={() => {
-												setModayDisplay(true);
-												setProductId(product_id);
-												setProductName(product_name);
-												setOwner(owner);
-											}}
-											className="mb-4 w-fit mx-auto px-16 py-2 rounded-full bg-accent text-white hover:scale-105 transition-all"
-										>
-											Open
-										</button>
 									</div>
-								)
-							)}
+								) : (
+									<></>
+								)}
+							</div>
 						</div>
+					</div>
+
+					{products.length > 0 ? (
+						<>
+							<div className="w-11/12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-center justify-items-center my-5">
+								{filteredProducts.map(
+									(
+										{
+											product_id,
+											product_name,
+											product_image,
+											owner,
+											owner_role,
+											price,
+											category,
+											product_des,
+										}: any,
+										i: number
+									) => (
+										<>
+											<div
+												key={product_id}
+												className="flex flex-col items-center w-full drop-shadow-2xl rounded-xl overflow-hidden bg-white"
+											>
+												{product_image != null ? (
+													<>
+														<img
+															src={product_image}
+															alt={product_name}
+															onClick={() => {
+																setShowImagePreview(true);
+																setCurrentImage(product_image);
+															}}
+															className="w-full h-[10rem] object-cover rounded-xl cursor-pointer"
+														/>
+													</>
+												) : (
+													<div className="w-full h-[10rem] object-cover rounded-xl flex items-center justify-center bg-gray-300">
+														{" "}
+														<p className="">No image uploaded</p>
+													</div>
+												)}
+												<div className="w-full flex justify-between px-5 py-2 items-center gap-5">
+													<div className="text-lg sm:text-xl font-medium text-gray-900 my-4 whitespace-nowrap overflow-hidden text-ellipsis">
+														{product_name}
+													</div>
+													<h1 className="font-semibold text-accent text-2xl">
+														₹{price}
+													</h1>
+												</div>
+												<div className="text-gray-600 text-[0.75rem] text-justify mx-5 mb-5 h-12 text-ellipsis">
+													{product_des != null
+														? product_des
+														: "No description provided"}
+												</div>
+												<button
+													onClick={() => {
+														setModayDisplay(true);
+														setProductId(product_id);
+														setProductName(product_name);
+														setOwner(owner);
+													}}
+													className="mb-4 w-fit mx-auto px-16 py-2 rounded-full bg-accent text-white hover:scale-105 transition-all"
+												>
+													Buy
+												</button>
+											</div>
+										</>
+									)
+								)}
+							</div>
+						</>
 					) : (
 						<>
 							<Loading loadState="loading" />
 						</>
 					)}
 				</div>
+
+				{showImagePreview && (
+					<ImagePreview
+						image={currentImage}
+						close={() => {
+							setShowImagePreview(false);
+						}}
+					/>
+				)}
+
 				{modalDisplay && (
 					<div className="fixed inset-0 z-50 w-full h-full">
 						<div className="relative bg-gray-800 blur-bg-2 w-full h-full bg-opacity-50">

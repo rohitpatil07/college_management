@@ -120,22 +120,6 @@ function MarketplaceSideBar() {
 						</svg>
 						My Products
 					</Link>
-					<Link
-						href="/marketplace/transactions"
-						className="flex flex-row items-center font-medium  px-2 py-2 sm:pr-4 border sm:border-none hover:bg-blue-100 active:bg-blue-100"
-					>
-						<svg
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							strokeWidth="1.5"
-							className="w-4 h-4 mr-1"
-						>
-							<rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-							<line x1="1" y1="10" x2="23" y2="10"></line>
-						</svg>
-						Transactions
-					</Link>
 				</div>
 			</aside>
 		</div>

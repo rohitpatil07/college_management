@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import LostAndFound from "../../../components/Marketplace/LostAndFound";
 
 const LostFound = () => {
-  return (
-    <div>LostFound</div>
-  )
-}
+	return (
+		<div>
+			<LostAndFound />
+		</div>
+	);
+};
 
-export default LostFound
+export default LostFound;

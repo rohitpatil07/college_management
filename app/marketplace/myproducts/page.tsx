@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import MyProductsComponent from "../../../components/Marketplace/MyProductsComponent";
 
 const MyProducts = () => {
-  return (
-    <div>MyProducts</div>
-  )
-}
+	return (
+		<div>
+			<MyProductsComponent />
+		</div>
+	);
+};
 
-export default MyProducts
+export default MyProducts;
