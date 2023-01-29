@@ -14,7 +14,7 @@ const AddSubject = () => {
 		subject_name: "",
 		semester: 1,
 		department: "",
-		batch: `${year}`,
+		batch:year,
 		type: "MD",
 		email:`${AuthData.user.userData.user.email}`,
 		division:"A"

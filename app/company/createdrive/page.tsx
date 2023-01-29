@@ -1,5 +1,5 @@
 "use client";
-import React , {useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import Swal from "sweetalert2";
@@ -24,10 +24,10 @@ const CreateDrive = () => {
 				deadkt:0
 	})
 
-	const handleFormFieldChange = (fieldName : any , e : any) => {
-    	setDrives({...drives , [fieldName]:e.target.value});
-    }
-	const handleSubmit = async (e : React.FormEvent) =>{
+	const handleFormFieldChange = (fieldName: any, e: any) => {
+		setDrives({ ...drives, [fieldName]: e.target.value });
+	};
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log(drives);
 		try {
@@ -98,124 +98,148 @@ const CreateDrive = () => {
 		} catch (error) {
 			alert(error);
 		}
-
-	}
-  console.log(AuthData);
+	};
+	console.log(AuthData);
 	return (
-		<div className="w-full sm:w-8/12 mx-auto  flex flex-col drop-shadow-lg items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
-			<div className="mt-5 flex flex-col justify-around w-11/12 rounded-md overflow-hidden bg-white border-gray-300 sm:border-white border-solid border-2 p-2">
-				<h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-5 mt-5 text-center">
-					Create Drive
-				</h3>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">Enter Role</h2>
-					<input
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("role" , e)}}
-					></input>
+		<div className="sm:w-[80%] mt-5 mx-auto flex flex-col drop-shadow-lg items-center bg-white container rounded-2xl">
+			<div className="w-full flex flex-col items-center gap-2">
+				<div>
+					<h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-center mt-5">
+						Create Drive
+					</h3>
+					<p className="text-slate-400 text-sm text-center mb-5">
+						Create a drive with custom eligibility requirements
+					</p>
 				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">Enter Role Package</h2>
-					<input
-           type="number"
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("package" , e)}}
-					></input>
+				<div className="sm:w-[80%] px-5 sm:px-0 mx-auto flex justify-between flex-col gap-2">
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Enter Role</h2>
+						<input
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("role", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Enter Role Package</h2>
+						<input
+							type="number"
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("package", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Enter Job Location</h2>
+						<input
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("job_location", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Role Description</h2>
+						<input
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("role_desc", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">CGPA</h2>
+						<input
+							type="number"
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("cgpa", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">BE percent</h2>
+						<input
+							type="number"
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("be_percent", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Tenth Percent</h2>
+						<input
+							type="number"
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("tenth_percent", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Twelveth Percent</h2>
+						<input
+							type="number"
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("twelveth_percent", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Gender</h2>
+						<select
+							name="gender"
+							id="gender"
+							onChange={(e) => {
+								handleFormFieldChange("gender", e);
+							}}
+							className="border-2 rounded-md p-1 w-1/2"
+						>
+							<option value="M">Male</option>
+							<option value="F">Female</option>
+							<option value="">N/A</option>
+						</select>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Gap</h2>
+						<input
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("gap", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Live KT</h2>
+						<input
+							type="number"
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("livekt", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Dead KT</h2>
+						<input
+							type="number"
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("deadkt", e);
+							}}
+						></input>
+					</div>
 				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">Enter Job Location</h2>
-					<input
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("job_location" , e)}}
-					></input>
-				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">Role Description</h2>
-					<input
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("role_desc" , e)}}
-					></input>
-				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">CGPA</h2>
-					<input
-            type="number"
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("cgpa" , e)}}
-					></input>
-				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">BE percent</h2>
-					<input
-           type="number"
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("be_percent" , e)}}
-					></input>
-				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">Tenth Percent</h2>
-					<input
-            type="number"
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("tenth_percent" , e)}}
-					></input>
-				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">Twelveth Percent</h2>
-					<input
-            type="number"
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("twelveth_percent" , e)}}
-					></input>
-				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">Gender</h2>
-					<div>
-												<input
-													className=""
-													type="radio"
-													id="gender"
-													name="gender"
-													value="M"
-													onChange={(e) => {handleFormFieldChange("gender" , e)}}
-												/>
-												<label>Male</label>
-											</div>
-											<div>
-												<input
-													type="radio"
-													id="gender"
-													name="gender"
-													value="F"
-													onChange={(e) => {handleFormFieldChange("gender" , e)}}
-												/>
-												<label>Female</label>
-										</div>
-				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">Gap</h2>
-					<input
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("gap" , e)}}
-					></input>
-				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">Live KT</h2>
-					<input
-           type="number"
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("livekt" , e)}}
-					></input>
-				</div>
-				<div className="w-full flex flex-col">
-					<h2 className="text-left mb-3">Dead KT</h2>
-					<input
-           type="number"
-						className="mb-5 w-full bg-white border-gray-300 border-solid border-2 rounded-mg text-black py-1 px-1 rounded-md"
-						onChange={(e)=>{handleFormFieldChange("deadkt" , e)}}
-					></input>
-				</div>
-				<button className="p-2 w-full mx-auto px-5 rounded-md my-6 bg-accent text-white" onClick={(e)=>{handleSubmit(e)}}>
+				<button
+					className="p-2 bg-accent text-white mx-auto mb-5 px-8 rounded-lg hover:scale-105 transition-all"
+					onClick={(e) => {
+						handleSubmit(e);
+					}}
+				>
 					Create
 				</button>
 			</div>
