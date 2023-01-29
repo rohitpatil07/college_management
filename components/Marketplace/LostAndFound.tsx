@@ -47,7 +47,6 @@ const LostAndFound = () => {
 		getAllItems();
 	}, []);
 
-
 	const [lostItemToggle, setLostItemToggle] = useState(true);
 	return (
 		<>
@@ -215,12 +214,12 @@ const LostAndFound = () => {
 															>
 																Contact Owner
 															</button>
-															<button
-																onClick={() => {}}
-																className="w-full mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+															<Link
+																href={`/marketplace/lostfound/discuss/${item_id}`}
+																className="w-full text-center mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
 															>
 																Discuss
-															</button>
+															</Link>
 														</div>
 													</div>
 												</>
