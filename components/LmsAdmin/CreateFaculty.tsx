@@ -3,6 +3,7 @@ import React , {useState} from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
+const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
 
 const CreateFaculty = () => {
 	const AuthData : any  = useAuth();

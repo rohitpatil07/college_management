@@ -5,6 +5,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
+const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
+
 const CreateForm = () => {
   const AuthData: any = useAuth();
   const [createdForm, setCreatedForm] = useState([]);

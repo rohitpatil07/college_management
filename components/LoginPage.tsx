@@ -20,7 +20,7 @@ function LoginPage() {
 		{
 			const response = await axios({
 				method: 'post',
-				url: "http://localhost:5000/auth/forgot_mail",
+				url: `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/forgot_mail`,
 				headers: {
 					'Content-Type': 'application/json',
 				}, 
