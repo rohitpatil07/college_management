@@ -19,12 +19,13 @@ const ViewForum = ({
   forum_id,
 }: any) => {
   const AuthData: any = useAuth();
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const [comment, setComment] = useState("");
   const [disableBtn, setDisableBtn] = useState(false);
   const [forumMessages, setForumMessages] = useState([]);
   const getComment = async () => {
     const response = await axios.get(
-      `http://localhost:5000/lms/filter/getreplies/0`,
+      `${server}/lms/filter/getreplies/0`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -54,7 +55,7 @@ const ViewForum = ({
       setDisableBtn(true);
       const response = await axios({
         method: "post",
-        url: "http://localhost:5000/lms/form/postcomment",
+        url: `${server}/lms/form/postcomment`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,

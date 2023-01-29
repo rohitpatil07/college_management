@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 
 function LoginPage() {
 	const router = useRouter();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const [email, setEmail] = useState("");
 	const [role, setRole] = useState("student");
 	const [password, setPassword] = useState("");
@@ -20,13 +21,13 @@ function LoginPage() {
 		{
 			const response = await axios({
 				method: 'post',
-				url: "http://localhost:5000/auth/forgot_mail",
+				url: `${server}/auth/forgot_mail`,
 				headers: {
 					'Content-Type': 'application/json',
 				}, 
 				data: {
 					email: email,
-					role:role // This is the body part
+					role:role
 				}
 				});
 			console.log(response)
@@ -51,11 +52,8 @@ function LoginPage() {
 
 
 	const handleSubmit = async () => {
-		console.log(role);
 		const data = { email, role, password };
 		const response = await AuthData.login(data);
-		console.log(response);
-		console.log(response.data);
 		if (response.data=="You are not authorized" || Object.keys(response.data).length==0 || response.data.length==0)
 		{
 			Swal.fire({

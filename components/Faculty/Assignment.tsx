@@ -255,6 +255,31 @@ const Assignment = ({ subject_id, subject_name }: any) => {
       });
     console.log(response);
   };
+   const downloadAssignment = async (
+    assignment_id: number,
+    file_name: string,
+    file_type: string
+  ) => {
+    const response = await axios
+      .get(
+        `http://localhost:5000/lms/download/getassignment/${assignment_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+          responseType: "blob",
+        }
+      )
+      .then((response) => {
+        const blob = response.data;
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${file_name}.${file_type}`;
+        a.click();
+      });
+  };
   useEffect(() => {
     get_assign();
   }, []);
@@ -339,7 +364,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
               <tbody>
                 {assign.map(
                   (
-                    { assignment_id, assign_name, createdAt, deadlineAt,edit,links,file_name,assign_des }: any,
+                    { assignment_id, assign_name, createdAt, deadlineAt,edit,links,file_name,assign_des,file_type }: any,
                     i: number
                   ) => (
                     <tr>
@@ -360,7 +385,13 @@ const Assignment = ({ subject_id, subject_name }: any) => {
                         {edit ? <>                        
                         <input  onChange={(e)=>{onChangeEdit(i,'file',e)}} className="rounded-md border border-gray-300 md:w-11/12 my-1" type='file'/>
                         </> : <>
-                        <button className="p-1 my-1 text-sm bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md flex items-center">
+                        <button  onClick={() => {
+                                downloadAssignment(
+                                  assignment_id,
+                                  file_name,
+                                  file_type
+                                );
+                              }} className="p-1 my-1 text-sm bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md flex items-center">
                             {file_name}
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />

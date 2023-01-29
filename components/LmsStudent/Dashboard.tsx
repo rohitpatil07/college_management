@@ -8,6 +8,7 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 const Dashboard = () => {
   const router = useRouter();
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
   const [subjects, setSubjects]: any = useState([]);
   const [showForm, setshowForm] = useState(false);
@@ -21,7 +22,7 @@ const Dashboard = () => {
   };
   const get_subject = async () => {
     const response = await axios.post(
-      `http://localhost:5000/lms/filter/student/subjects`,
+      `${server}/lms/filter/student/subjects`,
       viewSubject,
       {
         headers: {
@@ -43,7 +44,6 @@ const Dashboard = () => {
     } else {
       setSubjects(response.data);
     }
-    console.log(response.data);
   };
   const [subjectId, setsubjectId] = useState<number[]>([]);
   const setting_form_data = (
@@ -62,16 +62,14 @@ const Dashboard = () => {
     subId.push(id);
     setsubjectId(subId);
     setFormData(forms);
-    //console.log(formData[array_no][1][index_no],id);
   };
   const submit_opt_sub_resp=async()=>{
 	const body={
 		roll_no:[`${AuthData.user.userData.user.roll_no}`],
 		subject_id: subjectId
 	}
-	console.log(body);
 	 const response = await axios.post(
-      `http://localhost:5000/lms/form/addDILO`,
+      `${server}/lms/form/addDILO`,
       body,
       {
         headers: {
@@ -80,7 +78,6 @@ const Dashboard = () => {
         },
       }
     );
-	console.log(response);
 	 if (response.status == 200) {
       Swal.fire({
         icon: "success",

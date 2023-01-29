@@ -11,6 +11,7 @@ import { CLIENT_STATIC_FILES_PATH } from "next/dist/shared/lib/constants";
 
 const StuAssignment = ({ subject_id, subject_name }: any) => {
   const router = useRouter();
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
   const searchParams: any = useSearchParams();
   const subjectid = parseInt(searchParams.get("subject_id"));
@@ -18,7 +19,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
   const [addmodule, setAddModule] = useState(false);
   const get_assign = async () => {
     const response = await axios.get(
-      `http://localhost:5000/lms/filter/student/getsubmission/${AuthData.user.userData.user.roll_no}`,
+      `${server}/lms/filter/student/getsubmission/${AuthData.user.userData.user.roll_no}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -27,7 +28,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
       }
     );
     const response1 = await axios.get(
-      `http://localhost:5000/lms/filter/getallassignments/${subjectid}`,
+      `${server}/lms/filter/getallassignments/${subjectid}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -148,7 +149,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
       };
       if (edit) {
         const response = await axios.post(
-          "http://localhost:5000/lms/form/student/updatesubmission",
+          `${server}/lms/form/student/updatesubmission`,
           assignment,
           {
             headers: {
@@ -174,7 +175,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
         }
       } else {
         const response = await axios.post(
-          "http://localhost:5000/lms/form/student/submitAssignment",
+          `${server}/lms/form/student/submitAssignment`,
           assignment,
           {
             headers: {
@@ -215,7 +216,32 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
   ) => {
     const response = await axios
       .get(
-        `http://localhost:5000/lms/download/getsubmission/${assignment_id}/${AuthData.user.userData.user.roll_no}`,
+        `${server}/lms/download/getsubmission/${assignment_id}/${AuthData.user.userData.user.roll_no}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+          responseType: "blob",
+        }
+      )
+      .then((response) => {
+        const blob = response.data;
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${file_name}.${file_type}`;
+        a.click();
+      });
+  };
+  const downloadAssignment = async (
+    assignment_id: number,
+    file_name: string,
+    file_type: string
+  ) => {
+    const response = await axios
+      .get(
+        `${server}/lms/download/getassignment/${assignment_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -305,7 +331,15 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
                         {links}
                       </td>
                       <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">
-                        <button className="flex items-center text-xs">
+                        <button 
+                          onClick={() => {
+                                downloadAssignment(
+                                  assignment_id,
+                                  file_name,
+                                  file_type
+                                );
+                              }}
+                        className="flex items-center text-xs">
                           {file_type == "pptx" ? (
                             <svg
                               className="w-5 h-5 mr-1 cursor-pointer"

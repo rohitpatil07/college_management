@@ -6,15 +6,20 @@ import Loading from "../Loaders/Loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
-
+import "chart.js/auto";
+import { Chart, ArcElement } from "chart.js";
+import { Doughnut, Pie } from "react-chartjs-2";
+Chart.register(ArcElement);
 const Subject = ({ subject_id, subject_name,email }: any) => {
+	
 	const router = useRouter();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const AuthData: any = useAuth();
 	const [modules, setModules]: any = useState(null);
 	const [subjectInfo, setSubjectInfo]: any = useState(null);
 	const get_module = async () => {
 		const response = await axios.get(
-			`http://localhost:5000/lms/filter/allmodules/${subject_id}`,
+			`${server}/lms/filter/allmodules/${subject_id}`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -26,7 +31,7 @@ const Subject = ({ subject_id, subject_name,email }: any) => {
 	};
 	const current_subject = async () => {
 		const response = await axios.get(
-			`http://localhost:5000/lms/filter/subject/${subject_id}`,
+			`${server}/lms/filter/subject/${subject_id}`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -36,9 +41,63 @@ const Subject = ({ subject_id, subject_name,email }: any) => {
 		);
 		setSubjectInfo(response.data);
 	};
+	const [presenties, setpresenties] = useState(0);
+	const [absenties, setabsenties] = useState(0);
+	const attendance = async()=>{
+		const response = await axios({
+      method: "post",
+      url: `${server}/lms/filter//student/attendence`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${AuthData.user.token}`,
+      },
+      data: {
+        subject_id : parseInt(subject_id),
+        roll_no:  `${AuthData.user.userData.user.roll_no}`
+      },
+    });
+	console.log(response.data['present'].length);
+	setpresenties(response.data['present'].length);
+	setabsenties(response.data['absent'].length);
+	}
+
+	const optionssss = {
+		responsive: true,
+
+		maintainAspectRatio: false,
+		plugins: {
+			legend: {
+				position: "top",
+			},
+			title: {
+				display: true,
+				text: "Attendence",
+			},
+		},
+	};
+	const datasss = {
+	 labels: ['Present','Absent'],
+		datasets: [
+			{
+				data: [presenties,absenties],
+				backgroundColor: [
+					"rgba(21, 128, 61,0.5)",
+					"rgba(201, 36, 63,0.5)",
+					
+				],
+				borderColor: [
+					"rgba(21, 128, 61,1)",
+					"rgba(201, 36, 63,1)",
+				],
+				borderWidth: 1,
+			},
+		],
+	};
+
 	useEffect(() => {
 		get_module();
 		current_subject();
+		attendance();
 	}, []);
 	return (
 		<div className="w-full flex justify-center items-center align-middle">
@@ -52,23 +111,8 @@ const Subject = ({ subject_id, subject_name,email }: any) => {
 						Getting Info
 					</h3>
 				)}
-
-				<div className="px-4 py-6 text-sm w-11/12 flex flex-wrap cursor-pointer mt-2 mb-2 border-solid border-2 border-neutral-200 shadow-xl drop-shadow-xl rounded-xl">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						strokeWidth={1.5}
-						stroke="currentColor"
-						className="w-4 h-4 mr-1"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"
-						/>
-					</svg>
-					Discussion Forum
+				<div className="w-10/12 m-auto md:w-[40%] min-h-[400px]">
+					<Doughnut data={datasss} options={optionssss} />
 				</div>
 				<Link  href={{
 							pathname:"lms/assign",

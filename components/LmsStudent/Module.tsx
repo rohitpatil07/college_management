@@ -15,11 +15,12 @@ const Module = ({
   email
 }: any) => {
   const router = useRouter();
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
   const [readingmaterial, setreadingmaterial]: any = useState(null);
   const get_material = async () => {
     const response = await axios.get(
-      `http://localhost:5000/lms/filter/readmat/module/${module_id}`,
+      `${server}/lms/filter/readmat/module/${module_id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +38,7 @@ const Module = ({
   }: any) => {
     const response = await axios
       .get(
-        `http://localhost:5000/lms/download/getmaterial/${reading_material_id}`,
+        `${server}/lms/download/getmaterial/${reading_material_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -48,9 +49,7 @@ const Module = ({
       )
       .then((response) => {
         const blob = response.data;
-        console.log(blob);
         const url = window.URL.createObjectURL(blob);
-        console.log(url);
         const a = document.createElement("a");
         a.href = url;
         a.download = `${file_name}.${file_type}`;

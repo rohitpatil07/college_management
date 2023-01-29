@@ -1,8 +1,8 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation';
-import EnrolledStudents from "../../../components/Faculty/EnrolledStudents";
 import Link from "next/link";
+import AttendanceRecord from "../../../components/Faculty/AttendanceRecord";
 const Page = () => {
 	const searchParams:any = useSearchParams();
 	const subjectid=searchParams.get('subject_id');
@@ -11,7 +11,7 @@ const Page = () => {
 		<div className="mx-auto w-full flex flex-col bg-slate-100 ">
        <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
        <Link href={{
-								pathname: "/faculty/subject",
+								pathname:"faculty/enrolled_students",
 								query:
 								{
 									subject_id: subjectid,
@@ -30,10 +30,10 @@ const Page = () => {
               clipRule="evenodd"
             />
           </svg>
-          Home / Dashboard / {subjectname} / Attendance Record
+          Home / Dashboard / {subjectname} / Take Attendance
         </Link>
       </div> 
-      <EnrolledStudents />
+      <AttendanceRecord />
     </div>
 	  );
 }

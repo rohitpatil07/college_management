@@ -16,6 +16,7 @@ const CreateForum = ({
   subject_name,
   email,
 }: any) => {
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const mail = email;
   const AuthData: any = useAuth();
   const [flag, setflag] = useState(0);
@@ -42,7 +43,7 @@ const CreateForum = ({
   };
   const get_forums = async () => {
     const responses = await axios.get(
-      `http://localhost:5000/lms/filter/getallForums/${moduleid}`,
+      `${server}/lms/filter/getallForums/${moduleid}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +51,6 @@ const CreateForum = ({
         },
       }
     );
-    console.log(responses.data);
     let user_forum: any = [];
     let all_forum: any = [];
     for (let i = 0; i < responses.data.length; i++) {
@@ -69,7 +69,7 @@ const CreateForum = ({
   const delete_forums = async (id: number) => {
     setdeleteLoading(true);
     const responses = await axios.get(
-      `http://localhost:5000/lms/delete/deleteforum/${id}`,
+      `${server}/lms/delete/deleteforum/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +77,6 @@ const CreateForum = ({
         },
       }
     );
-    console.log(responses);
     if (responses.status == 200) {
       Swal.fire({
         icon: "success",
@@ -99,7 +98,7 @@ const CreateForum = ({
     setflag(1);
     const response = await axios({
       method: "post",
-      url: "http://localhost:5000/lms/form/upsertForum",
+      url: `${server}/lms/form/upsertForum`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${AuthData.user.token}`,
@@ -108,7 +107,6 @@ const CreateForum = ({
         forum: forum,
       },
     });
-    console.log(response.data);
     if (
       (response.status == 200 && response.data.forum_id != undefined) ||
       response.data.forum_id != null

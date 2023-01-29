@@ -6,6 +6,7 @@ import axios from "axios";
 
 function AcademicTable() {
 	const AuthData : any = useAuth();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const [pointer, setPointer] = useState(0);
 	const [tenend, setTenend] = useState(0);
 	const [twelvethend, setTwelvethend] = useState(0);
@@ -21,7 +22,7 @@ function AcademicTable() {
 	const [sem8, setSem8] = useState('0');
 	const fetchDrive = async () =>
 	{
-		const response = await axios.get(`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`, {
+		const response = await axios.get(`${server}/filter/student/${AuthData.user.userData.user.roll_no}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
