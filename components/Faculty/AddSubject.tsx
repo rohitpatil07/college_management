@@ -7,6 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 const AddSubject = () => {
 	const AuthData: any = useAuth();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	let year = new Date().getFullYear();
 	const [newSubject, setNewSubject] = useState({
 		subject_code: "",
@@ -54,7 +55,7 @@ const AddSubject = () => {
 		setUpdateLoading(true);
 		const response = await axios({
 			method: "post",
-			url: "http://localhost:5000/lms/form/addsubject",
+			url: `${server}/lms/form/addsubject`,
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${AuthData.user.token}`,

@@ -6,10 +6,11 @@ import { useAuth } from "../../../contexts/AuthContext";
 
 const CompanyData = ({ openCompanyData, company_name }: any) => {
     const AuthData: any = useAuth();
+    const server=process.env.NEXT_PUBLIC_SERVER_URL;
     const [stu_array, setStu_array] = useState<any>([]);
     const getOfferLetter = async(offer_id : string)=>{
         const response = await axios.get(
-            `http://localhost:5000/image/offerdownload/${offer_id}`,
+            `${server}/image/offerdownload/${offer_id}`,
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -21,7 +22,7 @@ const CompanyData = ({ openCompanyData, company_name }: any) => {
     }
     const getStudentData = async () => {
         const response = await axios.get(
-            `http://localhost:5000/filter/admin/alloffers/${company_name}`,
+            `${server}/filter/admin/alloffers/${company_name}`,
             {
                 headers: {
                     "Content-Type": "application/json",

@@ -5,7 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
-const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
+const server=process.env.NEXT_PUBLIC_SERVER_URL;
 
 const CreateForm = () => {
   const AuthData: any = useAuth();
@@ -15,7 +15,7 @@ const CreateForm = () => {
   const [subData, setSubData]: any = useState([]);
   const created_form = async () => {
     const response = await axios.get(
-      `http://localhost:5000/lms/filter/admin/data/${AuthData.user.userData.user.email}`,
+      `${server}/lms/filter/admin/data/${AuthData.user.userData.user.email}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -27,7 +27,7 @@ const CreateForm = () => {
   };
   const DisplayInfoData = async (id: number) => {
     const response = await axios.get(
-      `http://localhost:5000/lms/filter/admin/DILOform/${id}`,
+      `${server}/lms/filter/admin/DILOform/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -216,7 +216,7 @@ const CreateForm = () => {
       setShowDLOType(false);
       setShowILOType(false);
       const response = await axios.get(
-        `http://localhost:5000/lms/filter/findDILO/${bat}/${dept}/${sem}`,
+        `${server}/lms/filter/findDILO/${bat}/${dept}/${sem}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -276,7 +276,7 @@ const CreateForm = () => {
     };
     const response = await axios({
       method: "post",
-      url: "http://localhost:5000/lms/form/addDILOform",
+      url: `${server}/lms/form/addDILOform`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${AuthData.user.token}`,

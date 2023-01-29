@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 const AttendanceRecord = () => {
    const router = useRouter();
+   const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
   const [attend, setattend]:any = useState(null);
   const searchParams: any = useSearchParams();
@@ -14,7 +15,7 @@ const AttendanceRecord = () => {
   const subject_name = searchParams.get("subject_name");
     const get_attendance_record= async () => {
     const response = await axios.get(
-      `http://localhost:5000/lms/filter/faculty/subjectAttendance/${subjectid}`,
+      `${server}/lms/filter/faculty/subjectAttendance/${subjectid}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +38,7 @@ const AttendanceRecord = () => {
   const fetchAttendanceDetail=async(date: string)=>{
     const response = await axios({
       method: "post",
-      url: "http://localhost:5000/lms/filter/faculty/attendence",
+      url: `${server}/lms/filter/faculty/attendence`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${AuthData.user.token}`,

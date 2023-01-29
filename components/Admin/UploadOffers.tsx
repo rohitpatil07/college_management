@@ -15,9 +15,10 @@ const UploadOffers = () => {
     const [openCompanyData, setCompanyData] = useState(false);
     const AuthData: any = useAuth();
     const [countCompanyWise, setCountCompanyWise] = useState([]);
+    const server=process.env.NEXT_PUBLIC_SERVER_URL;
     const getStudentCompanyWise = async () => {
         const response = await axios.get(
-            `http://localhost:5000/filter/studentsplacedcompanywise`,
+            `${server}/filter/studentsplacedcompanywise`,
             {
                 headers: {
                     "Content-Type": "application/json",

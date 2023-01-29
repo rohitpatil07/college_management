@@ -19,12 +19,12 @@ const ViewAssignment = ({ deadline }: any) => {
   const searchParams: any = useSearchParams();
   const assignmentid = parseInt(searchParams.get("assignment_id"));
   const assign_name=searchParams.get("assign_name");
-  console.log(assign_name)
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
 
   const downloadZip = async () => {
     console.log(assignmentid);
     const response = await axios
-      .get(`http://localhost:5000/lms/download/getzip/${assignmentid}`, {
+      .get(`${server}/lms/download/getzip/${assignmentid}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,
@@ -42,7 +42,7 @@ const ViewAssignment = ({ deadline }: any) => {
   }
   const get_material = async () => {
     const response = await axios.get(
-      `http://localhost:5000/lms/filter/faculty/getassignment/${assignmentid}`,
+      `${server}/lms/filter/faculty/getassignment/${assignmentid}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +106,7 @@ const ViewAssignment = ({ deadline }: any) => {
   const downloadMat = async ({ assignment_id, file_name, file_type,roll_no }: any) => {
     console.log(assignment_id, file_name, file_type);
     const response = await axios
-      .get(`http://localhost:5000/lms/download/getsubmission/${assignment_id}/${roll_no}`, {
+      .get(`${server}/lms/download/getsubmission/${assignment_id}/${roll_no}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,

@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import ClipLoader from "react-spinners/ClipLoader";
 const AcademicDetails = () => {
 	const AuthData: any = useAuth();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const [stu_info, setstu_info]: any = useState({
 		tenth_percent: "",
 		tenth_start: "",
@@ -49,27 +50,27 @@ const AcademicDetails = () => {
 		diploma_percent: "",
 		diploma_start: "",
 		diploma_end: "",
-		sem1_pointer: null,
-		sem2_pointer: null,
-		sem3_pointer: null,
-		sem4_pointer: null,
-		sem5_pointer: null,
-		sem6_pointer: null,
-		sem7_pointer: null,
-		sem8_pointer: null,
-		cgpa: "",
-		be_percent: "",
-		gap: "",
-		livekt: "",
-		deadkt: "",
-		masters_sem1_pointer: "",
-		masters_sem2_pointer: "",
-		masters_sem3_pointer: "",
-		masters_sem4_pointer: "",
+		sem1_pointer: 0.0,
+		sem2_pointer: 0.0,
+		sem3_pointer: 0.0,
+		sem4_pointer: 0.0,
+		sem5_pointer: 0.0,
+		sem6_pointer: 0.0,
+		sem7_pointer: 0.0,
+		sem8_pointer:0.0,
+		cgpa: 0.0,
+		be_percent: 0,
+		gap: 0,
+		livekt: 0,
+		deadkt: 0,
+		masters_sem1_pointer: 0,
+		masters_sem2_pointer: 0,
+		masters_sem3_pointer: 0,
+		masters_sem4_pointer: 0,
 	});
 	const getProfileData = async () => {
 		const response = await axios.get(
-			`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`,
+			`${server}/filter/student/${AuthData.user.userData.user.roll_no}`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -563,7 +564,7 @@ const AcademicDetails = () => {
 		}
 		const body = { academic : academic}
 		const response = await axios.post(
-			"http://localhost:5000/add/student/academicinfo",
+			`${server}/add/student/academicinfo`,
 			body,
 			{
 				headers: {

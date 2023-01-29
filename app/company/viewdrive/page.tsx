@@ -7,11 +7,11 @@ import Link from "next/link"
 const ViewDrive = () => {
 	const AuthData : any = useAuth();
 	const[drive,setDrive]:any=useState(null);
-
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const deleteDrive = async (driveid:Number) =>
 	{
 		console.log(driveid)
-		const response = await axios.get(`http://localhost:5000/delete/drive/${driveid}`, {
+		const response = await axios.get(`${server}/delete/drive/${driveid}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
@@ -22,7 +22,7 @@ const ViewDrive = () => {
 	}
 	const fetchDrive = async () =>
 	{
-		const response = await axios.get(`http://localhost:5000/filter/company/drive/${AuthData.user.userData.user.company_id}`, {
+		const response = await axios.get(`${server}/filter/company/drive/${AuthData.user.userData.user.company_id}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`

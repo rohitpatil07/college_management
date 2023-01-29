@@ -11,6 +11,7 @@ const ForgotPassword = () => {
 
 	const AuthData : any  = useAuth();
 	const searchParams:any = useSearchParams();
+	 const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const tok=searchParams.get('token');
 	const router = useRouter();
 	const [form, setForm] = useState({
@@ -33,7 +34,7 @@ const ForgotPassword = () => {
 				throw new Error("Passwords dont match");
 			}
 			console.log(form.password)
-			const response = await axios.post("http://localhost:5000/auth/forgot_password" ,  {
+			const response = await axios.post(`${server}/auth/forgot_password` ,  {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${tok}`,

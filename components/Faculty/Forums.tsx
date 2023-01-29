@@ -16,13 +16,14 @@ const CreateForum = ({
   subject_name,
 }: any) => {
 	const AuthData: any = useAuth();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
     const [flag, setflag]=useState(0);
 	const searchParams:any = useSearchParams();
 	const moduleid=parseInt(searchParams.get('module_id'))
     const [forums,setForums]:any=useState(null);
     const get_forums = async () => {
 		const responses = await axios.get(
-			`http://localhost:5000/lms/filter/getallForums/${moduleid}`,
+			`${server}/lms/filter/getallForums/${moduleid}`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -37,7 +38,7 @@ const CreateForum = ({
 	 const delete_forums = async (id:number) => {
 setdeleteLoading(true);
 		const responses = await axios.get(
-			`http://localhost:5000/lms/delete/deleteforum/${id}`,
+			`${server}/lms/delete/deleteforum/${id}`,
 			{
 				headers: {
 					"Content-Type": "application/json",

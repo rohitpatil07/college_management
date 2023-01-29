@@ -3,10 +3,11 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 const AppliedDrives = () => {
 	const AuthData : any = useAuth();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const[drive,setDrive]:any=useState(null);
 	const fetchDrive = async () =>
 	{
-		const response = await axios.get(`http://localhost:5000/filter/student/applied/${AuthData.user.userData.user.roll_no}`, {
+		const response = await axios.get(`${server}/filter/student/applied/${AuthData.user.userData.user.roll_no}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`

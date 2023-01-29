@@ -13,6 +13,7 @@ const PersonalInfo = () => {
 	const [loading, setLoading] = useState(true);
 	const [updloading, setUpdateLoading] = useState(false);
 	const [disabling, setDisabling] = useState(true);
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const [personalInfo, setPersonalInfo] = React.useState([
 		{ value: "", label: "First Name", id: "first_name", type: "text" },
 		{ value: "", label: "Middle Name", id: "middle_name", type: "text" },
@@ -34,7 +35,7 @@ const PersonalInfo = () => {
 	const getProfileData = async () => {
 		let i = 0;
 		const response = await axios.get(
-			`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`,
+			`${server}/filter/student/${AuthData.user.userData.user.roll_no}`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -109,7 +110,7 @@ const PersonalInfo = () => {
 		}
 		let data = { student };
 		const response = await axios.post(
-			"http://localhost:5000/add/student",
+			`${server}/add/student`,
 			data,
 			{
 				headers: {

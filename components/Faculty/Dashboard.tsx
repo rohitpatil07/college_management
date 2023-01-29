@@ -8,13 +8,13 @@ import Link from "next/link";
 import Image from "next/image";
 const Dashboard = () => {
 	const router = useRouter();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const AuthData: any = useAuth();
 	const [subjects, setSubjects]:any = useState([]);
 	const get_subject = async () => {
-		console.log(AuthData);
 		const response = await axios({
 			method: "post",
-			url: "http://localhost:5000/lms/filter/facultysubjects",
+			url: `${server}/lms/filter/facultysubjects`,
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${AuthData.user.token}`,
@@ -23,7 +23,6 @@ const Dashboard = () => {
 		email: `${AuthData.user.userData.user.email}`,
 			}				
 		});
-		console.log(response.data);
 		setSubjects(response.data);
 	};
 	useEffect(() => {

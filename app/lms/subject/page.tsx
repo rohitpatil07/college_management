@@ -8,6 +8,7 @@ const Page = () => {
 	const subjectid=searchParams.get('subject_id');
 	const subjectname=searchParams.get('subject_name');
   const email=searchParams.get('email');
+  const fac_data=searchParams.get('fac_data');
 	  return (
 		<div className="mx-auto w-full flex flex-col bg-slate-100 ">
       <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
@@ -27,7 +28,7 @@ const Page = () => {
           Home / Dashboard / {subjectname}
         </Link>
       </div>
-      <Subject subject_id={subjectid} subject_name={subjectname} email={email}/>
+      <Subject subject_id={subjectid} subject_name={subjectname} email={email} fac_data={fac_data}/>
     </div>
 	  );
 }

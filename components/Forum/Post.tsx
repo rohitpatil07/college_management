@@ -7,7 +7,7 @@ const Post = ({ post, auth }: any) => {
   const [replies, setReplies] = useState([]);
   const handleFetch = async () => {
     const response = await axios.get(
-      `http://localhost:5000/lms/filter/getreplies/${post.message_id}`,
+      `${server}/lms/filter/getreplies/${post.message_id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +33,7 @@ const Post = ({ post, auth }: any) => {
     if (comment != "") {
       const response = await axios({
         method: "post",
-        url: "http://localhost:5000/lms/form/postcomment",
+        url: "${server}/lms/form/postcomment",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth.user.token}`,
@@ -63,7 +63,7 @@ const Post = ({ post, auth }: any) => {
       };
       const response = await axios({
         method: "post",
-        url: "http://localhost:5000/lms/form/updatecomment",
+        url: "${server}/lms/form/updatecomment",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth.user.token}`,
@@ -85,7 +85,7 @@ const Post = ({ post, auth }: any) => {
       };
       const response = await axios({
         method: "post",
-        url: "http://localhost:5000/lms/form/updatecomment",
+        url: "${server}/lms/form/updatecomment",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth.user.token}`,
@@ -148,7 +148,7 @@ const Post = ({ post, auth }: any) => {
     let post_array = JSON.stringify(parsing);
     const response = await axios({
       method: "post",
-      url: "http://localhost:5000/lms/form/upvotecomment",
+      url: "${server}/lms/form/upvotecomment",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${auth.user.token}`,
@@ -162,7 +162,7 @@ const Post = ({ post, auth }: any) => {
     //   let post_array2 = JSON.stringify(parsing2);
     //   const responses = await axios({
     //     method: "post",
-    //     url: "http://localhost:5000/lms/form/downvotecomment",
+    //     url: "${server}/lms/form/downvotecomment",
     //     headers: {
     //       "Content-Type": "application/json",
     //       Authorization: `Bearer ${auth.user.token}`,
@@ -228,7 +228,7 @@ const Post = ({ post, auth }: any) => {
     let post_array = JSON.stringify(parsing);
     const response = await axios({
       method: "post",
-      url: "http://localhost:5000/lms/form/downvotecomment",
+      url: "${server}/lms/form/downvotecomment",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${auth.user.token}`,
@@ -244,7 +244,7 @@ const Post = ({ post, auth }: any) => {
     //   console.log(post_array2);
     //   const responses = await axios({
     //     method: "post",
-    //     url: "http://localhost:5000/lms/form/upvotecomment",
+    //     url: "${server}/lms/form/upvotecomment",
     //     headers: {
     //       "Content-Type": "application/json",
     //       Authorization: `Bearer ${auth.user.token}`,

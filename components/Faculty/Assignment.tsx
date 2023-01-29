@@ -11,6 +11,7 @@ import { useSearchParams } from "next/navigation";
 const Assignment = ({ subject_id, subject_name }: any) => {
   const router = useRouter();
   const AuthData: any = useAuth();
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const searchParams: any = useSearchParams();
   const [fileType, setfileType]: any = useState();
   const [material, setmaterial] = useState();
@@ -20,7 +21,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
   const [editAssign, setEditAssign]: any = useState(null);
   const get_assign = async () => {
     const response = await axios.get(
-      `http://localhost:5000/lms/filter/getallassignments/${subjectid}`,
+      `${server}/lms/filter/getallassignments/${subjectid}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -105,7 +106,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
   const addAssignment = async () => {
     setassignload(true);
     const response = await axios.post(
-      "http://localhost:5000/lms/form/faculty/upsertAssignment",
+      `${server}/lms/form/faculty/upsertAssignment`,
       assignment,
       {
         headers: {
@@ -205,7 +206,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
     seteloading(true);
     const { ['edit']: edit, ...actualData } = editAssign[i];  
      const response = await axios.post(
-      "http://localhost:5000/lms/form/faculty/upsertAssignment",
+      `${server}/lms/form/faculty/upsertAssignment`,
       actualData,
       {
         headers: {
@@ -235,7 +236,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
    const downloadMat = async ({ assignment_id, file_name, file_type }: any) => {
     console.log(assignment_id, file_name, file_type);
     const response = await axios
-      .get(`http://localhost:5000/lms/download/getmaterial/${assignment_id}`, {
+      .get(`${server}/lms/download/getmaterial/${assignment_id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,
@@ -262,7 +263,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
   ) => {
     const response = await axios
       .get(
-        `http://localhost:5000/lms/download/getassignment/${assignment_id}`,
+        `${server}/lms/download/getassignment/${assignment_id}`,
         {
           headers: {
             "Content-Type": "application/json",

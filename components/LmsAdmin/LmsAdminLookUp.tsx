@@ -10,6 +10,7 @@ import SubjectSkeleton from "./Skeletons/SubjectSkeleton";
 const LmsAdminLookUp = () => {
   const router = useRouter();
   const AuthData: any = useAuth();
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const [showFilters, setShowFilters] = useState(false);
   const [allFaculty, setAllFaculty] = useState([]);
   const [allSubjects, setAllSubjects] = useState([]);
@@ -89,7 +90,7 @@ const LmsAdminLookUp = () => {
       setcurrent_text(serial_text[3]);
       const response = await axios({
         method: "post",
-        url: "http://localhost:5000/lms/filter/facultysubjects",
+        url: `${server}/lms/filter/facultysubjects`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,
@@ -105,7 +106,7 @@ const LmsAdminLookUp = () => {
     } else {
       if (i == 0) {
         const response = await axios.get(
-          "http://localhost:5000/lms/filter/allsubjects",
+          `${server}/lms/filter/allsubjects`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -124,7 +125,7 @@ const LmsAdminLookUp = () => {
         } else {
           const response = await axios({
             method: "post",
-            url: "http://localhost:5000/lms/filter/facultysubjects",
+            url: `${server}/lms/filter/facultysubjects`,
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${AuthData.user.token}`,
@@ -148,7 +149,7 @@ const LmsAdminLookUp = () => {
           window.alert("Enter Text");
         } else {
           const response = await axios.get(
-            `http://localhost:5000/lms/filter/department/subject/${modal_dept_input[0]}/${modal_dept_input[1]}/${modal_dept_input[2]}`,
+            `${server}/lms/filter/department/subject/${modal_dept_input[0]}/${modal_dept_input[1]}/${modal_dept_input[2]}`,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -171,7 +172,7 @@ const LmsAdminLookUp = () => {
     setsubSwitch(false);
     if (i == 0) {
       const response = await axios.get(
-        "http://localhost:5000/lms/filter/allfaculties",
+        `${server}/lms/filter/allfaculties`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -188,7 +189,7 @@ const LmsAdminLookUp = () => {
       } else {
         console.log(modal_current_input);
         const response = await axios.get(
-          `http://localhost:5000/lms/filter/faculty/${modal_current_input}`,
+          `${server}/lms/filter/faculty/${modal_current_input}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -205,7 +206,7 @@ const LmsAdminLookUp = () => {
       } else {
         console.log(modal_current_input);
         const response = await axios.get(
-          `http://localhost:5000/lms/filter/mailfaculty/${modal_current_input}`,
+          `${server}/lms/filter/mailfaculty/${modal_current_input}`,
           {
             headers: {
               "Content-Type": "application/json",

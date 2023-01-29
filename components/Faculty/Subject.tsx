@@ -8,6 +8,7 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 
 const Subject = ({ subject_id, subject_name }: any) => {
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const router = useRouter();
 	const AuthData: any = useAuth();
 	const [modules, setModules]: any = useState(null);
@@ -19,7 +20,7 @@ const Subject = ({ subject_id, subject_name }: any) => {
 	const [subjectInfo, setSubjectInfo]: any = useState(null);
 	const get_module = async () => {
 		const response = await axios.get(
-			`http://localhost:5000/lms/filter/allmodules/${subject_id}`,
+			`${server}/lms/filter/allmodules/${subject_id}`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -31,7 +32,7 @@ const Subject = ({ subject_id, subject_name }: any) => {
 	};
 	const current_subject = async () => {
 		const response = await axios.get(
-			`http://localhost:5000/lms/filter/subject/${subject_id}`,
+			`${server}/lms/filter/subject/${subject_id}`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -54,7 +55,7 @@ const Subject = ({ subject_id, subject_name }: any) => {
 		};
 		const response = await axios({
 			method: "post",
-			url: "http://localhost:5000/lms/form/addmodule",
+			url: `${server}/lms/form/addmodule`,
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${AuthData.user.token}`,

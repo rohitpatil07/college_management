@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 
 const CreateDrive = () => {
 	const AuthData : any  = useAuth();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	let keys=["company_id","role","package","job_location","role_desc","cgpa","be_percent","tenth_percent","twelveth_percent","gender","gap","livekt","deadkt"]
 	const [drives, setDrives]:any= useState({
 				company_id : AuthData.user.userData.user.company_id,
@@ -47,7 +48,7 @@ const CreateDrive = () => {
 			};
 			const response = await axios({
 					method: 'post',
-					url: "http://localhost:5000/add/company/drive",
+					url: `${server}/add/company/drive`,
 					headers: {
 						'Content-Type': 'application/json',
 						'Authorization': `Bearer ${AuthData.user.token}`
@@ -83,7 +84,7 @@ const CreateDrive = () => {
 					}
 					const message=`Notice for ${AuthData.user.userData.user.company_name} Placement Drive`
 					const subject=`Notification for  ${AuthData.user.userData.user.company_name} drive  for ${drives["role"]}`
-					const noti = await axios.post("http://localhost:5000/filter/notify",
+					const noti = await axios.post(`${server}/filter/notify`,
 						{ queries , message , subject },
 						{
 							headers: {

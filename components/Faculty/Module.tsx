@@ -14,9 +14,10 @@ const Module = ({module_id,subject_id,module_name,module_number,subject_name}: a
   const [materialname, setmaterialname]: any = useState('');
   const [fileType, setfileType]: any = useState();
   const [addmaterial, setAddMaterial] = useState(false);
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const get_material = async () => {
       const response = await axios.get(
-        `http://localhost:5000/lms/filter/readmat/module/${module_id}`,
+        `${server}/lms/filter/readmat/module/${module_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -73,7 +74,7 @@ const Module = ({module_id,subject_id,module_name,module_number,subject_name}: a
       }
       const response = await axios({
         method: 'post',
-        url: "http://localhost:5000/lms/form/addreadmat",
+        url: `${server}/lms/form/addreadmat`,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${AuthData.user.token}`
@@ -102,7 +103,7 @@ const Module = ({module_id,subject_id,module_name,module_number,subject_name}: a
     }
 
     const downloadMat=async({reading_material_id,file_name,file_type}: any)=>{
-      const response = await axios.get(`http://localhost:5000/lms/download/getmaterial/${reading_material_id}`, {
+      const response = await axios.get(`${server}/lms/download/getmaterial/${reading_material_id}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`

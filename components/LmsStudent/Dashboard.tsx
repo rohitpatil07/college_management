@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [showForm, setshowForm] = useState(false);
   const [showFormButton, setshowFormButton] = useState(false);
   const [formData, setFormData]: any = useState();
+  let fac_data=subjects.faculty
   const viewSubject = {
     roll_no: `${AuthData.user.userData.user.roll_no}`,
     semester: parseInt(`${AuthData.user.userData.user.semester}`),
@@ -152,7 +153,7 @@ const Dashboard = () => {
                   department,
                   batch,
                   type,
-                  email
+                  email,
                 }: any,
                 i: number
               ) => (
@@ -174,7 +175,8 @@ const Dashboard = () => {
                       query: {
                         subject_id: subject_id,
                         subject_name: subject_name,
-                        email:email
+                        email:email,
+                        fac_data:fac_data
                       },
                     }}
                     className="mb-4 w-fit mx-auto px-16 py-2 rounded-full bg-accent text-white hover:scale-105 transition-all"

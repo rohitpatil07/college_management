@@ -7,7 +7,7 @@ const ForgotPassword = () => {
 
 
 	const AuthData : any  = useAuth();
-
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 
 	const [form, setForm] = useState({
 		email : AuthData.user.userData.user.email,
@@ -30,13 +30,12 @@ const ForgotPassword = () => {
 				throw new Error("Passwords dont match");
 			}
 
-			const response = await axios.post("http://localhost:5000/auth/reset_password" , form , {
+			const response = await axios.post(`${server}/auth/reset_password` , form , {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${AuthData.user.token}`,
 				},
 			});
-
 			alert(response.data);
 
 			setForm({

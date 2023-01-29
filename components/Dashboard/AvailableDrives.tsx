@@ -5,11 +5,11 @@ import axios from "axios";
 import Router from "next/router";
 const AvailableDrives = () => {
 	const AuthData : any = useAuth();
-	console.log(AuthData)
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const[drive,setDrive]:any=useState();
 	const fetchDrive = async () =>
 	{
-		const response = await axios.get(`http://localhost:5000/filter/edrive/${AuthData.user.userData.user.roll_no}`, {
+		const response = await axios.get(`${server}/filter/edrive/${AuthData.user.userData.user.roll_no}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
@@ -34,7 +34,7 @@ const AvailableDrives = () => {
 			
 			
 		};
-		const response = await axios.post("http://localhost:5000/add/student/applieddrive",applieddrive ,{
+		const response = await axios.post(`${server}/add/student/applieddrive`,applieddrive ,{
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${AuthData.user.token}`,

@@ -3,7 +3,7 @@ import React , {useState} from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
-const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
+const server=process.env.NEXT_PUBLIC_SERVER_URL;
 
 const CreateFaculty = () => {
 	const AuthData : any  = useAuth();
@@ -70,7 +70,7 @@ const CreateFaculty = () => {
 			};
 			const response = await axios({
 					method: 'post',
-					url: "http://localhost:5000/lms/form/addfaculty",
+					url: `${server}/lms/form/addfaculty`,
 					headers: {
 						'Content-Type': 'application/json',
 						'Authorization': `Bearer ${AuthData.user.token}`
