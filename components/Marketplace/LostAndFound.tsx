@@ -4,33 +4,47 @@ import Loading from "../Loaders/Loading";
 import Link from "next/link";
 import axios from "axios";
 import ImagePreview from "./ImagePreview";
+import { useAuth } from "../../contexts/AuthContext";
 
 const LostAndFound = () => {
-	const [lostItems, setLostItems] = useState([]);
+	const AuthData: any = useAuth();
+	const [allItems, setAllItems] = useState([]);
 	const [modalDisplay, setModayDisplay] = useState(false);
 	const [itemName, setItemName] = useState("");
 	const [owner, setOwner] = useState("");
 	const [showImagePreview, setShowImagePreview] = useState(false);
 	const [currentImage, setCurrentImage] = useState("");
+	const [loadingState, setLoadingState] = useState(false);
 
-	const getLostItems = async () => {
+	const getAllItems = async () => {
 		try {
+			setLoadingState(true);
 			const response = await axios.get(
 				"http://localhost:5000/market/lost_items",
 				{
 					headers: {
 						"Content-Type": "application/json",
+						Authorization: `Bearer ${AuthData.user.token}`,
 					},
 				}
 			);
-			setLostItems(response.data);
+			setLoadingState(false);
+			setAllItems(response.data);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
+	const filteredLostItems: any = allItems.length
+		? allItems.filter((product: any) => product.found == false)
+		: [];
+
+	const filteredFoundItems: any = allItems.length
+		? allItems.filter((product: any) => product.found == true)
+		: [];
+
 	useEffect(() => {
-		getLostItems();
+		getAllItems();
 	}, []);
 
 	const [lostItemToggle, setLostItemToggle] = useState(true);
@@ -104,13 +118,13 @@ const LostAndFound = () => {
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
 								viewBox="0 0 24 24"
-								stroke-width="1.5"
+								strokeWidth="1.5"
 								stroke="currentColor"
 								className="w-6 h-6 mr-1"
 							>
 								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
+									strokeLinecap="round"
+									strokeLinejoin="round"
 									d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
 								/>
 							</svg>
@@ -144,73 +158,145 @@ const LostAndFound = () => {
 						</button>
 					</div>
 
-					{lostItemToggle ? (
-						lostItems.length > 0 ? (
-							<>
-								<div className="w-11/12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-center justify-items-center my-5">
-									{lostItems.map(
-										({ item_id, item_image, item_name, story, owner }: any) => (
-											<>
-												<div
-													key={item_id}
-													className="flex flex-col items-center w-full drop-shadow-2xl rounded-xl overflow-hidden bg-white"
-												>
-													{item_image != null ? (
-														<>
-															<img
-																src={item_image}
-																alt={item_name}
-																onClick={() => {
-																	setShowImagePreview(true);
-																	setCurrentImage(item_image);
-																}}
-																className="w-full h-[10rem] object-cover rounded-xl cursor-pointer"
-															/>
-														</>
-													) : (
-														<div className="w-full h-[10rem] object-cover rounded-xl flex items-center justify-center bg-gray-300">
-															{" "}
-															<p>No image uploaded</p>
+					{lostItemToggle
+						? filteredLostItems.length > 0 && (
+								<>
+									{loadingState && <Loading loadingState="loading" />}
+									<div className="w-11/12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-center justify-items-center my-5">
+										{filteredLostItems.map(
+											({
+												item_id,
+												item_image,
+												item_name,
+												story,
+												owner,
+												found,
+											}: any) => (
+												<>
+													<div
+														key={item_id}
+														className="flex flex-col items-center w-full drop-shadow-2xl rounded-xl overflow-hidden bg-white"
+													>
+														{item_image != null ? (
+															<>
+																<img
+																	src={item_image}
+																	alt={item_name}
+																	onClick={() => {
+																		setShowImagePreview(true);
+																		setCurrentImage(item_image);
+																	}}
+																	className="w-full h-[10rem] object-cover rounded-xl cursor-pointer"
+																/>
+															</>
+														) : (
+															<div className="w-full h-[10rem] object-cover rounded-xl flex items-center justify-center bg-gray-300">
+																{" "}
+																<p>No image uploaded</p>
+															</div>
+														)}
+														<div className="text-lg sm:text-xl font-medium text-gray-900 my-4 whitespace-nowrap overflow-hidden text-ellipsis">
+															{item_name}
 														</div>
-													)}
-													<div className="text-lg sm:text-xl font-medium text-gray-900 my-4 whitespace-nowrap overflow-hidden text-ellipsis">
-														{item_name}
+														<div className="text-gray-600 text-[0.75rem] text-justify mx-5 mb-5 h-12 text-ellipsis">
+															{story != null
+																? story
+																: "No description provided"}
+														</div>
+														<div className="flex flex-col gap-4 mb-5 w-11/12">
+															<button
+																onClick={() => {
+																	setModayDisplay(true);
+																	setOwner(owner);
+																	setItemName(item_name);
+																}}
+																className="w-full mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+															>
+																Contact Owner
+															</button>
+															<button
+																onClick={() => {}}
+																className="w-full mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+															>
+																Discuss
+															</button>
+														</div>
 													</div>
-													<div className="text-gray-600 text-[0.75rem] text-justify mx-5 mb-5 h-12 text-ellipsis">
-														{story != null ? story : "No description provided"}
+												</>
+											)
+										)}
+									</div>
+								</>
+						  )
+						: filteredFoundItems.length > 0 && (
+								<>
+									{loadingState && <Loading loadingState="loading" />}
+									<div className="w-11/12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-center justify-items-center my-5">
+										{filteredFoundItems.map(
+											({
+												item_id,
+												item_image,
+												item_name,
+												story,
+												owner,
+												found,
+											}: any) => (
+												<>
+													<div
+														key={item_id}
+														className="flex flex-col items-center w-full drop-shadow-2xl rounded-xl overflow-hidden bg-white"
+													>
+														{item_image != null ? (
+															<>
+																<img
+																	src={item_image}
+																	alt={item_name}
+																	onClick={() => {
+																		setShowImagePreview(true);
+																		setCurrentImage(item_image);
+																	}}
+																	className="w-full h-[10rem] object-cover rounded-xl cursor-pointer"
+																/>
+															</>
+														) : (
+															<div className="w-full h-[10rem] object-cover rounded-xl flex items-center justify-center bg-gray-300">
+																{" "}
+																<p>No image uploaded</p>
+															</div>
+														)}
+														<div className="text-lg sm:text-xl font-medium text-gray-900 my-4 whitespace-nowrap overflow-hidden text-ellipsis">
+															{item_name}
+														</div>
+														<div className="text-gray-600 text-[0.75rem] text-justify mx-5 mb-5 h-12 text-ellipsis">
+															{story != null
+																? story
+																: "No description provided"}
+														</div>
+														<div className="flex flex-col gap-4 mb-5 w-11/12">
+															<button
+																onClick={() => {
+																	setModayDisplay(true);
+																	setOwner(owner);
+																	setItemName(item_name);
+																}}
+																className="w-full mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+															>
+																Contact Reporter
+															</button>
+															<button
+																onClick={() => {}}
+																className="w-full mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+															>
+																Discuss
+															</button>
+														</div>
 													</div>
-													<div className="flex flex-col gap-4 mb-5 w-11/12">
-														<button
-															onClick={() => {
-																setModayDisplay(true);
-																setOwner(owner);
-																setItemName(item_name);
-															}}
-															className="w-full mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
-														>
-															Contact Owner
-														</button>
-														<button
-															onClick={() => {}}
-															className="w-full mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
-														>
-															Discuss
-														</button>
-													</div>
-												</div>
-											</>
-										)
-									)}
-								</div>
-							</>
-						) : (
-							<>
-								<Loading loadState="loading" />
-							</>
-						)
-					) : (
-						""
-					)}
+												</>
+											)
+										)}
+									</div>
+								</>
+						  )}
 
 					{showImagePreview && (
 						<ImagePreview
@@ -239,13 +325,13 @@ const LostAndFound = () => {
 												xmlns="http://www.w3.org/2000/svg"
 												fill="none"
 												viewBox="0 0 24 24"
-												stroke-width="1.5"
+												strokeWidth="1.5"
 												stroke="currentColor"
 												className="w-6 h-6 stroke-red-600"
 											>
 												<path
-													stroke-linecap="round"
-													stroke-linejoin="round"
+													strokeLinecap="round"
+													strokeLinejoin="round"
 													d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 												/>
 											</svg>

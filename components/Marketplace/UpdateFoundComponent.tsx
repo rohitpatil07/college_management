@@ -4,29 +4,16 @@ import Link from "next/link";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 
-const AddProduct = () => {
+const UpdateFoundComponent = () => {
 	const AuthData: any = useAuth();
 
-	const productCategories = [
-		"Books",
-		"Mobiles & Accessories",
-		"Clothing",
-		"Electronics",
-		"Computer Hardware",
-		"Sports",
-		"Cars/Motorcycles",
-		"Fashion Accessories",
-		"Home Appliances",
-		"Medical Equipment",
-		"Others",
-	];
-	const [productData, setProductData] = useState({
-		product_image: "",
-		product_name: "",
-		price: 0,
-		category: productCategories[0],
-		product_des: "",
+	const [itemData, setItemData] = useState({
+		item_image: "",
+		item_name: "",
+		story: "",
+		owner: "",
 	});
 
 	const handlePhotoUpload = (e: any) => {
@@ -34,36 +21,28 @@ const AddProduct = () => {
 		const reader: any = new FileReader();
 		reader.readAsDataURL(file);
 		reader.onload = () => {
-			setProductData({ ...productData, product_image: reader.result });
+			setItemData({ ...itemData, item_image: reader.result });
 		};
 	};
 
 	const handleSubmit = async () => {
-		const product_data: {
-			product_image: string;
-			product_name: string;
-			owner: string;
-			owner_role: string;
-			price: number;
-			category: string;
-			product_des: string;
-		} = {
-			product_image: productData.product_image,
-			product_name: productData.product_name,
+		const item_data = {
+			item_image: itemData.item_image,
+			item_name: itemData.item_name,
 			owner: AuthData.user.userData.user.email,
-			owner_role: AuthData.user.userData.user.role,
-			price: productData.price,
-			category: productData.category,
-			product_des: productData.product_des,
+			story: itemData.story,
+			found: true,
 		};
+
+		console.log(item_data);
 
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/market/products/addproduct",
-				{ product_data },
+				"http://localhost:5000/market/lost_items/addLostItem",
+				{ lost_item: item_data },
 				{
 					headers: {
-						"Content-type": "application/json",
+						"Content-Type": "application/json",
 						Authorization: `Bearer ${AuthData.user.token}`,
 					},
 				}
@@ -83,7 +62,7 @@ const AddProduct = () => {
 					timer: 1500,
 				});
 			}
-			window.location.href = "/marketplace/products";
+			window.location.href = "/marketplace/lostfound";
 		} catch (error) {
 			console.log(error);
 		}
@@ -121,81 +100,52 @@ const AddProduct = () => {
 						</Link>
 						<p className="mx-2">/</p>
 						<Link
-							href="/marketplace/products"
+							href="/marketplace/lostfound"
 							className="flex flex-row items-center border-slate-300"
 						>
-							Products
+							Lost and Found
 						</Link>
 						<p className="mx-2">/</p>
 						<Link
-							href="/marketplace/products/addProduct"
+							href="/marketplace/lostfound/reportFoundItem"
 							className="flex flex-row items-center border-slate-300"
 						>
-							Add Product
+							Report Found Item
 						</Link>
 					</div>
 					<h3 className="text-xl sm:text-2xl font-bold text-gray-800 py-2 border-b-2 w-11/12 text-center">
-						Add New Product
+						Report a Found Item
 					</h3>
-					<div className="pt-5 grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-4">
+					<div className="pt-5 w-11/12 grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-4">
 						<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-							<label className="">Product Name</label>
+							<label className="">Item Name</label>
 							<input
 								className="border-2 rounded-md p-1 w-1/2"
 								type="text"
 								onChange={(e) => {
-									setProductData({
-										...productData,
-										product_name: e.target.value,
+									setItemData({
+										...itemData,
+										item_name: e.target.value,
 									});
 								}}
 							/>
 						</div>
 						<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-							<label className="">Price (in ₹)</label>
-							<input
-								className="border-2 rounded-md p-1 w-1/2"
-								type="number"
-								onChange={(e) => {
-									setProductData({
-										...productData,
-										price: parseInt(e.target.value),
-									});
-								}}
-							/>
-						</div>
-						<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-							<label className="">Category</label>
-							<select
-								className="border-2 rounded-md p-1 w-1/2"
-								onChange={(e) => {
-									setProductData({ ...productData, category: e.target.value });
-								}}
-							>
-								{productCategories.map((item) => {
-									return (
-										<option key={item} value={item}>
-											{item}
-										</option>
-									);
-								})}
-							</select>
-						</div>
-						<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-							<label className="">Product Description</label>
+							<label className="">Item Description</label>
 							<textarea
+								placeholder="Describe the item and give any additional contact information"
 								className="border-2 rounded-md p-1 w-1/2"
 								onChange={(e) => {
-									setProductData({
-										...productData,
-										product_des: e.target.value,
+									setItemData({
+										...itemData,
+										story: e.target.value,
 									});
 								}}
 							></textarea>
 						</div>
 						<div>
 							<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
-								<label className="">Photo</label>
+								<label className="">Item Image</label>
 								<input
 									className="border-2 rounded-md p-1 w-1/2"
 									type="file"
@@ -207,7 +157,6 @@ const AddProduct = () => {
 							</div>
 						</div>
 					</div>
-
 					<button
 						className="p-2 bg-accent text-white mx-auto mt-8 mb-4 px-8 rounded-lg hover:scale-105 transition-all"
 						onClick={handleSubmit}
@@ -220,4 +169,4 @@ const AddProduct = () => {
 	);
 };
 
-export default AddProduct;
+export default UpdateFoundComponent;

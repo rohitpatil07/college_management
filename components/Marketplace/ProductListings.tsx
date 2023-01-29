@@ -16,6 +16,7 @@ const ProductListings = () => {
 	const [showImagePreview, setShowImagePreview] = useState(false);
 	const [currentImage, setCurrentImage] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
+	const [loadingState, setLoadingState] = useState(false);
 	const productCategories = [
 		"Books",
 		"Mobiles & Accessories",
@@ -36,6 +37,7 @@ const ProductListings = () => {
 
 	const getProduct = async () => {
 		try {
+			setLoadingState(true);
 			const response = await axios.get(
 				"http://localhost:5000/market/products",
 				{
@@ -45,7 +47,7 @@ const ProductListings = () => {
 					},
 				}
 			);
-			// console.log(response);
+			setLoadingState(false);
 			setProducts(response.data);
 		} catch (error) {
 			console.log(error);
@@ -184,8 +186,9 @@ const ProductListings = () => {
 						</div>
 					</div>
 
-					{products.length > 0 ? (
+					{products.length > 0 && (
 						<>
+							{loadingState && <Loading loadState="loading" />}
 							<div className="w-11/12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-center justify-items-center my-5">
 								{filteredProducts.map(
 									(
@@ -254,10 +257,6 @@ const ProductListings = () => {
 								)}
 							</div>
 						</>
-					) : (
-						<>
-							<Loading loadState="loading" />
-						</>
 					)}
 				</div>
 
@@ -288,13 +287,13 @@ const ProductListings = () => {
 											xmlns="http://www.w3.org/2000/svg"
 											fill="none"
 											viewBox="0 0 24 24"
-											stroke-width="1.5"
+											strokeWidth="1.5"
 											stroke="currentColor"
 											className="w-6 h-6 stroke-red-600"
 										>
 											<path
-												stroke-linecap="round"
-												stroke-linejoin="round"
+												strokeLinecap="round"
+												strokeLinejoin="round"
 												d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 											/>
 										</svg>

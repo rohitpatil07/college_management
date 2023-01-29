@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 
 const ReportFoundComponent = () => {
 	const AuthData: any = useAuth();
@@ -29,6 +31,7 @@ const ReportFoundComponent = () => {
 			item_name: itemData.item_name,
 			owner: AuthData.user.userData.user.email,
 			story: itemData.story,
+			found: true,
 		};
 
 		console.log(item_data);
@@ -36,9 +39,30 @@ const ReportFoundComponent = () => {
 		try {
 			const response = await axios.post(
 				"http://localhost:5000/market/lost_items/addLostItem",
-				{ lost_item: item_data }
+				{ lost_item: item_data },
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${AuthData.user.token}`,
+					},
+				}
 			);
-			console.log(response.data);
+			if (response.status == 200) {
+				Swal.fire({
+					icon: "success",
+					title: "Added Successfully",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			} else {
+				Swal.fire({
+					icon: "error",
+					title: "Failed..Please Try Again",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			}
+			window.location.href = "/marketplace/lostfound";
 		} catch (error) {
 			console.log(error);
 		}

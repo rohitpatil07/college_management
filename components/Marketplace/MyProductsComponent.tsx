@@ -18,7 +18,7 @@ const ProductListings = () => {
 		lostitem: false,
 		founditem: false,
 	});
-	const [lostItems, setLostItems] = useState([]);
+	const [lostFoundItems, setLostFoundItems] = useState([]);
 
 	const getProduct = async () => {
 		try {
@@ -28,7 +28,7 @@ const ProductListings = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						// Authorization: `Bearer ${AuthData.user.token}`,
+						Authorization: `Bearer ${AuthData.user.token}`,
 					},
 				}
 			);
@@ -40,7 +40,7 @@ const ProductListings = () => {
 		}
 	};
 
-	const getLostItems = async () => {
+	const getlostFoundItems = async () => {
 		try {
 			setLoadingState(true);
 			const response = await axios.get(
@@ -48,11 +48,12 @@ const ProductListings = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
+						Authorization: `Bearer ${AuthData.user.token}`,
 					},
 				}
 			);
 			setLoadingState(false);
-			setLostItems(response.data);
+			setLostFoundItems(response.data);
 		} catch (error) {
 			console.log(error);
 		}
@@ -64,9 +65,19 @@ const ProductListings = () => {
 		  )
 		: [];
 
-	const filteredLostItems: any = lostItems.length
-		? lostItems.filter(
-				(product: any) => product.owner === AuthData.user.userData.user.email
+	const filteredLostItems: any = lostFoundItems.length
+		? lostFoundItems.filter(
+				(product: any) =>
+					product.owner === AuthData.user.userData.user.email &&
+					product.found == false
+		  )
+		: [];
+
+	const filteredFoundItems: any = lostFoundItems.length
+		? lostFoundItems.filter(
+				(product: any) =>
+					product.owner === AuthData.user.userData.user.email &&
+					product.found == true
 		  )
 		: [];
 
@@ -74,29 +85,43 @@ const ProductListings = () => {
 		try {
 			const response = await axios.post(
 				"http://localhost:5000/market/products/delete",
-				{ product_id: product_id }
+				{ product_id: product_id },
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${AuthData.user.token}`,
+					},
+				}
 			);
 			console.log(response);
 		} catch (error) {
 			console.log(error);
 		}
+		window.location.reload();
 	};
 
-	const handleLostItemDeletion = async (product_id: any) => {
+	const handleLostFoundItemDeletion = async (item_id: any) => {
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/market/products/delete",
-				{ product_id: product_id }
+				"http://localhost:5000/market/lost_items/delete",
+				{ item_id: item_id },
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${AuthData.user.token}`,
+					},
+				}
 			);
 			console.log(response);
 		} catch (error) {
 			console.log(error);
 		}
+		window.location.reload();
 	};
 
 	useEffect(() => {
 		getProduct();
-		getLostItems();
+		getlostFoundItems();
 	}, []);
 	return (
 		<>
@@ -214,25 +239,46 @@ const ProductListings = () => {
 												key={product_id}
 												className="relative flex flex-col items-center w-full drop-shadow-2xl rounded-xl overflow-hidden bg-white"
 											>
-												<button
-													onClick={() => handleProductDeletion(product_id)}
-													className="absolute top-0 right-0 m-2 rounded-full bg-red-500 hover:scale-110 p-1 shadow-md transition-all"
-												>
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														fill="none"
-														viewBox="0 0 24 24"
-														stroke-width="1.5"
-														stroke="currentColor"
-														className="w-6 h-6 stroke-white"
+												<div className="absolute top-0 right-0 flex gap-2 m-2">
+													<Link
+														href={`/marketplace/products/updateProduct/${product_id}`}
+														className="rounded-full bg-blue-500 hover:scale-110 p-1 shadow-md transition-all"
 													>
-														<path
-															stroke-linecap="round"
-															stroke-linejoin="round"
-															d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-														/>
-													</svg>
-												</button>
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															viewBox="0 0 24 24"
+															strokeWidth="1.5"
+															stroke="currentColor"
+															className="w-6 h-6 stroke-white"
+														>
+															<path
+																strokeLinecap="round"
+																strokeLinejoin="round"
+																d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+															/>
+														</svg>
+													</Link>
+													<button
+														onClick={() => handleProductDeletion(product_id)}
+														className="rounded-full bg-red-500 hover:scale-110 p-1 shadow-md transition-all"
+													>
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															viewBox="0 0 24 24"
+															strokeWidth="1.5"
+															stroke="currentColor"
+															className="w-6 h-6 stroke-white"
+														>
+															<path
+																strokeLinecap="round"
+																strokeLinejoin="round"
+																d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+															/>
+														</svg>
+													</button>
+												</div>
 												{product_image != null ? (
 													<>
 														<img
@@ -283,22 +329,137 @@ const ProductListings = () => {
 												key={item_id}
 												className="relative flex flex-col items-center w-full drop-shadow-2xl rounded-xl overflow-hidden bg-white"
 											>
-												<button className="absolute top-0 right-0 m-2 rounded-full bg-red-500 hover:scale-110 p-1 shadow-md transition-all">
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														fill="none"
-														viewBox="0 0 24 24"
-														stroke-width="1.5"
-														stroke="currentColor"
-														className="w-6 h-6 stroke-white"
+												<div className="absolute top-0 right-0 flex gap-2 m-2">
+													<Link
+														href={`/marketplace/lostfound/updateLostItem/${item_id}`}
+														onClick={() => handleLostFoundItemDeletion(item_id)}
+														className="rounded-full bg-blue-500 hover:scale-110 p-1 shadow-md transition-all"
 													>
-														<path
-															stroke-linecap="round"
-															stroke-linejoin="round"
-															d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															viewBox="0 0 24 24"
+															stroke-width="1.5"
+															stroke="currentColor"
+															className="w-6 h-6 stroke-white"
+														>
+															<path
+																stroke-linecap="round"
+																stroke-linejoin="round"
+																d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+															/>
+														</svg>
+													</Link>
+													<button
+														onClick={() => handleLostFoundItemDeletion(item_id)}
+														className="rounded-full bg-red-500 hover:scale-110 p-1 shadow-md transition-all"
+													>
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															viewBox="0 0 24 24"
+															strokeWidth="1.5"
+															stroke="currentColor"
+															className="w-6 h-6 stroke-white"
+														>
+															<path
+																strokeLinecap="round"
+																strokeLinejoin="round"
+																d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+															/>
+														</svg>
+													</button>
+												</div>
+												{item_image != null ? (
+													<>
+														<img
+															src={item_image}
+															alt={item_name}
+															onClick={() => {
+																setShowImagePreview(true);
+																setCurrentImage(item_image);
+															}}
+															className="w-full h-[10rem] object-cover rounded-xl cursor-pointer"
 														/>
-													</svg>
-												</button>
+													</>
+												) : (
+													<div className="w-full h-[10rem] object-cover rounded-xl flex items-center justify-center bg-gray-300">
+														{" "}
+														<p>No image uploaded</p>
+													</div>
+												)}
+												<div className="text-lg sm:text-xl font-medium text-gray-900 my-4 whitespace-nowrap overflow-hidden text-ellipsis">
+													{item_name}
+												</div>
+												<div className="text-gray-600 text-[0.75rem] text-justify mx-5 mb-5 h-12 text-ellipsis">
+													{story != null ? story : "No description provided"}
+												</div>
+												<div className="flex flex-col gap-4 mb-5 w-11/12">
+													<button
+														onClick={() => {}}
+														className="w-full mx-auto px-8 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all"
+													>
+														Discuss
+													</button>
+												</div>
+											</div>
+										</>
+									)
+								)}
+							</div>
+						</>
+					)}
+					{currentTab.founditem && (
+						<>
+							{loadingState && <Loading loadState="loading" />}
+							<div className="w-11/12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-center justify-items-center my-5">
+								{filteredFoundItems.map(
+									({ item_id, item_image, item_name, story, owner }: any) => (
+										<>
+											<div
+												key={item_id}
+												className="relative flex flex-col items-center w-full drop-shadow-2xl rounded-xl overflow-hidden bg-white"
+											>
+												<div className="absolute top-0 right-0 flex gap-2 m-2">
+													<button
+														onClick={() => handleLostFoundItemDeletion(item_id)}
+														className="rounded-full bg-blue-500 hover:scale-110 p-1 shadow-md transition-all"
+													>
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															viewBox="0 0 24 24"
+															stroke-width="1.5"
+															stroke="currentColor"
+															className="w-6 h-6 stroke-white"
+														>
+															<path
+																stroke-linecap="round"
+																stroke-linejoin="round"
+																d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+															/>
+														</svg>
+													</button>
+													<button
+														onClick={() => handleLostFoundItemDeletion(item_id)}
+														className="rounded-full bg-red-500 hover:scale-110 p-1 shadow-md transition-all"
+													>
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															viewBox="0 0 24 24"
+															strokeWidth="1.5"
+															stroke="currentColor"
+															className="w-6 h-6 stroke-white"
+														>
+															<path
+																strokeLinecap="round"
+																strokeLinejoin="round"
+																d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+															/>
+														</svg>
+													</button>
+												</div>
 												{item_image != null ? (
 													<>
 														<img

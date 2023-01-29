@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const AddProduct = () => {
+const UpdateProductComponent = ({ product_id }: any) => {
 	const AuthData: any = useAuth();
 
 	const productCategories = [
@@ -38,6 +38,26 @@ const AddProduct = () => {
 		};
 	};
 
+	const getCurrentProduct = async (product_id: any) => {
+		try {
+			const response = await axios.post(
+				"http://localhost:5000/market/products/product",
+				{ product_id },
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${AuthData.user.token}`,
+					},
+				}
+			);
+			console.log(response.data);
+			productData.category = response.data.category;
+			setProductData(response.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const handleSubmit = async () => {
 		const product_data: {
 			product_image: string;
@@ -56,11 +76,12 @@ const AddProduct = () => {
 			category: productData.category,
 			product_des: productData.product_des,
 		};
+		product_id = parseInt(product_id);
 
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/market/products/addproduct",
-				{ product_data },
+				"http://localhost:5000/market/products/update",
+				{ product_id, product_data },
 				{
 					headers: {
 						"Content-type": "application/json",
@@ -71,7 +92,7 @@ const AddProduct = () => {
 			if (response.status == 200) {
 				Swal.fire({
 					icon: "success",
-					title: "Added Successfully",
+					title: "Updated Successfully",
 					showConfirmButton: false,
 					timer: 1500,
 				});
@@ -83,11 +104,17 @@ const AddProduct = () => {
 					timer: 1500,
 				});
 			}
-			window.location.href = "/marketplace/products";
+			console.log(response);
+			window.location.href = "/marketplace/myproducts";
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		product_id = parseInt(product_id);
+		getCurrentProduct(product_id);
+	}, []);
 
 	return (
 		<>
@@ -128,14 +155,14 @@ const AddProduct = () => {
 						</Link>
 						<p className="mx-2">/</p>
 						<Link
-							href="/marketplace/products/addProduct"
+							href={`/marketplace/products/updateProduct/${product_id}`}
 							className="flex flex-row items-center border-slate-300"
 						>
-							Add Product
+							Update Product
 						</Link>
 					</div>
 					<h3 className="text-xl sm:text-2xl font-bold text-gray-800 py-2 border-b-2 w-11/12 text-center">
-						Add New Product
+						Update Product {product_id}
 					</h3>
 					<div className="pt-5 grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-4">
 						<div className="flex flex-row justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
@@ -143,6 +170,7 @@ const AddProduct = () => {
 							<input
 								className="border-2 rounded-md p-1 w-1/2"
 								type="text"
+								value={productData["product_name"]}
 								onChange={(e) => {
 									setProductData({
 										...productData,
@@ -156,6 +184,7 @@ const AddProduct = () => {
 							<input
 								className="border-2 rounded-md p-1 w-1/2"
 								type="number"
+								value={productData["price"]}
 								onChange={(e) => {
 									setProductData({
 										...productData,
@@ -168,6 +197,7 @@ const AddProduct = () => {
 							<label className="">Category</label>
 							<select
 								className="border-2 rounded-md p-1 w-1/2"
+								value={productData["category"]}
 								onChange={(e) => {
 									setProductData({ ...productData, category: e.target.value });
 								}}
@@ -185,6 +215,7 @@ const AddProduct = () => {
 							<label className="">Product Description</label>
 							<textarea
 								className="border-2 rounded-md p-1 w-1/2"
+								value={productData["product_des"]}
 								onChange={(e) => {
 									setProductData({
 										...productData,
@@ -220,4 +251,4 @@ const AddProduct = () => {
 	);
 };
 
-export default AddProduct;
+export default UpdateProductComponent;
