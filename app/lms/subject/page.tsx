@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation';
-import Subject from "../../../components/Faculty/Subject";
+import Subject from "../../../components/LmsStudent/Subject";
 import Link from "next/link";
 const Page = () => {
 	const searchParams:any = useSearchParams();
@@ -10,7 +10,7 @@ const Page = () => {
 	  return (
 		<div className="mx-auto w-full flex flex-col bg-slate-100 ">
       <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
-        <Link href='/faculty/dashboard' className="flex flex-row items-center pb-2 my-1 border-b border-slate-300">
+        <Link href='/lms/dash' className="flex flex-row items-center pb-2 my-1 border-b border-slate-300">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"

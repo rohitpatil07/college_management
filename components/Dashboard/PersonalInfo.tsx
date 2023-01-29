@@ -79,10 +79,20 @@ const PersonalInfo = () => {
 	const previewFile = (file: any) => {
 		const reader: any = new FileReader();
 		reader.readAsDataURL(file);
-		reader.onloadend = () => {
-			setPreviewSource(reader.result);
-			personalInfo[personalInfo.length - 1].value = reader.result;
-		};
+		if(file.type=='image/jpeg'){
+			reader.onloadend = () => {
+				personalInfo[personalInfo.length - 1].value = reader.result.slice(reader.result.indexOf(',')+1);
+			  setPreviewSource(reader.result.slice(reader.result.indexOf(',')+1));
+			};
+		  }
+		  else {
+			Swal.fire({
+			  icon: "warning",
+			  title: "Please Enter File Formats Of Pdf, Ppt, Docs, Jpeg",
+			  showConfirmButton: false,
+			  timer: 1500,
+			});
+		  }
 		setDisabling(false);
 	};
 
@@ -111,7 +121,7 @@ const PersonalInfo = () => {
 			}
 		);
 		setUpdateLoading(false);
-		if (response.data.status == 200) {
+		if (response.status == 200) {
 			Swal.fire({
 				icon: "success",
 				title: "Update Successfully",
@@ -144,7 +154,7 @@ const PersonalInfo = () => {
 					<div className="w-[100px] h-[100px] relative rounded-full text-black">
 						<img
 							className="rounded-full w-[100px] h-[100px]"
-							src={previewsource}
+							src={`data:image/jpg; base64, ${previewsource}`}
 							alt="profilePic"
 						/>
 						<div className="text-slate-500 text-center absolute bg-white rounded-full bottom-[-10%] right-[32%] border-gray-300 border-solid border-2 w-8 h-8 overflow-hidden">
@@ -164,6 +174,7 @@ const PersonalInfo = () => {
 								className="absolute cursor-pointer top-0 scale-110 opacity-0"
 								type="file"
 								onChange={handlePhotoInputs}
+								accept="image/*"
 							/>
 						</div>
 					</div>

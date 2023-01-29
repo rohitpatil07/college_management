@@ -90,21 +90,21 @@ function NextResume() {
 						<p>Email: {email}</p>
 						<p>Linkedin: {link}</p>
 					</div>
-					{base == undefined ? (
-						<Image
-							src={Avatar}
-							className="translate-y-10 translate-x-12 mx-auto z-10 w-[150px] h-[150px] rounded-full bg-white"
-							alt="Profile"
-						/>
-					) : (
-						<Image
-							src={`data:image/jpg; base64, ${base}`}
-							className="translate-y-10 mx-5 z-10 w-[150px] h-[150px] rounded-full bg-white"
-							alt="Profile"
-							width={150}
-							height={150}
-						/>
-					)}
+					{base==undefined?
+					<Image
+						src={Avatar}
+						className="translate-y-10 translate-x-12 mx-auto z-10 w-[150px] h-[150px] rounded-full bg-white"
+						alt="Profile"
+					/>
+				     :
+					<Image
+						src={`data:image/jpeg; base64, ${base}`}
+						className="translate-y-10 mx-5 z-10 w-[150px] h-[150px] rounded-full bg-white"
+						alt="Profile"
+						width={150}
+						height={150}
+					/>
+					}
 					<Image
 						src={Logo}
 						className="right-5 absolute w-[200px] h-[120px] bg-white rounded-lg p-2"
@@ -202,8 +202,8 @@ function NextResume() {
 									<></>
 								) : (
 									<div>
-										{proj.map(({ proj_name, proj_desc, role }: any) => (
-											<ul>
+										{proj.map(({ proj_name, proj_desc, role } : any, index:Number) => (
+											<ul key={proj_name}>
 												<li>
 													{proj_name} : {proj_desc} ,Role:{role}
 												</li>
@@ -227,7 +227,7 @@ function NextResume() {
 													end_month,
 													year,
 												}: any) => (
-													<ul>
+													<ul key={company_name}>
 														<li>
 															{company_name} : {description} ,{start_month}-
 															{end_month} {year}
@@ -262,8 +262,8 @@ function NextResume() {
 							) : (
 								<div>
 									{extra.map(
-										({ description, activity_month, activity_year }: any) => (
-											<ul>
+										({ description, activity_month, activity_year }: any , index:Number) => (
+											<ul key={description}>
 												<li>
 													{description} : {activity_month} {activity_year}
 												</li>

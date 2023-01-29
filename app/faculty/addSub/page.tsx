@@ -1,12 +1,8 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from 'next/navigation';
-import Subject from "../../../components/Faculty/Subject";
 import Link from "next/link";
+import AddSubject from "../../../components/Faculty/AddSubject";
 const Page = () => {
-	const searchParams:any = useSearchParams();
-	const subjectid=searchParams.get('subject_id');
-	const subjectname=searchParams.get('subject_name');
 	  return (
 		<div className="mx-auto w-full flex flex-col bg-slate-100 ">
       <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
@@ -23,10 +19,10 @@ const Page = () => {
               clipRule="evenodd"
             />
           </svg>
-          Home / Dashboard / {subjectname}
+          Home / Dashboard / Add
         </Link>
       </div>
-      <Subject subject_id={subjectid} subject_name={subjectname}/>
+      <AddSubject/>
     </div>
 	  );
 }
