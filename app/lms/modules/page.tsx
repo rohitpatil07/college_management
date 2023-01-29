@@ -10,6 +10,7 @@ const Page = () => {
     const moduleid=searchParams.get('module_id');
 	const modulename=searchParams.get('module_name');
     const modulenumber=searchParams.get('module_number');
+    const email=searchParams.get('email');
 	  return (
 		<div className="mx-auto w-full flex flex-col bg-slate-100 ">
       <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
@@ -18,7 +19,8 @@ const Page = () => {
 								query:
 								{
 									subject_id: subjectid,
-									subject_name: subjectname
+									subject_name: subjectname,
+                  email:email
 								}
 							}} className="flex flex-row items-center pb-2 my-1 border-b border-slate-300">
           <svg
@@ -36,7 +38,7 @@ const Page = () => {
           Home / Dashboard / {subjectname} / Module {modulenumber}: {modulename}
         </Link>
       </div>
-      <Module subject_id={subjectid} module_id={moduleid} module_number={modulenumber} module_name={modulename}/>
+      <Module email={email} subject_id={subjectid} module_id={moduleid} module_number={modulenumber} module_name={modulename} subject_name={subjectname}/>
     </div>
 	  );
 }

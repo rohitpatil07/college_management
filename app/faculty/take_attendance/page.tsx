@@ -1,20 +1,17 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation';
-import Module from "../../../components/Faculty/Module";
 import Link from "next/link";
+import AttendanceRecord from "../../../components/Faculty/AttendanceRecord";
 const Page = () => {
 	const searchParams:any = useSearchParams();
 	const subjectid=searchParams.get('subject_id');
 	const subjectname=searchParams.get('subject_name');
-    const moduleid=searchParams.get('module_id');
-	const modulename=searchParams.get('module_name');
-    const modulenumber=searchParams.get('module_number');
 	  return (
 		<div className="mx-auto w-full flex flex-col bg-slate-100 ">
-      <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
-        <Link href={{
-								pathname: "/faculty/subject",
+       <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
+       <Link href={{
+								pathname:"faculty/enrolled_students",
 								query:
 								{
 									subject_id: subjectid,
@@ -33,10 +30,10 @@ const Page = () => {
               clipRule="evenodd"
             />
           </svg>
-          Home / Dashboard / {subjectname} / Module {modulenumber}: {modulename}
+          Home / Dashboard / {subjectname} / Take Attendance
         </Link>
-      </div>
-      <Module subject_id={subjectid} module_id={moduleid} module_number={modulenumber} module_name={modulename} subject_name={subjectname}/>
+      </div> 
+      <AttendanceRecord />
     </div>
 	  );
 }

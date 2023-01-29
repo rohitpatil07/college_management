@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import ViewForum from "../../../components/LmsStudent/ViewForum";
+import ViewForum from "../../../components/Faculty/ViewForum";
 const Page = () => {
   const searchParams: any = useSearchParams();
   const subjectid = searchParams.get("subject_id");
@@ -22,7 +22,7 @@ const Page = () => {
       <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
         <Link
           href={{
-            pathname: "/lms/stucreateForum",
+            pathname: "/faculty/viewForum",
             query: {
               module_id: moduleid,
               module_name: modulename,

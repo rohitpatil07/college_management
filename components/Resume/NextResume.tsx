@@ -10,6 +10,7 @@ import Dot from "../../public/primitive.svg";
 
 function NextResume() {
 	const AuthData : any = useAuth();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const [fname, setFname] = useState('');
 	const [lname, setLname] = useState('');
 	const [link, setLink] = useState('');
@@ -17,22 +18,18 @@ function NextResume() {
 	const [phone, setPhone] = useState(0);
 	const [department, setDepartment] = useState('');
 	const [extra, setExtra]:any = useState(null);
-	// const [pos1, setPos1] = useState('');
-	// const [pos2, setPos2] = useState('');
-	// const [pos3, setPos3] = useState('');
 	const [proj, setProj]:any= useState(null);
 	const [intern, setIntern]:any = useState(null);
 	const [rdata, setRdata]:any = useState('');
 	const [base, setBase] = useState('');
 	const fetchData = async () =>
 	{
-		const response = await axios.get(`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`, {
+		const response = await axios.get(`${server}/filter/student/${AuthData.user.userData.user.roll_no}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
 			},
 		  });
-		console.log(response.data)
 		setFname(response.data.first_name);
 		setLname(response.data.last_name);
 		setLink(response.data.linkedin);
@@ -40,9 +37,6 @@ function NextResume() {
 		setDepartment(response.data.department);
 		setPhone(response.data.phone_number);
 		setExtra(response.data.extra_curricular);
-		// setPos1(response.data.other_info.pos_of_res_one);
-		// setPos2(response.data.other_info.pos_of_res_two);
-		// setPos3(response.data.other_info.pos_of_res_three);
 		setProj(response.data.projects);
 		setIntern(response.data.work_experience);
 		setRdata(response.data.resume_data);
@@ -53,7 +47,7 @@ function NextResume() {
 	},[]);
 	const download = async () =>
 	{
-		const response = await axios.get(`http://localhost:5000/download/resume/${AuthData.user.userData.user.roll_no}`, {
+		const response = await axios.get(`${server}/download/resume/${AuthData.user.userData.user.roll_no}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
@@ -61,16 +55,13 @@ function NextResume() {
 			responseType: 'blob'
 		  }).then((response) =>  {
 			const blob=response.data
-			console.log(blob);
 			const url = window.URL.createObjectURL(blob);
-			console.log(url);
 			const a = document.createElement('a');
 			a.href = url;
 			a.download = `${AuthData.user.userData.user.roll_no}.pdf`;
 			a.click();
 		  });
 	}
-	console.log(base);
 	return (
 
 		<>

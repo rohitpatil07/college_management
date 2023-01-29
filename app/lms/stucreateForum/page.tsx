@@ -1,12 +1,30 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from 'next/navigation';
 import CreateForum from "../../../components/LmsStudent/CreateForum";
 const Page = () => {
+  const searchParams:any = useSearchParams();
+	const subjectid=searchParams.get('subject_id');
+	const subjectname=searchParams.get('subject_name');
+    const moduleid=searchParams.get('module_id');
+	const modulename=searchParams.get('module_name');
+    const modulenumber=searchParams.get('module_number');
+    const email=searchParams.get('email');
 	  return (
 		<div className="mx-auto w-full flex flex-col bg-slate-100 ">
-      <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
-        <Link href='/faculty/assign' className="flex flex-row items-center pb-2 my-1 border-b border-slate-300">
+       <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
+        <Link href={{
+											pathname: "/lms/modules",
+											query: {
+												module_id: moduleid,
+												module_name: modulename,
+												subject_id: subjectid,
+												subject_name: subjectname,
+												module_number: modulenumber,
+                        email:email
+											},
+										}} className="flex flex-row items-center pb-2 my-1 border-b border-slate-300">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -19,10 +37,10 @@ const Page = () => {
               clipRule="evenodd"
             />
           </svg>
-          Home / Dashboard / Add
+          Home / Dashboard / {subjectname} / Module {modulenumber}: {modulename} / Forum
         </Link>
       </div>
-      <CreateForum/>
+      <CreateForum email={email} subject_id={subjectid} module_id={moduleid} module_number={modulenumber} module_name={modulename} subject_name={subjectname}/>
     </div>
 	  );
 }
