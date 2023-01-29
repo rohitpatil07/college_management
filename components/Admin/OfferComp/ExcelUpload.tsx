@@ -8,10 +8,11 @@ import * as XLSX from 'xlsx';
 import Image from 'next/image';
 const ExcelUpload = ({ showForm }: any) => {
     const AuthData: any = useAuth();
+    const server=process.env.NEXT_PUBLIC_SERVER_URL;
     const [drive, setDrive] = useState([]);
     const [excelFormat, setExcelFormat] = useState(false);
   const get_info=async()=>{
-    const response = await axios.get("http://localhost:5000/filter/drive", {
+    const response = await axios.get(`${server}/filter/drive`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,
@@ -67,7 +68,7 @@ const ExcelUpload = ({ showForm }: any) => {
           }
           // console.log(data);
 
-      const response = await axios.post("http://localhost:5000/add/admin/student/bulkoffers", data, {
+      const response = await axios.post(`${server}/add/admin/student/bulkoffers`, data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,

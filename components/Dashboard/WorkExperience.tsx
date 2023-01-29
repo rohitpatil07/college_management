@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 const WorkExperience = () => {
   const AuthData: any = useAuth();
   const [workExps, setworkExps]: any = useState([]);
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const [work2, setWork2]: any = useState([]);
   const [loadState, setLoadState] = useState("loading");
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,7 @@ const WorkExperience = () => {
     year: null
   }])
   const getProfileData = async () => {
-    const response = await axios.get(`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`, {
+    const response = await axios.get(`${server}/filter/student/${AuthData.user.userData.user.roll_no}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`
@@ -219,7 +220,7 @@ const WorkExperience = () => {
     delete(work.end);
     // console.log(work);
     const body = { work: work };
-    const response = await axios.post("http://localhost:5000/add/student/workexperience", body, {
+    const response = await axios.post(`${server}/add/student/workexperience`, body, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`
@@ -271,7 +272,7 @@ const WorkExperience = () => {
     delete(work.end);
     // console.log(work);
     const body = { work: work };
-    const response = await axios.post("http://localhost:5000/add/student/workexperience", body, {
+    const response = await axios.post(`${server}/add/student/workexperience`, body, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`
@@ -282,7 +283,7 @@ const WorkExperience = () => {
     if (response.status == 200) {
       Swal.fire({
         icon: "success",
-        title: "Done",
+        title: "Work Experience Added",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -290,7 +291,7 @@ const WorkExperience = () => {
     else {
       Swal.fire({
         icon: "error",
-        title: "Failed",
+        title: "Work Experience addition Failed",
         showConfirmButton: false,
         timer: 1500,
       });

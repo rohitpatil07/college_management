@@ -14,7 +14,8 @@ const StudentLookup = () => {
 	const [receivedData, setReceivedData] = useState<any>([]);
 	const [page, setPage] = useState<number>(1);
 	const [isNextDisabled, setIsNextDisabled] = useState<boolean>(false);
-	const [personalInfo, setPersonalInfo] = useState({
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
+	const [personalInfo, setPersonalInfo]:any = useState({
 		roll_no: {
 			value: "",
 			label: "Roll Number",
@@ -118,8 +119,8 @@ const StudentLookup = () => {
 	};
 
 	const generateFinalFields = () => {
-		let select_fields = {};
-		let queries = {};
+		let select_fields:any = {};
+		let queries:any= {};
 		Object.keys(personalInfo).forEach((key) => {
 			if (personalInfo[key].status)
 				select_fields[key] = personalInfo[key].status;
@@ -182,7 +183,7 @@ const StudentLookup = () => {
 		console.log(final_response);
 
 		axios
-			.post("http://localhost:5000/download/excel", final_response, {
+			.post(`${server}/download/excel`, final_response, {
 				responseType: "blob",
 				headers: {
 					"Content-Type": "application/json",
@@ -211,7 +212,7 @@ const StudentLookup = () => {
 		console.log(final_response);
 
 		axios
-			.post("http://localhost:5000/download/csv", final_response, {
+			.post(`${server}/download/csv`, final_response, {
 				responseType: "blob",
 				headers: {
 					"Content-Type": "application/json",

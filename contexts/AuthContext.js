@@ -9,7 +9,6 @@ const AuthContext = React.createContext({});
 const AuthProvider = ({ children }) => {
 	const [token, setToken] = useTokenState("token");
 	const [userData, setUserData] = useUserState({});
-	// const [role, setRole] = useState("");
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 	const logout = () => {
@@ -20,11 +19,6 @@ const AuthProvider = ({ children }) => {
 	const login = async (data) => {
 		const response = await api.post("/auth/login", data);
 		let { token, ...user } = response.data;
-
-		// console.log(user.roll_no);
-		// console.log(user.user.roll_no);
-
-		// setRole(user.user.role);
 		api.defaults.headers.Authorization = `Bearer ${token}`;
 		setToken(token);
 		setUserData(user);
@@ -37,7 +31,7 @@ const AuthProvider = ({ children }) => {
 		if (token) {
 			setIsAuthenticated(true);
 		}
-		else{
+		else {
 			setIsAuthenticated(false);
 		}
 	}, [token]);
@@ -47,7 +41,6 @@ const AuthProvider = ({ children }) => {
 			token: token,
 			isAuthenticated: isAuthenticated,
 			userData: userData,
-			// role,
 		},
 		login,
 		logout,

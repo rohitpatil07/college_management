@@ -6,7 +6,7 @@ import axios from "axios";
 function Page() {
 
     const AuthData : any  = useAuth();
-
+    const server=process.env.NEXT_PUBLIC_SERVER_URL;
     const [form, setForm] = useState({
         livekt : 0,
         deadkt : 0,
@@ -47,7 +47,7 @@ function Page() {
             twelveth_percent : {gte : form.twelveth_percent}
         }
 
-        const response = await axios.post("http://localhost:5000/filter/notify",
+        const response = await axios.post(`${server}/filter/notify`,
             { queries , message , subject },
             {
                 headers: {

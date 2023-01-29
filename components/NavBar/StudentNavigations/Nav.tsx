@@ -72,7 +72,9 @@ const Nav = () => {
                 ? `${AuthData.user.userData.user.company_name}`
                 : `${AuthData.user.userData.user.role}` == "faculty"
                 ? `${AuthData.user.userData.user.first_name} ${AuthData.user.userData.user.last_name}`
-                : ""}
+                : `${AuthData.user.userData.user.role}` == "lms_admin"
+                ? "LMS Admin"
+              :""}
             </h5>
             <h6 className="text-xs text-slate-500">
               {`${AuthData.user.userData.user.role}` == "student"

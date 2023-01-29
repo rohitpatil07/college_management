@@ -36,7 +36,7 @@ const Page = () => {
           Home / Dashboard / {subjectname} / Module {modulenumber}: {modulename}
         </Link>
       </div>
-      <Module subject_id={subjectid} module_id={moduleid} module_number={modulenumber} module_name={modulename}/>
+      <Module subject_id={subjectid} module_id={moduleid} module_number={modulenumber} module_name={modulename} subject_name={subjectname}/>
     </div>
 	  );
 }

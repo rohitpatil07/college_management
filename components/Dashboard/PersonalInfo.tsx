@@ -13,6 +13,7 @@ const PersonalInfo = () => {
 	const [loading, setLoading] = useState(true);
 	const [updloading, setUpdateLoading] = useState(false);
 	const [disabling, setDisabling] = useState(true);
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const [personalInfo, setPersonalInfo] = React.useState([
 		{ value: "", label: "First Name", id: "first_name", type: "text" },
 		{ value: "", label: "Middle Name", id: "middle_name", type: "text" },
@@ -34,7 +35,7 @@ const PersonalInfo = () => {
 	const getProfileData = async () => {
 		let i = 0;
 		const response = await axios.get(
-			`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`,
+			`${server}/filter/student/${AuthData.user.userData.user.roll_no}`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -69,9 +70,7 @@ const PersonalInfo = () => {
 		}
 		setPersonalInfo(newInfo);
 	};
-	const [previewsource, setPreviewSource] = React.useState(
-		"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-	);
+	const [previewsource, setPreviewSource] = React.useState();
 	const handlePhotoInputs = (e: any) => {
 		const file = e.target.files[0];
 		previewFile(file);
@@ -88,7 +87,7 @@ const PersonalInfo = () => {
 		  else {
 			Swal.fire({
 			  icon: "warning",
-			  title: "Please Enter File Formats Of Pdf, Ppt, Docs, Jpeg",
+			  title: "Please Enter File Formats Of Jpg Jpeg",
 			  showConfirmButton: false,
 			  timer: 1500,
 			});
@@ -111,7 +110,7 @@ const PersonalInfo = () => {
 		}
 		let data = { student };
 		const response = await axios.post(
-			"http://localhost:5000/add/student",
+			`${server}/add/student`,
 			data,
 			{
 				headers: {
@@ -154,7 +153,7 @@ const PersonalInfo = () => {
 					<div className="w-[100px] h-[100px] relative rounded-full text-black">
 						<img
 							className="rounded-full w-[100px] h-[100px]"
-							src={`data:image/jpg; base64, ${previewsource}`}
+							src={previewsource ? `data:image/jpg; base64, ${previewsource}` : './avatar.png'}
 							alt="profilePic"
 						/>
 						<div className="text-slate-500 text-center absolute bg-white rounded-full bottom-[-10%] right-[32%] border-gray-300 border-solid border-2 w-8 h-8 overflow-hidden">

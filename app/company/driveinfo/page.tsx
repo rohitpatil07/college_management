@@ -9,11 +9,12 @@ const DriveInfo = ()=>
 {
     const[stu,setStu]:any=useState(null);
     const searchParams:any = useSearchParams();
-    const driveid=parseInt(searchParams.get('drive_id'))
+    const driveid=parseInt(searchParams.get('drive_id'));
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
     const AuthData : any = useAuth();
     const fetchStudents = async () =>
 	{
-		const response = await axios.get(`http://localhost:5000/filter/company/appliedstudents/${driveid}`, {
+		const response = await axios.get(`${server}/filter/company/appliedstudents/${driveid}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
@@ -23,7 +24,7 @@ const DriveInfo = ()=>
 	}
     const download = async (roll:any) =>
 	{
-		const response = await axios.get(`http://localhost:5000/download/resume/${roll}`, {
+		const response = await axios.get(`${server}/download/resume/${roll}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
@@ -47,7 +48,7 @@ const DriveInfo = ()=>
 		}
 		const resp=await axios({
 			method: 'post',
-			url: "http://localhost:5000/download/zip",
+			url: `${server}/download/zip`,
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`

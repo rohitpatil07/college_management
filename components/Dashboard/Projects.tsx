@@ -11,6 +11,7 @@ const Projects = () => {
   const [projectInfo, setprojectInfo]: any = useState([]);
   const [updloading, setUpdateLoading] = useState(false);
   const [loadState, setLoadState] = useState("loading");
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const [loading, setLoading] = useState(true);
   const [Projects, setProjects] = useState([{
     id: 1,
@@ -21,7 +22,7 @@ const Projects = () => {
     disabling: true,
   }])
   const getProfileData = async () => {
-    const response = await axios.get(`http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`, {
+    const response = await axios.get(`${server}/filter/student/${AuthData.user.userData.user.roll_no}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`
@@ -105,7 +106,7 @@ const Projects = () => {
       project[keys] = k[keys];
     }
     const body = { project: project };
-    const response = await axios.post("http://localhost:5000/add/student/project", body, {
+    const response = await axios.post(`${server}/add/student/project`, body, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`
@@ -165,7 +166,7 @@ const Projects = () => {
     }
     delete (project.editing);
     const body = { project: project };
-    const response = await axios.post("http://localhost:5000/add/student/project", body, {
+    const response = await axios.post(`${server}/add/student/project`, body, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`

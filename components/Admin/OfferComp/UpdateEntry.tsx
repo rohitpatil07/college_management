@@ -8,6 +8,7 @@ const UpdateEntry = () => {
   const AuthData: any = useAuth();
   const [stu_info, setStu_info] = useState<any>([]);
   const [roll_no, setRoll_no] = useState('');
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const[loading,setLoading] = useState(false);
   const clear_info=()=>{
     let clearedInfo = [...stu_info];
@@ -20,7 +21,7 @@ const UpdateEntry = () => {
     // console.log(i,stu_info.length-1);
     if(i==(stu_info.length-1)){
       const response = await axios.get(
-        `http://localhost:5000/delete/offer/${stu_info[i].offer_id}`,
+        `${server}/delete/offer/${stu_info[i].offer_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -32,7 +33,7 @@ const UpdateEntry = () => {
     else{
       let some_info = stu_info[i+1];
       const response = await axios.get(
-        `http://localhost:5000/delete/offer/${stu_info[i+1].offer_id}`,
+        `${server}/delete/offer/${stu_info[i+1].offer_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -47,7 +48,7 @@ const UpdateEntry = () => {
         delete(some_info.update);
         some_info.package = parseFloat(some_info.package);
         const body = { offer: some_info };
-        const response3 = await axios.post("http://localhost:5000/add/admin/student/offer", body, {
+        const response3 = await axios.post(`${server}/add/admin/student/offer`, body, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,
@@ -55,7 +56,7 @@ const UpdateEntry = () => {
       });
         if(response3){
       const response2 = await axios.get(
-        `http://localhost:5000/delete/offer/${stu_info[i].offer_id}`,
+        `${server}/delete/offer/${stu_info[i].offer_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -76,7 +77,7 @@ const UpdateEntry = () => {
   }
   const getOfferLetter = async (offer_id: string) => {
     const response = await axios.get(
-      `http://localhost:5000/image/offerdownload/${offer_id}`,
+      `${server}/image/offerdownload/${offer_id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +88,7 @@ const UpdateEntry = () => {
   }
   const [drive, setDrive] = useState([]);
   const get_drive=async()=>{
-    const response = await axios.get("http://localhost:5000/filter/drive", {
+    const response = await axios.get(`${server}/filter/drive`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,
@@ -112,7 +113,7 @@ const UpdateEntry = () => {
     }
     else{
     const response = await axios.get(
-      `http://localhost:5000/filter/student/offer/${roll_no}`,
+      `${server}/filter/student/offer/${roll_no}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -180,7 +181,7 @@ const UpdateEntry = () => {
         package: stu_info[i].package
       },
     };
-    const response = await axios.post("http://localhost:5000/add/admin/student/updateoffer", body ,{
+    const response = await axios.post(`${server}/add/admin/student/updateoffer`, body ,{
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${AuthData.user.token}`,

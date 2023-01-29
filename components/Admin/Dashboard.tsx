@@ -7,6 +7,7 @@ import api from "../../contexts/adapter";
 import { useAuth } from "../../contexts/AuthContext";
 const Dashboard = () => {
 	const AuthData: any = useAuth();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const [topStudents, setTopStudents] = useState([]);
 	const [lpaWiseStudents, setLpaWiseStudents] = useState([]);
 	const [lpaWiseStudentsLabels, setLpaWiseStudentsLabels] = useState([]);
@@ -24,7 +25,7 @@ const Dashboard = () => {
 	);
 	const getTop10Student = async () => {
 		const response = await axios.get(
-			`http://localhost:5000/filter/top10student`,
+			`${server}/filter/top10student`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -53,7 +54,7 @@ const Dashboard = () => {
 	};
 	const getStudentCompanyWise = async () => {
 		const response = await axios.get(
-			`http://localhost:5000/filter/studentsplacedcompanywise`,
+			`${server}/filter/studentsplacedcompanywise`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -76,7 +77,7 @@ const Dashboard = () => {
 	};
 	const getStudentLpaWise = async () => {
 		const response = await axios.get(
-			`http://localhost:5000/filter/studentsplacedlpawise`,
+			`${server}/filter/studentsplacedlpawise`,
 			{
 				headers: {
 					"Content-Type": "application/json",
@@ -98,7 +99,7 @@ const Dashboard = () => {
 	};
 	const getPlacedByDept = async () => {
 		const response = await axios.get(
-			`http://localhost:5000/filter/placedByDept`,
+			`${server}/filter/placedByDept`,
 			{
 				headers: {
 					"Content-Type": "application/json",

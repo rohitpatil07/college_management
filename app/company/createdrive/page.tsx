@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 
 const CreateDrive = () => {
 	const AuthData : any  = useAuth();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	let keys=["company_id","role","package","job_location","role_desc","cgpa","be_percent","tenth_percent","twelveth_percent","gender","gap","livekt","deadkt"]
 	const [drives, setDrives]:any= useState({
 				company_id : AuthData.user.userData.user.company_id,
@@ -30,7 +31,7 @@ const CreateDrive = () => {
 		e.preventDefault();
 		console.log(drives);
 		try {
-			setDrives({
+			const gear={
 				company_id : AuthData.user.userData.user.company_id,
 				role:drives.role,
 				package:parseInt(drives.package),
@@ -41,32 +42,32 @@ const CreateDrive = () => {
 				tenth_percent:parseInt(drives.tenth_percent),
 				twelveth_percent:parseInt(drives.twelveth_percent),
 				gender:drives.gender,
-				gap:parseInt(drives.gap),
-				livekt:parseInt(drives.livekt),
-				deadkt:parseInt(drives.deadkt)
-			});
+				gap:Number(drives.gap),
+				livekt:Number(drives.livekt),
+				deadkt:Number(drives.deadkt)
+			};
 			const response = await axios({
 					method: 'post',
-					url: "http://localhost:5000/add/company/drive",
+					url: `${server}/add/company/drive`,
 					headers: {
 						'Content-Type': 'application/json',
 						'Authorization': `Bearer ${AuthData.user.token}`
 					}, 
 					data: {
-						drive: drives, // This is the body part
+						drive: gear, // This is the body part
 					}
 					});
 					if (response.status == 200) {
 						Swal.fire({
 							icon: "success",
-							title: "Update Successfully",
+							title: "Drive Created  Successfully",
 							showConfirmButton: false,
 							timer: 1500,
 						});
 					} else {
 						Swal.fire({
 							icon: "error",
-							title: "Update Failed..Please Try Again",
+							title: "Drive Creation Failed..Please Try Again",
 							showConfirmButton: false,
 							timer: 1500,
 						});
@@ -83,7 +84,7 @@ const CreateDrive = () => {
 					}
 					const message=`Notice for ${AuthData.user.userData.user.company_name} Placement Drive`
 					const subject=`Notification for  ${AuthData.user.userData.user.company_name} drive  for ${drives["role"]}`
-					const noti = await axios.post("http://localhost:5000/filter/notify",
+					const noti = await axios.post(`${server}/filter/notify`,
 						{ queries , message , subject },
 						{
 							headers: {

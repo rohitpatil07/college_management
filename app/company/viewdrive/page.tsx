@@ -7,15 +7,27 @@ import Link from "next/link"
 const ViewDrive = () => {
 	const AuthData : any = useAuth();
 	const[drive,setDrive]:any=useState(null);
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
+	const deleteDrive = async (driveid:Number) =>
+	{
+		console.log(driveid)
+		const response = await axios.get(`${server}/delete/drive/${driveid}`, {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${AuthData.user.token}`
+			},
+		});
+		console.log(response)
+		window.location.reload();
+	}
 	const fetchDrive = async () =>
 	{
-		const response = await axios.get(`http://localhost:5000/filter/company/drive/${AuthData.user.userData.user.company_id}`, {
+		const response = await axios.get(`${server}/filter/company/drive/${AuthData.user.userData.user.company_id}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
 			},
 		  });
-
 		console.log(response)
 		for(let i=0;i<response.data.length;i++)
 		{
@@ -25,7 +37,7 @@ const ViewDrive = () => {
 	}
 	useEffect(()=>{
 		fetchDrive();
-	},[]);
+	},[drive]);
 	
 	return (
 		<div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
@@ -79,9 +91,9 @@ const ViewDrive = () => {
 							>
 								Decline */}
 							{/* </button> */}
-							{/* <button  className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
-								Accept
-							</button> */}
+							<button  onClick={()=>{deleteDrive(drive_id)}} className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
+								Delete
+							</button>
 						</div>
 					</div>
 				</div>

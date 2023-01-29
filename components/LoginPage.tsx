@@ -9,18 +9,52 @@ import Swal from "sweetalert2";
 
 function LoginPage() {
 	const router = useRouter();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const [email, setEmail] = useState("");
 	const [role, setRole] = useState("student");
 	const [password, setPassword] = useState("");
 
 	const AuthData: any = useAuth();
 
+	const fpassword = async () => {
+		if (email)
+		{
+			const response = await axios({
+				method: 'post',
+				url: `${server}/auth/forgot_mail`,
+				headers: {
+					'Content-Type': 'application/json',
+				}, 
+				data: {
+					email: email,
+					role:role
+				}
+				});
+			console.log(response)
+			Swal.fire({
+				icon: "info",
+				title: `E-mail sent to ${email} to recover password`,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+
+		}
+		else
+		{
+			Swal.fire({
+				icon: "error",
+				title: `Please enter your email address`,
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
+
+	}
+
+
 	const handleSubmit = async () => {
-		console.log(role);
 		const data = { email, role, password };
 		const response = await AuthData.login(data);
-		console.log(response);
-		console.log(response.data);
 		if (response.data=="You are not authorized" || Object.keys(response.data).length==0 || response.data.length==0)
 		{
 			Swal.fire({
@@ -47,6 +81,7 @@ function LoginPage() {
 					if (userRole == "student") router.push("/home");
 					else if (userRole == "faculty") router.push("/faculty/dashboard");
 					else if (userRole == "admin") router.push("/admin/lookup");
+					else if (userRole == "lms_admin") router.push("/lms_admin/lookup");
 					else router.push("/company");
 				}
 		}
@@ -78,6 +113,7 @@ function LoginPage() {
 							<option value="student">Student</option>
 							<option value="faculty">Faculty</option>
 							<option value="admin">Admin</option>
+							<option value="lms_admin">LMS Admin</option>
 							<option value="company">Company</option>
 						</select>
 						<label className="mt-6" htmlFor="email">
@@ -106,12 +142,12 @@ function LoginPage() {
 								<input type="checkbox" name="remember" id="" />
 								<label htmlFor="remember">Remember Me</label>
 							</div>
-							<Link
+							<button
 								className="flex justify-center hover:text-blue-500"
-								href="/"
+								onClick={fpassword}
 							>
 								Forgot Password?
-							</Link>
+							</button>
 						</div>
 					</form>
 				</div>

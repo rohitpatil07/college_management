@@ -15,7 +15,7 @@ const ChangePassword = () => {
 		password : "",
 		password2 : "",
 	})
-
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const handleFormFieldChange = (fieldName : any , e : any) => {
     	setForm({...form , [fieldName]:e.target.value});
     }
@@ -31,7 +31,7 @@ const ChangePassword = () => {
 				throw new Error("Passwords dont match");
 			}
 
-			const response = await axios.post("http://localhost:5000/auth/reset_password" , form , {
+			const response = await axios.post(`${server}/auth/reset_password` , form , {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${AuthData.user.token}`,

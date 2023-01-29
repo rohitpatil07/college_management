@@ -8,18 +8,21 @@ import Link from "next/link";
 import Image from "next/image";
 const Dashboard = () => {
 	const router = useRouter();
+	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const AuthData: any = useAuth();
-	const [subjects, setSubjects]: any = useState(null);
+	const [subjects, setSubjects]:any = useState([]);
 	const get_subject = async () => {
-		const response = await axios.get(
-			"http://localhost:5000/lms/filter/allSubjects",
-			{
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
-				},
-			}
-		);
+		const response = await axios({
+			method: "post",
+			url: `${server}/lms/filter/facultysubjects`,
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${AuthData.user.token}`,
+			},
+			data:{
+		email: `${AuthData.user.userData.user.email}`,
+			}				
+		});
 		setSubjects(response.data);
 	};
 	useEffect(() => {
@@ -76,27 +79,16 @@ const Dashboard = () => {
 						Filter Subjects
 					</button>
 				</div>
-				{subjects ? (
 					<div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
-						{subjects.map(
-							(
-								{
-									subject_id,
-									subject_name,
-									semester,
-									department,
-									batch,
-									type,
-								}: any,
-								i: number
-							) => (
-								<div
-									key={subject_id}
+							
+						{subjects.map(({subject_id, subject_code, subject_name, semester, department, batch, division, type, email}: any,i: number)=>(
+							
+							<div
+							key={subject_id}
 									className="flex flex-col items-center w-10/12 scale-90 sm:w-3/5 md:w-2/5 shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden bg-white"
 								>
 									<img
-										src={`/subjects/subject${i + 1}.jpg`}
-										alt={subject_name}
+										src={`/subjects/subject${i+1}.jpg`}
 										className="w-full h-[15rem] min-h-[10rem] object-cover rounded-xl"
 									/>
 									<div className="text-lg sm:text-xl font-medium text-gray-900 my-4 text-center">
@@ -115,14 +107,8 @@ const Dashboard = () => {
 										Open
 									</Link>
 								</div>
-							)
-						)}
+						))}
 					</div>
-				) : (
-					<>
-						<Loading loadState="loading" />
-					</>
-				)}
 			</div>
 		</div>
 	);

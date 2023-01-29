@@ -6,7 +6,7 @@ import Loading from "../Loaders/Loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
-const Module = ({module_id,subject_id,module_name,module_number}: any) => {
+const Module = ({module_id,subject_id,module_name,module_number,subject_name}: any) => {
   const router = useRouter();
   const AuthData: any = useAuth();
   const [readingmaterial, setreadingmaterial]:any = useState(null);
@@ -14,9 +14,10 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
   const [materialname, setmaterialname]: any = useState('');
   const [fileType, setfileType]: any = useState();
   const [addmaterial, setAddMaterial] = useState(false);
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const get_material = async () => {
       const response = await axios.get(
-        `http://localhost:5000/lms/filter/readmat/module/${module_id}`,
+        `${server}/lms/filter/readmat/module/${module_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -66,7 +67,6 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
     }
     const post_material=async()=>{
       const uploadmaterial={
-        subject_id: subject_id,
         module_id: parseInt(module_id),
         file_type: fileType,
         file: material,
@@ -74,7 +74,7 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
       }
       const response = await axios({
         method: 'post',
-        url: "http://localhost:5000/lms/form/addreadmat",
+        url: `${server}/lms/form/addreadmat`,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${AuthData.user.token}`
@@ -83,6 +83,8 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
           reading: uploadmaterial, // This is the body part
         }
         });
+        console.log(response);
+        console.log(response.data)
         if (response.status == 200) {
           Swal.fire({
             icon: "success",
@@ -101,7 +103,7 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
     }
 
     const downloadMat=async({reading_material_id,file_name,file_type}: any)=>{
-      const response = await axios.get(`http://localhost:5000/lms/download/getmaterial/${reading_material_id}`, {
+      const response = await axios.get(`${server}/lms/download/getmaterial/${reading_material_id}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
@@ -115,10 +117,12 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
 			a.download = `${file_name}.${file_type}`;
 			a.click();
 		  });
+      console.log(response)
     }
+  
     useEffect(() => {
       get_material()
-    }, []);
+    }, [readingmaterial]);
   return (
     <div className="w-full flex justify-center items-center align-middle">
         <div className="flex bg-white w-11/12 mt-5 flex-col pt-8 items-center rounded-2xl drop-shadow-lg">
@@ -133,6 +137,22 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
                 </svg>
                 Add Material
               </button>
+              <Link  href={{
+                pathname:"/faculty/viewForum",
+                query:
+                {
+                  module_id:module_id,
+                  subject_id:subject_id,
+                  module_name:module_name,
+                  module_number:module_number,
+                  subject_name:subject_name
+                }
+              }} className="flex items-center p-2 w-fit px-4 py-2 rounded-lg bg-accent text-white hover:scale-105 transition-all ml-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-1">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                View Forums
+              </Link>
             </div>
           </div>
           {readingmaterial ? <>
@@ -209,7 +229,9 @@ const Module = ({module_id,subject_id,module_name,module_number}: any) => {
                   </div>
                 </div>
                 <div className="w-full bg-gray-50 px-4 py-3 flex items-center justify-center">
-                  <button onClick={post_material} className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">Add</button>
+                  <button onClick={
+                    post_material
+                    } className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">Add</button>
                 </div>
               </div>
             </div>

@@ -5,8 +5,9 @@ import axios from 'axios';
 import { useAuth } from "../../contexts/AuthContext";
 const OfferDetails = () => {
   const [offers, setOffers]: any = useState();
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const download = async () => {
-    const response = await axios.get(`http://localhost:5000/download/resume/${AuthData.user.userData.user.roll_no}`, {
+    const response = await axios.get(`${server}/download/resume/${AuthData.user.userData.user.roll_no}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${AuthData.user.token}`
@@ -26,7 +27,7 @@ const OfferDetails = () => {
   const AuthData: any = useAuth();
   const getOfferLetter = async (offer_id: string) => {
     const response = await axios.get(
-      `http://localhost:5000/image/offerdownload/${offer_id}`,
+      `${server}/image/offerdownload/${offer_id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +50,7 @@ const OfferDetails = () => {
     if(offer_letter){
       const body ={ offer_letter: offer_letter}
       const response = await axios.post(
-        `http://localhost:5000/image/offerupload/${offer_id}`,
+        `${server}/image/offerupload/${offer_id}`,
         body,
         {
           headers: {
@@ -81,7 +82,7 @@ const OfferDetails = () => {
   }
   const get_data = async () => {
     const response = await axios.get(
-      `http://localhost:5000/filter/student/offer/${AuthData.user.userData.user.roll_no}`,
+      `${server}/filter/student/offer/${AuthData.user.userData.user.roll_no}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -143,7 +144,11 @@ const OfferDetails = () => {
           }
         </div>
       ))}
-      </> :<></>}
+      </> :<>
+      <h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
+					No Offers Yet
+				</h3>
+      </>}
     </div>
   )
 }

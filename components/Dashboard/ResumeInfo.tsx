@@ -10,9 +10,10 @@ const ResumeInfo = () => {
   const AuthData: any = useAuth();
   const [resumeData, setResumeData]: any = useState();
   const [updloading, setUpdateLoading] = useState(false);
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const getProfileData = async () => {
     const response = await axios.get(
-      `http://localhost:5000/filter/student/${AuthData.user.userData.user.roll_no}`,
+      `${server}/filter/student/${AuthData.user.userData.user.roll_no}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -173,7 +174,7 @@ const ResumeInfo = () => {
       }
       let body = {resume: resumeData}
       const response = await axios.post(
-        "http://localhost:5000/add/student/resumedata",
+        `${server}/add/student/resumedata`,
         body,
         {
           headers: {

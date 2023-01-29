@@ -7,8 +7,9 @@ import ClipLoader from "react-spinners/ClipLoader";
 const CreateNew = ({ createForm }: any) => {
   const AuthData: any = useAuth();
   const [drive, setDrive] = useState([]);
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const get_info=async()=>{
-    const response = await axios.get("http://localhost:5000/filter/drive", {
+    const response = await axios.get(`${server}/filter/drive`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,
@@ -73,7 +74,7 @@ const CreateNew = ({ createForm }: any) => {
       delete(offer.company_id);
       delete(offer.role);
       const body = { offer: offer };
-      const response = await axios.post("http://localhost:5000/add/admin/student/offer", body, {
+      const response = await axios.post(`${server}/add/admin/student/offer`, body, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AuthData.user.token}`,
