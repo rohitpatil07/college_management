@@ -137,7 +137,7 @@ const Dashboard = () => {
 				companyWiseStudentsLabels.length == 0 ||
 				deptWiseStudents.length == 0 ||
 				deptWiseStudentsLabels.length == 0 ? (
-					<></>
+					<>No Data To Be Displayed</>
 				) : (
 					<div className="w-11/12 justify-around gap-2 flex flex-row flex-wrap">
 						<BarGraphs

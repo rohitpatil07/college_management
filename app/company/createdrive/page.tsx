@@ -18,7 +18,7 @@ const CreateDrive = () => {
 				be_percent: 0,
 				tenth_percent:0,
 				twelveth_percent:0,
-				gender:"",
+				gender:"M",
 				gap:0,
 				livekt:0,
 				deadkt:0
@@ -34,10 +34,10 @@ const CreateDrive = () => {
 			const gear={
 				company_id : AuthData.user.userData.user.company_id,
 				role:drives.role,
-				package:parseInt(drives.package),
+				package:parseFloat(drives.package),
 				job_location:drives.job_location,
 				role_desc:drives.role_desc,
-				cgpa:parseInt(drives.cgpa),
+				cgpa:parseFloat(drives.cgpa),
 				be_percent: parseInt(drives.be_percent),
 				tenth_percent:parseInt(drives.tenth_percent),
 				twelveth_percent:parseInt(drives.twelveth_percent),
@@ -46,6 +46,7 @@ const CreateDrive = () => {
 				livekt:Number(drives.livekt),
 				deadkt:Number(drives.deadkt)
 			};
+			console.log(gear);
 			const response = await axios({
 					method: 'post',
 					url: `${server}/add/company/drive`,

@@ -1,181 +1,392 @@
-'use client'
-import React, { useState,useEffect } from 'react'
-import Swal from 'sweetalert2';
+"use client";
+import React, { Fragment, useRef, useState, useEffect } from "react";
+import Swal from "sweetalert2";
 import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import ClipLoader from "react-spinners/ClipLoader";
-const CreateNew = ({ createForm }: any) => {
+import { Dialog, Transition } from "@headlessui/react";
+const CreateNew = ({ children }: any) => {
   const AuthData: any = useAuth();
-  const [drive, setDrive] = useState([]);
-  const server=process.env.NEXT_PUBLIC_SERVER_URL;
-  const get_info=async()=>{
-    const response = await axios.get(`${server}/filter/drive`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+  const [open, setOpen] = useState(false);
+  const cancelButtonRef = useRef(null);
+  const server = process.env.NEXT_PUBLIC_SERVER_URL;
+  const [newInfo, setNewInfo]: any = useState({
+    roll_no: "",
+    company_name: "",
+    role: "",
+  });
+  const [companyData, setCompanyData]: any = useState([]);
+  const [companyName, setCompanyName]: any = useState([]);
+  const [showCompanyName, setShowCompanyName] = useState(false);
+  const [selectedCompany, setselectedCompany] = useState("Select Company");
+  const [drive, setdrive] = useState([]);
+  const [drive_message, setdrive_message] = useState("");
+  const [showPackage, setShowPackage] = useState(false);
+  const [selectedPackage, setselectedPackage] = useState("Select Package");
+  const [showRole, setShowRole] = useState(false);
+  const [selectedRole, setselectedRole] = useState("Select Role");
+  const get_info = async () => {
+    const response = await axios.get(`${server}/filter/company/drives`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${AuthData.user.token}`,
+      },
+    });
+    for (let i = 0; i < response.data.length; i++) {
+      setCompanyName([
+        ...companyName,
+        {
+          company_id: response.data[i]["company_id"],
+          company_name: response.data[i]["company_name"],
         },
-      });
-      setDrive(response.data);
+      ]);
+    }
+    setCompanyData(response.data);
+  };
+  const updateEntries = (id: number) => {
+    let info = { ...newInfo };
+    for (let i = 0; i < companyData.length; i++) {
+      if (companyData[i]["company_id"] == id) {
+        info["company_name"] = companyData[i]["company_name"];
+        if (
+          companyData[i]["drive"].length == 0 ||
+          companyData[i]["drive"] == null
+        ) {
+          setdrive_message(
+            `No Drives Created For ${companyData[i]["company_name"]}`
+          );
+        } else {
+          setdrive(companyData[i]["drive"]);
+        }
+      }
+    }
+    setNewInfo(info);
+  };
+  const updateOtherFields = (id: number, type: string, value: any) => {
+    let info = { ...newInfo };
+    info[type] = value;
+    info['drive_id'] = id;
+    for (let i = 0; i < drive.length; i++) {
+      if (drive[i]["drive_id"] == id) {
+        info["package"] = drive[i]["package"];
+      }
+    }
+    setNewInfo(info);
+  };
+  const updateRoll=(value:string)=>{
+    let info={...newInfo};
+    info['roll_no'] = value;
+    setNewInfo(info);
   }
   useEffect(() => {
     return () => {
-      get_info()
+      get_info();
     };
-  }, );
-  const [newInfo, setNewInfo]:any = useState({ roll_no: '', company_name: '',role:'' ,package: '' });
+  }, []);
   const [loading, setLoading] = useState(false);
-  const updateInfo = (val: any, i: string) => {
-    let updtInfo = { ...newInfo };
-    if (i == 'roll_no') {
-      updtInfo['roll_no'] = val
-    }
-    else if (i == 'company_name') {
-      updtInfo['company_name'] = val
-    }
-    else if (i == 'role') {
-      updtInfo['role'] = val
-    }
-    else {
-      updtInfo['package'] = val
-    }
-    setNewInfo(updtInfo);
-  }
   const submit = async () => {
-    let offer:any={
-      company_id:0,
-      drive_id:0,
-    };
-    // console.log(newInfo);
-    if (newInfo['roll_no'] == '' || newInfo['company_name'] == '' || newInfo['package'] == '' || newInfo['role']=='') {
+    if (
+      newInfo["roll_no"] == "" ||
+      newInfo["company_name"] == "" ||
+      newInfo["package"] == 0 ||
+      newInfo["role"] == ""
+    ) {
       Swal.fire({
-        icon: 'error',
-        title: 'Fill All The Details',
+        icon: "error",
+        title: "Fill All The Details",
         showConfirmButton: false,
-        timer: 1500
-      })
-    }
-    else {
-      setLoading(true);
-      // console.log(drive);
-      for(let i=0;i<drive.length;i++){
-        if(drive[i]['company_name']==newInfo['company_name'] && drive[i]['package']==newInfo['package'] && drive[i]['role']==newInfo['role'])
-        {
-          offer['drive_id']=drive[i]['drive_id'];
-        }
-      }
-      for(let key in newInfo){
-        if(key=='package'){
-          offer[key]=parseFloat(newInfo[key])
-        }
-        else{
-          offer[key]=newInfo[key]
-        }
-      }
-      delete(offer.company_id);
-      delete(offer.role);
-      const body = { offer: offer };
-      const response = await axios.post(`${server}/add/admin/student/offer`, body, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
-        },
+        timer: 1500,
       });
+    } else {
+      setLoading(true);
+      newInfo["package"] = parseInt(newInfo["package"]);
+      const body = { offer: newInfo };
+      const response = await axios.post(
+        `${server}/add/admin/student/offer`,
+        body,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+        }
+      );
       if (response.status == 200) {
         Swal.fire({
-          icon: 'success',
-          title: 'Successfully Entered Data',
+          icon: "success",
+          title: "Successfully Entered Data",
           showConfirmButton: false,
-          timer: 1500
-        })
-      }
-      else if (response.status == 401) {
+          timer: 1500,
+        });
+      } else if (response.status == 401) {
         Swal.fire({
-          icon: 'warning',
-          title: 'Maximum Offers Reached',
+          icon: "warning",
+          title: "Maximum Offers Reached",
           showConfirmButton: false,
-          timer: 1500
-        })
-      }
-      else {
+          timer: 1500,
+        });
+      } else {
         Swal.fire({
-          icon: 'error',
-          title: 'Something Went Wrong',
+          icon: "error",
+          title: "Something Went Wrong",
           showConfirmButton: false,
-          timer: 1500
-        })
+          timer: 1500,
+        });
       }
       setLoading(false);
-      setNewInfo({ roll_no: '', company_name: '',role:'' ,package: '' });
+      setNewInfo({ roll_no: "", company_name: "", role: "" });
     }
-  }
+  };
   return (
-    <div>
-      {createForm ?
-        <div className='w-screen h-screen fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50'>
-          <div className='bg-white border-solid border-2 border-neutral-200 rounded-lg px-4 mx-auto sm:mx-0 w-11/12 sm:w-5/12'>
-            <div className='border-b-2 border-gray-900 py-2'>
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Insert New Offer Details</h3>
-            </div>
-            <div className='p-3 flex flex-col justify-between'>
+    <>
+      {children ? (
+        <span
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
+          {children}
+        </span>
+      ) : (
+        ""
+      )}
+      <Transition.Root show={open} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          initialFocus={cancelButtonRef}
+          onClose={setOpen}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          </Transition.Child>
 
-              <label className='relative cursor-pointer mb-4'>
-                <input type="text" placeholder='Roll No'
-                  value={newInfo['roll_no']}
-                  onChange={(e) => {
-                    updateInfo(e.target.value, 'roll_no');
-                  }}
-                  className='h-7 w-full px-2 text-sm text-black bg-white border-gray-500 border-2 rounded-md border-opacity-50 outline-none focus:border-red-600 placeholder-gray-700 placeholder-opacity-0 transition-duration-200' />
-                <span className='text-sm text-opacity-80 text-black bg-white absolute left-5 top-1 px-1 transition duration-200 input-text'>Roll No*</span>
-              </label>
-              <label className='relative cursor-pointer mb-4'>
-                <input type="text" placeholder='Company Name'
-                  value={newInfo['company_name']}
-                  onChange={(e) => {
-                    updateInfo(e.target.value, 'company_name');
-                  }}
-                  className='h-7 w-full  px-2 text-sm text-black bg-white border-gray-500 border-2 rounded-md border-opacity-50 outline-none focus:border-red-600 placeholder-gray-700 placeholder-opacity-0 transition-duration-200' />
-                <span className='text-sm text-opacity-80 text-black bg-white absolute left-5 top-1 px-1 transition duration-200 input-text'>Company Name*</span>
-              </label>
-              <label className='relative cursor-pointer mb-4'>
-                <input type="text" placeholder='Role'
-                  value={newInfo['role']}
-                  onChange={(e) => {
-                    updateInfo(e.target.value, 'role');
-                  }}
-                  className='h-7 w-full px-2 text-sm text-black bg-white border-gray-500 border-2 rounded-md border-opacity-50 outline-none focus:border-red-600 placeholder-gray-700 placeholder-opacity-0 transition-duration-200' />
-                <span className='text-sm text-opacity-80 text-black bg-white absolute left-5 top-1 px-1 transition duration-200 input-text'>Role*</span>
-              </label>
-              <label className='relative cursor-pointer mb-4'>
-                <input type="number" placeholder='Package'
-                  value={newInfo['package']}
-                  onChange={(e) => {
-                    updateInfo(e.target.value, 'package');
-                  }}
-                  className='h-7 w-full px-2 text-sm text-black bg-white border-gray-500 border-2 rounded-md border-opacity-50 outline-none focus:border-red-600 placeholder-gray-700 placeholder-opacity-0 transition-duration-200' />
-                <span className='text-sm text-opacity-80 text-black bg-white absolute left-5 top-1 px-1 transition duration-200 input-text'>Package*</span>
-              </label>
-            </div>
-            <div className='flex justify-end items-center w-100 border-t text-white p-3'>
-              {loading ?
-                <button disabled className="flex flex-row items-center justify-center px-3 py-1 rounded bg-gray-400 text-white mr-1">
-                  Add <ClipLoader size={15} color="#d63636" />
-                </button>
-                :
-                <button onClick={submit} className="px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 mr-1">
-                  Add
-                </button>
-              }
-              <form>
-                <button onClick={() => createForm = false} className="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700">
-                  Close
-                </button>
-              </form>
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div className="flex min-h-full items-end justify-center p-0 text-center sm:items-center sm:p-0">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              >
+                <Dialog.Panel className="relative transform overflow-hidden sm:rounded-lg text-left shadow-xl transition-all my-0 h-screen sm:h-fit sm:my-8 w-screen sm:w-full sm:max-w-lg">
+                  <div className="bg-white h-full px-4 pt-5 pb-4 sm:p-6 sm:pb-4 overflow-y-auto">
+                    <div className="flex flex-col sm:flex-row sm:items-start">
+                      <svg
+                        onClick={() => setOpen(false)}
+                        ref={cancelButtonRef}
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="block sm:hidden absolute top-0 right-2 w-6 h-6 cursor-pointer"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                      <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                        <Dialog.Title
+                          as="h3"
+                          className="text-lg font-medium leading-6 text-gray-900 flex flex-row items-center justify-center sm:justify-between"
+                        >
+                          Create New Group
+                          <svg
+                            onClick={() => setOpen(false)}
+                            ref={cancelButtonRef}
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="hidden sm:block w-4 h-4 sm:w-6 sm:h-6 my-2 cursor-pointer"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </Dialog.Title>
+                        <div className="mt-2">
+                          <input
+                            type="text"
+                            placeholder="Roll No"
+                            value={newInfo["roll_no"]}
+                            onChange={(e) => {
+                              updateRoll(e.target.value)
+                            }}
+                            className="w-full my-2 border border-gay-500 px-1 py-2 rounded-md"
+                          />
+
+                          <div className="mb-3 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+                            <div className="relative text-left inline-block w-full">
+                              <div>
+                                <button
+                                  onClick={() => {
+                                    setShowCompanyName(!showCompanyName);
+                                  }}
+                                  className="inline-flex w-full justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                                >
+                                  {selectedCompany}
+                                  {showCompanyName ? (
+                                    ""
+                                  ) : (
+                                    <svg
+                                      className="-mr-1 ml-2 h-5 w-5"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                      aria-hidden="true"
+                                    >
+                                      <path
+                                        fill-rule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                        clip-rule="evenodd"
+                                      />
+                                    </svg>
+                                  )}
+                                </button>
+                              </div>
+                              {showCompanyName ? (
+                                <>
+                                  <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div className="py-1">
+                                      {companyName.map(
+                                        ({ company_id, company_name }: any) => (
+                                          <button
+                                            key={company_id}
+                                            onClick={() => {
+                                              updateEntries(company_id);
+                                              setselectedCompany(company_name);
+                                              setShowCompanyName(
+                                                !showCompanyName
+                                              );
+                                            }}
+                                            className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+                                          >
+                                            {company_name}
+                                          </button>
+                                        )
+                                      )}
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          </div>
+
+                          {drive.length != 0 || drive != null ? (
+                            <>
+                              <div className="mb-3 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+                                <div className="relative text-left inline-block w-full">
+                                  <div>
+                                    <button
+                                      onClick={() => {
+                                        setShowRole(!showRole);
+                                      }}
+                                      className="inline-flex w-full justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+                                    >
+                                      {selectedRole}
+                                      {showRole ? (
+                                        ""
+                                      ) : (
+                                        <svg
+                                          className="-mr-1 ml-2 h-5 w-5"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 20 20"
+                                          fill="currentColor"
+                                          aria-hidden="true"
+                                        >
+                                          <path
+                                            fill-rule="evenodd"
+                                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                            clip-rule="evenodd"
+                                          />
+                                        </svg>
+                                      )}
+                                    </button>
+                                  </div>
+                                  {showRole ? (
+                                    <>
+                                      <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <div className="py-1">
+                                          {drive.map(
+                                            ({ drive_id, role }: any) => (
+                                              <button
+                                                key={drive_id}
+                                                onClick={() => {
+                                                  updateOtherFields(
+                                                    drive_id,
+                                                    "role",
+                                                    role
+                                                  );
+                                                  setselectedRole(role);
+                                                  setShowRole(!showRole);
+                                                }}
+                                                className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+                                              >
+                                                {role}
+                                              </button>
+                                            )
+                                          )}
+                                        </div>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <>{drive_message}</>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="hidden sm:block bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    {loading ? (
+                      <button
+                        disabled
+                        className="flex flex-row items-center justify-center px-3 py-1 rounded bg-gray-400 text-white mr-1"
+                      >
+                        Add <ClipLoader size={15} color="#d63636" />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={submit}
+                        className="px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 mr-1"
+                      >
+                        Add
+                      </button>
+                    )}
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
             </div>
           </div>
-        </div>
-        : <></>}
-    </div>
-  )
-}
+        </Dialog>
+      </Transition.Root>
+    </>
+  );
+};
 
-export default CreateNew
+export default CreateNew;
