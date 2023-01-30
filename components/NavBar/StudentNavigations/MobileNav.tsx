@@ -48,7 +48,7 @@ const MobileNav = () => {
 			</div>
 			{isOpen ? (
 				<>
-					<div className="flex flex-row w-full justify-between items-center border-b-2">
+					{/* <div className="flex flex-row w-full justify-between items-center border-b-2">
 						<button className="flex w-full flex-row hover:bg-slate-200 p-4 items-center text-base text-slate-700 font-medium">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +95,7 @@ const MobileNav = () => {
 							</svg>
 							&nbsp;&nbsp;&nbsp; Calendar
 						</button>
-					</div>
+					</div> */}
 					<div className="flex flex-row w-full justify-between items-center border-b-2">
 						<button className="flex w-full flex-row hover:bg-slate-200 p-4 items-center text-base text-slate-700 font-medium">
 							<svg
