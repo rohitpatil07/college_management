@@ -47,6 +47,7 @@ function NextResume() {
   useEffect(() => {
     fetchData();
   }, []);
+  console.log(extra);
   const download = async () => {
     const response = await axios
       .get(`${server}/download/resume/${AuthData.user.userData.user.roll_no}`, {
@@ -121,91 +122,106 @@ function NextResume() {
               </p>
             </div>
             <div>
-              <h3 className="text-white bg-accent px-2 font-bold text-lg">
-                Academic Achievements
-              </h3>
-              {rdata == undefined || rdata == null ? (
+              {rdata == undefined || rdata == null || rdata.acad_achievement_one==null || rdata.acad_achievement_one ==undefined ? (
                 <></>
               ) : (
-                <ul>
-                  <li>{rdata.acad_achievement_one}</li>
-                  <li>{rdata.acad_achievement_two}</li>
-                  <li>{rdata.acad_achievement_three}</li>
-                </ul>
+                <>
+                  <h3 className="text-white bg-accent px-2 font-bold text-lg">
+                    Academic Achievements
+                  </h3>
+                  <ul>
+                    <li>{rdata.acad_achievement_one}</li>
+                    <li>{rdata.acad_achievement_two}</li>
+                    <li>{rdata.acad_achievement_three}</li>
+                  </ul>
+                </>
               )}
             </div>
             <div>
-              <h3 className="text-white bg-accent px-2 font-bold text-lg">
-                Additional Information
-              </h3>
-              {rdata == undefined || rdata == null ? (
-                <></>
+              { (rdata.pref_language==null || rdata.technologies==null || rdata.hobbies==null)? (
+                <>
+                </>
               ) : (
-                <ul>
-                  <li>Preffered Language: {rdata.pref_language}</li>
-                  <li>Tech Stack:{rdata.technologies}</li>
-                  <li>Hobbies:{rdata.hobbies}</li>
-                </ul>
+                <>
+                  <h3 className="text-white bg-accent px-2 font-bold text-lg">
+                    Additional Information
+                  </h3>
+                  <ul>
+                    <li>Preffered Language: {rdata.pref_language}</li>
+                    <li>Tech Stack:{rdata.technologies}</li>
+                    <li>Hobbies:{rdata.hobbies}</li>
+                  </ul>
+                </>
               )}
             </div>
           </div>
           <div className="w-[5px] h-[780px] bg-accent mx-auto"></div>
           <div className="ml-2">
             <div>
-              <h3 className="text-accent font-bold text-lg">
-                <span
-                  className="absolute left-[345px] text-black z-30
-                                "
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="8" height="16">
-                    <path
-                      fill-rule="evenodd"
-                      d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"
-                    />
-                  </svg>
-                </span>{" "}
-                Certifications ▶▶▶
-              </h3>
-              {rdata == undefined || rdata == null ? (
+              {rdata == undefined || rdata == null || rdata.certificate_one == null? (
                 <> </>
               ) : (
-                <ul>
-                  <li>
-                    {rdata.certificate_one} :{" "}
-                    {rdata.certificate_one_completion_date}
-                  </li>
-                  <li>
-                    {rdata.certificate_two} :{" "}
-                    {rdata.certificate_two_completion_date}
-                  </li>
-                  <li>
-                    {rdata.certificate_three} :{" "}
-                    {rdata.certificate_three_completion_date}
-                  </li>
-                </ul>
+                <>
+                  <h3 className="text-accent font-bold text-lg">
+                    <span
+                      className="absolute left-[345px] text-black z-30
+                                "
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="8"
+                        height="16"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"
+                        />
+                      </svg>
+                    </span>{" "}
+                    Certifications ▶▶▶
+                  </h3>
+                  <ul>
+                    <li>
+                      {rdata.certificate_one} :{" "}
+                      {rdata.certificate_one_completion_date}
+                    </li>
+                    <li>
+                      {rdata.certificate_two} :{" "}
+                      {rdata.certificate_two_completion_date}
+                    </li>
+                    <li>
+                      {rdata.certificate_three} :{" "}
+                      {rdata.certificate_three_completion_date}
+                    </li>
+                  </ul>
+                </>
               )}
             </div>
             <div>
-              <h3 className="text-accent font-bold text-lg">
-                <span
-                  className="absolute left-[345px] text-black z-30
-                                "
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="8" height="16">
-                    <path
-                      fill-rule="evenodd"
-                      d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"
-                    />
-                  </svg>
-                </span>{" "}
-                Projects and Internships ▶▶▶
-              </h3>
-              <h3 className="text-accent font-bold text-md">Projects</h3>
               <div>
-                {proj == null || proj== undefined? (
+                {proj == null || proj == undefined || proj.length == 0 ? (
                   <></>
                 ) : (
                   <div>
+                    <h3 className="text-accent font-bold text-lg">
+                      <span
+                        className="absolute left-[345px] text-black z-30
+                                "
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="8"
+                          height="16"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"
+                          />
+                        </svg>
+                      </span>{" "}
+                      Projects and Internships ▶▶▶
+                    </h3>
+                    <h3 className="text-accent font-bold text-md">Projects</h3>
                     {proj.map(({ proj_name, proj_desc, role }: any) => (
                       <ul>
                         <li>
@@ -219,7 +235,9 @@ function NextResume() {
               <div>
                 <h3 className="text-accent font-bold text-md">Internships</h3>
                 <div>
-                  {intern == null || intern== undefined? (
+                  {intern == null ||
+                  intern == undefined ||
+                  intern.length == 0 ? (
                     <></>
                   ) : (
                     <div>
@@ -244,37 +262,44 @@ function NextResume() {
                 </div>
               </div>
             </div>
+
             <div>
-              <h3 className="text-accent font-bold text-lg">
-                <span
-                  className="absolute left-[345px] text-black z-30
-                                "
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="8" height="16">
-                    <path
-                      fill-rule="evenodd"
-                      d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"
-                    />
-                  </svg>
-                </span>{" "}
-                Extra Curricular Achievements ▶▶▶
-              </h3>
-            </div>
-            <div>
-              {extra == null || extra == undefined? (
+              {extra == null || extra == undefined || extra.length == 0 ? (
                 <></>
               ) : (
-                <div>
-                  {extra.map(
-                    ({ description, activity_month, activity_year }: any) => (
-                      <ul>
-                        <li>
-                          {description} : {activity_month} {activity_year}
-                        </li>
-                      </ul>
-                    )
-                  )}
-                </div>
+                <>
+                  <div>
+                    <h3 className="text-accent font-bold text-lg">
+                      <span
+                        className="absolute left-[345px] text-black z-30
+                                "
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="8"
+                          height="16"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"
+                          />
+                        </svg>
+                      </span>{" "}
+                      Extra Curricular Achievements ▶▶▶
+                    </h3>
+                  </div>
+                  <div>
+                    {extra.map(
+                      ({ description, activity_month, activity_year }: any) => (
+                        <ul>
+                          <li>
+                            {description} : {activity_month} {activity_year}
+                          </li>
+                        </ul>
+                      )
+                    )}
+                  </div>
+                </>
               )}
             </div>
             {/* <div>

@@ -79,7 +79,8 @@ const ViewDrive = () => {
 							pathname:"company/driveinfo",
 							query:
 							{
-								drive_id:drive_id
+								driveid:drive_id,
+								drive:drive
 							}
 						}} className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md">
 							Check Here For More Info
