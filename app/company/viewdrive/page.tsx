@@ -10,15 +10,12 @@ const ViewDrive = () => {
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const deleteDrive = async (driveid:Number) =>
 	{
-		console.log(driveid)
 		const response = await axios.get(`${server}/delete/drive/${driveid}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
 			},
 		});
-		console.log(response)
-		window.location.reload();
 	}
 	const fetchDrive = async () =>
 	{
@@ -28,7 +25,6 @@ const ViewDrive = () => {
 				'Authorization': `Bearer ${AuthData.user.token}`
 			},
 		  });
-		console.log(response)
 		for(let i=0;i<response.data.length;i++)
 		{
 			response.data[i]['pack']=response.data[i]['package']
@@ -38,7 +34,7 @@ const ViewDrive = () => {
 	useEffect(()=>{
 		fetchDrive();
 	},[drive]);
-	
+
 	return (
 		<div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
 			<h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
@@ -52,7 +48,7 @@ const ViewDrive = () => {
 				</h3>
 			</> : 
 			<div className="flex flex-col gap-5">
-			{drive.map(({ drive_id,role, desc,job_location,tenth_percent,twelveth_percent,pack}: any) => (
+			{drive.map(({ drive_id,role, role_desc,job_location,tenth_percent,twelveth_percent,pack,cgpa,be_percent,gap,live_kt,dead_kt,}: any) => (
 				<div key={drive_id}className="flex flex-col mx-auto mb-3 w-11/12 p-5 bg-white border-2 border-neutral-300 rounded-md">
 					<div className="flex flex-col-reverse sm:flex-row items-center justify-between">
 						<h2 className="text-xl font-semibold text-center">
@@ -60,7 +56,7 @@ const ViewDrive = () => {
 						</h2>
 					</div>
 					<h2 className="text-base font-semibold text-center sm:text-left mb-2 mt-2">
-						Role-Description:{desc}
+						Role-Description:{role_desc}
 					</h2>
                     <h2 className="text-base font-semibold text-center sm:text-left mb-2 mt-2">
 						Job Location:{job_location}
@@ -80,10 +76,30 @@ const ViewDrive = () => {
 							query:
 							{
 								driveid:drive_id,
-								drive:drive
+								
 							}
 						}} className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md">
 							Check Here For More Info
+						</Link>
+						<Link href={{
+							pathname:"company/updatedrive",
+							query:
+							{
+								driveid:drive_id,
+								role:role,
+								role_desc:role_desc,
+								job_location:job_location,
+								tenth:tenth_percent,
+								twelve:twelveth_percent,
+								cgpa:cgpa,
+								gap:gap,
+								live:live_kt,
+								be:be_percent,
+								dead:dead_kt,
+								package:pack
+							}
+						}} className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md">
+							Update Drive
 						</Link>
 						<div className="flex flex-col-reverse md:flex-row items-center justify-between">
 							{/* <button

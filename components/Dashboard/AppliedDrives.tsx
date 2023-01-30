@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
+import Link from "next/link";
+
 const AppliedDrives = () => {
 	const AuthData : any = useAuth();
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
@@ -13,7 +15,6 @@ const AppliedDrives = () => {
 				'Authorization': `Bearer ${AuthData.user.token}`
 			},
 		  });
-		console.log(response)
 		console.log(response.data)
 		if (response.data.error="Maximum offers reached so cannot sit for placement")
 		{
@@ -65,9 +66,15 @@ const AppliedDrives = () => {
 					</h2>
 					<p className="text-sm text-justify mb-3">{desc}</p>
 					<div className="flex flex-col md:flex-row items-center justify-between">
-						<button className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md">
+						<Link href={{
+							pathname:"/tpc/adriveinfo",
+							query:
+							{
+								drive_id:drive_id
+							}
+						}} className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md">
 							Check Here For More Info
-						</button>
+						</Link>
 						<div className="flex flex-col-reverse md:flex-row items-center justify-between">
 							{/* <button
 								className="p-1 w-48 mb-3 md:mb-0 md:ml-2 md:w-fit mx-auto px-10 rounded-md"

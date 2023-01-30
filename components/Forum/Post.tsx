@@ -33,7 +33,7 @@ const Post = ({ post, auth }: any) => {
     if (comment != "") {
       const response = await axios({
         method: "post",
-        url: "${server}/lms/form/postcomment",
+        url: `${server}/lms/form/postcomment`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth.user.token}`,
@@ -55,6 +55,7 @@ const Post = ({ post, auth }: any) => {
   const [showdarkdownvote, setshowdarkdownvote] = useState(false);
   const [updateForm, setupdateForm] = useState(false);
   const [updateText, setUpdateText] = useState("");
+  const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const updateComment = async () => {
     if (updateText != "" && updateText != `${post.text}`) {
       const comm = {
@@ -63,7 +64,7 @@ const Post = ({ post, auth }: any) => {
       };
       const response = await axios({
         method: "post",
-        url: "${server}/lms/form/updatecomment",
+        url: `${server}/lms/form/updatecomment`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth.user.token}`,
@@ -85,7 +86,7 @@ const Post = ({ post, auth }: any) => {
       };
       const response = await axios({
         method: "post",
-        url: "${server}/lms/form/updatecomment",
+        url: `${server}/lms/form/updatecomment`,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth.user.token}`,
@@ -148,7 +149,7 @@ const Post = ({ post, auth }: any) => {
     let post_array = JSON.stringify(parsing);
     const response = await axios({
       method: "post",
-      url: "${server}/lms/form/upvotecomment",
+      url: `${server}/lms/form/upvotecomment`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${auth.user.token}`,
@@ -228,7 +229,7 @@ const Post = ({ post, auth }: any) => {
     let post_array = JSON.stringify(parsing);
     const response = await axios({
       method: "post",
-      url: "${server}/lms/form/downvotecomment",
+      url: `${server}/lms/form/downvotecomment`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${auth.user.token}`,

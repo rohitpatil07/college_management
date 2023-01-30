@@ -3,25 +3,39 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import Swal from "sweetalert2";
+import { useSearchParams } from 'next/navigation'
 
-const CreateDrive = () => {
+const UpdateDrive = () => {
 	const AuthData : any  = useAuth();
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
-	let keys=["company_id","role","package","job_location","role_desc","cgpa","be_percent","tenth_percent","twelveth_percent","gender","gap","livekt","deadkt"]
+    const searchParams:any = useSearchParams();
+    const driveid=parseInt(searchParams.get('drive_id'));
+    const pack=parseInt(searchParams.get('package'));
+    const role_desc=searchParams.get('role_desc');
+    const job_location=searchParams.get('job_location');
+    const twelve=parseInt(searchParams.get('twelve'));
+    const gap=parseInt(searchParams.get('gap'));
+    const dead=parseInt(searchParams.get('dead'));
+    const tenth=parseInt(searchParams.get('tenth'));
+    const live=parseInt(searchParams.get('live'));
+    const be=parseInt(searchParams.get('be'));
+    const cgpa=parseInt(searchParams.get('cgpa'));
+    const roles=searchParams.get('role');
 	const [drives, setDrives]:any= useState({
+                drive_id:driveid,
 				company_id : AuthData.user.userData.user.company_id,
-				role:"",
-				package:0,
-				job_location:"",
-				role_desc:"",
-				cgpa:0,
-				be_percent: 0,
-				tenth_percent:0,
-				twelveth_percent:0,
+				role:roles,
+				package:pack,
+				job_location:job_location,
+				role_desc:role_desc,
+				cgpa:cgpa,
+				be_percent: be,
+				tenth_percent:tenth,
+				twelveth_percent:twelve,
 				gender:"",
-				gap:0,
-				livekt:0,
-				deadkt:0
+				gap:gap,
+				livekt:live,
+				deadkt:dead
 	})
 
 	const handleFormFieldChange = (fieldName: any, e: any) => {
@@ -29,9 +43,10 @@ const CreateDrive = () => {
 	};
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log(drives);
+
 		try {
 			const gear={
+				 drive_id:driveid,
 				company_id : AuthData.user.userData.user.company_id,
 				role:drives.role,
 				package:parseInt(drives.package),
@@ -42,73 +57,73 @@ const CreateDrive = () => {
 				tenth_percent:parseInt(drives.tenth_percent),
 				twelveth_percent:parseInt(drives.twelveth_percent),
 				gender:drives.gender,
-				gap:parseInt(drives.gap),
-				livekt:parseInt(drives.livekt),
-				deadkt:parseInt(drives.deadkt),
-				subject:"",
-				message:"",
-				queries:{}			
+				gap:Number(drives.gap),
+				livekt:Number(drives.livekt),
+				deadkt:Number(drives.deadkt)
 			};
-			
-			const queries = {
-						gender : {contains : gear.gender},
-						department: {contains : ""},
-						academic_info:{
-							gap : {lte : gear.gap},
-							cgpa : {gte : gear.cgpa},
-							livekt : {lte : gear.livekt},
-							deadkt : {lte : gear.deadkt},
-							tenth_percent : {gte : gear.tenth_percent},
-							twelveth_percent : {gte : gear.twelveth_percent},
-						}
+			const response = await axios({
+					method: 'post',
+					url: `${server}/add/company/drive`,
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${AuthData.user.token}`
+					}, 
+					data: {
+						drive: gear, // This is the body part
 					}
-					const message=`Notice for ${AuthData.user.userData.user.company_name} Placement Drive`
-					const subject=`Notification for  ${AuthData.user.userData.user.company_name} drive  for ${drives["role"]}`
-					gear['subject']=subject
-					gear['queries']=queries
-					gear['message']=message
-					console.log(gear)
-					const response = await axios({
-						method: 'post',
-						url: `${server}/add/company/drive`,
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${AuthData.user.token}`
-						}, 
-						data: {
-							drive: gear, // This is the body part
-						}
+					});
+					if (response.status == 200  && response.data.length>0) {
+						Swal.fire({
+							icon: "success",
+							title: "Drive Created  Successfully",
+							showConfirmButton: false,
+							timer: 1500,
 						});
-						if (response.status == 200) {
-							Swal.fire({
-								icon: "success",
-								title: "Drive Created  Successfully",
-								showConfirmButton: false,
-								timer: 1500,
-							});
-						} else {
-							Swal.fire({
-								icon: "error",
-								title: "Drive Creation Failed..Please Try Again",
-								showConfirmButton: false,
-								timer: 1500,
-							});
-						}
-						console.log(response)
+					} else {
+						Swal.fire({
+							icon: "error",
+							title: "Drive Creation Failed..Please Try Again",
+							showConfirmButton: false,
+							timer: 1500,
+						});
+					}
+			// const queries = {
+			// 			gender : {contains : drives.gender},
+			// 			department: {contains : ""},
+			// 			gap : {lte : drives.gap},
+			// 			cgpa : {gte : drives.cgpa},
+			// 			livekt : {lte : drives.livekt},
+			// 			deadkt : {lte : drives.deadkt},
+			// 			tenth_percent : {gte : drives.tenth_percent},
+			// 			twelveth_percent : {gte : drives.twelveth_percent},
+			// 		}
+			// 		const message=`Notice for ${AuthData.user.userData.user.company_name} Placement Drive`
+			// 		const subject=`Notification for  ${AuthData.user.userData.user.company_name} drive  for ${drives["role"]}`
+			// 		const noti = await axios.post(`${server}/filter/notify`,
+			// 			{ queries , message , subject },
+			// 			{
+			// 				headers: {
+			// 					"Content-Type": "application/json",
+			// 					Authorization: `Bearer ${AuthData.user.token}`,
+			// 				},
+			// 			});
+			// 		console.log(response.data);
+			//         console.log(noti);
 
 		} catch (error) {
 			alert(error);
 		}
 	};
+
 	return (
 		<div className="sm:w-[80%] mt-5 mx-auto flex flex-col drop-shadow-lg items-center bg-white container rounded-2xl">
 			<div className="w-full flex flex-col items-center gap-2">
 				<div>
 					<h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-center mt-5">
-						Create Drive
+						    Update Drive
 					</h3>
 					<p className="text-slate-400 text-sm text-center mb-5">
-						Create a drive with custom eligibility requirements
+						Update Drive Details
 					</p>
 				</div>
 				<div className="sm:w-[80%] px-5 sm:px-0 mx-auto flex justify-between flex-col gap-2">
@@ -119,6 +134,7 @@ const CreateDrive = () => {
 							onChange={(e) => {
 								handleFormFieldChange("role", e);
 							}}
+                           value={drives['role']}
 						></input>
 					</div>
 					<div className="w-full flex justify-between">
@@ -129,11 +145,13 @@ const CreateDrive = () => {
 							onChange={(e) => {
 								handleFormFieldChange("package", e);
 							}}
+                            value={drives['package']}
 						></input>
 					</div>
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">Enter Job Location</h2>
 						<input
+                            value={drives['job_location']}
 							className="border-2 rounded-md p-1 w-1/2"
 							onChange={(e) => {
 								handleFormFieldChange("job_location", e);
@@ -143,6 +161,7 @@ const CreateDrive = () => {
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">Role Description</h2>
 						<input
+                            value={drives['role_desc']}
 							className="border-2 rounded-md p-1 w-1/2"
 							onChange={(e) => {
 								handleFormFieldChange("role_desc", e);
@@ -152,6 +171,7 @@ const CreateDrive = () => {
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">CGPA</h2>
 						<input
+                            value={drives['cgpa']}
 							type="number"
 							className="border-2 rounded-md p-1 w-1/2"
 							onChange={(e) => {
@@ -162,6 +182,7 @@ const CreateDrive = () => {
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">BE percent</h2>
 						<input
+                            value={drives['be_percent']}
 							type="number"
 							className="border-2 rounded-md p-1 w-1/2"
 							onChange={(e) => {
@@ -172,16 +193,19 @@ const CreateDrive = () => {
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">Tenth Percent</h2>
 						<input
+							value={drives['tenth_percent']}
 							type="number"
 							className="border-2 rounded-md p-1 w-1/2"
 							onChange={(e) => {
 								handleFormFieldChange("tenth_percent", e);
 							}}
+   
 						></input>
 					</div>
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">Twelveth Percent</h2>
 						<input
+						    value={drives['twelveth_percent']}
 							type="number"
 							className="border-2 rounded-md p-1 w-1/2"
 							onChange={(e) => {
@@ -207,6 +231,7 @@ const CreateDrive = () => {
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">Gap</h2>
 						<input
+                            value={drives['gap']}
 							className="border-2 rounded-md p-1 w-1/2"
 							onChange={(e) => {
 								handleFormFieldChange("gap", e);
@@ -216,7 +241,8 @@ const CreateDrive = () => {
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">Live KT</h2>
 						<input
-							type="number"
+							value={drives['livekt']}
+                            placeholder={live.toString()}
 							className="border-2 rounded-md p-1 w-1/2"
 							onChange={(e) => {
 								handleFormFieldChange("livekt", e);
@@ -226,6 +252,7 @@ const CreateDrive = () => {
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">Dead KT</h2>
 						<input
+                            value={drives['deadkt']}
 							type="number"
 							className="border-2 rounded-md p-1 w-1/2"
 							onChange={(e) => {
@@ -240,11 +267,11 @@ const CreateDrive = () => {
 						handleSubmit(e);
 					}}
 				>
-					Create
+					Update
 				</button>
 			</div>
 		</div>
 	);
 };
 
-export default CreateDrive;
+export default UpdateDrive;

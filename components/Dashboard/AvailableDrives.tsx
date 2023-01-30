@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import Router from "next/router";
+import Link from "next/link";
+
 const AvailableDrives = () => {
 	const AuthData : any = useAuth();
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
@@ -71,9 +73,12 @@ const AvailableDrives = () => {
 					</h2>
 					<p className="text-sm text-justify mb-3">{desc}</p>
 					<div className="flex flex-col md:flex-row items-center justify-between">
-						<button className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md">
+						<Link href={{
+							pathname: "/tpc/driveinfo",
+							query: { drive_id: drive_id },
+						}} className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md">
 							Check Here For More Info
-						</button>
+						</Link>
 						<div className="flex flex-col-reverse md:flex-row items-center justify-between">
 							<button onClick={()=>{apply(drive_id)}} className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
 								Apply

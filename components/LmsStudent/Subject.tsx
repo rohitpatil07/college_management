@@ -113,69 +113,42 @@ const Subject = ({ subject_id, subject_name, email, fac_data }: any) => {
           <></>
         ) : (
           <>
-            <div className="px-4 py-6 text-sm w-11/12  flex flex-wrap cursor-pointer mt-2 mb-2 border-solid border-2 border-neutral-200 shadow-xl drop-shadow-xl rounded-xl">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-4 h-4 mr-1"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
-                />
-              </svg>
-              Faculty-Name:{facdata.first_name} {facdata.last_name} 
+            <div className="flex flex-col border rounded-xl items-center shadow-xl py-4 px-8 w-10/12 my-2">
+              <div className="w-1/2 grid grid-cols-2">
+                <span className="font-bold text-accent">Faculty-Name:</span>{" "}
+                <span className="font-semibold">
+                  {facdata.first_name} {facdata.last_name}
+                </span>
+              </div>
+              <div className="w-1/2 grid grid-cols-2">
+                <span className="font-bold text-accent">Phone:</span>{" "}
+                <span className="font-semibold">{facdata.phone_number}</span>
+              </div>
+              <div className="w-1/2 grid grid-cols-2">
+                <span className="font-bold text-accent">Email:</span>{" "}
+                <span className="font-semibold">{facdata.email}</span>
+              </div>{" "}
+              <div className="w-1/2 grid grid-cols-2">
+                <span className="font-bold text-accent">Designation:</span>
+                <span className="font-semibold">{facdata.designation}</span>
+              </div>
             </div>
-            <div className="px-4 py-6 text-sm w-11/12  flex flex-wrap cursor-pointer mt-2 mb-2 border-solid border-2 border-neutral-200 shadow-xl drop-shadow-xl rounded-xl">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-4 h-4 mr-1"
+            <div className="flex flex-col border rounded-xl items-center shadow-xl py-4 px-8 w-10/12 my-2 font-semibold underline">
+              <Link
+                href={{
+                  pathname: "lms/assign",
+                  query: {
+                    subject_id: subject_id,
+                    subject_name: subject_name,
+                  },
+                }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
-                />
-              </svg>
-              <p className="text-sm">Contact-Info:</p>
-              <p className="text-sm">Phone:{facdata.phone_number} Email:{facdata.email} Designation: {facdata.designation}</p>
+                Assignment
+              </Link>
             </div>
           </>
         )}
-        <Link
-          href={{
-            pathname: "lms/assign",
-            query: {
-              subject_id: subject_id,
-              subject_name: subject_name,
-            },
-          }}
-          className="px-4 py-6 text-sm w-11/12 flex flex-wrap cursor-pointer mt-2 mb-2 border-solid border-2 border-neutral-200 shadow-xl drop-shadow-xl rounded-xl"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-4 h-4 mr-1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
-            />
-          </svg>
-          Assignment
-        </Link>
+
         {modules ? (
           <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
             {modules.map(
