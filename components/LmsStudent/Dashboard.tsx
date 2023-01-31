@@ -8,15 +8,17 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 const Dashboard = () => {
   const router = useRouter();
-  const server=process.env.NEXT_PUBLIC_SERVER_URL;
+  const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
-  const [semester, setSemester] = useState(AuthData.user.userData.user.semester);
+  const [semester, setSemester] = useState(
+    parseInt(`${AuthData.user.userData.user.semester}`)
+  );
   const [subjects, setSubjects]: any = useState([]);
   const [showForm, setshowForm] = useState(false);
   const [showFormButton, setshowFormButton] = useState(false);
   const [formData, setFormData]: any = useState();
   const [showSemesterType, setShowSemesterType] = useState(false);
-  let fac_data=subjects.faculty
+  let fac_data = subjects.faculty;
   const viewSubject = {
     roll_no: `${AuthData.user.userData.user.roll_no}`,
     semester: parseInt(`${AuthData.user.userData.user.semester}`),
@@ -24,45 +26,46 @@ const Dashboard = () => {
     department: `${AuthData.user.userData.user.department}`,
   };
   const get_subject = async () => {
-  if(semester!=`${AuthData.user.userData.user.semester}`){
-      const responsee = await axios.get(
-      `${server}/lms/filter/department/subject/${AuthData.user.userData.user.batch}/${AuthData.user.userData.user.department}/${semester}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
-        },
-      }
-    );
-    console.log("H",responsee);
-    setSubjects(responsee.data);
-  }
-    else{
-const response = await axios.post(
-      `${server}/lms/filter/student/subjects`,
-      viewSubject,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
-        },
-      }
-    );
-    if (response.data["enrolled_data"]) {
-      setshowFormButton(true);
-      setSubjects(response.data["enrolled_data"]);
-      let zeebag: any = [];
-      let zendai: any = [];
-      for (let i = 0; i < response.data["form_data"].length; i++) {
-        zeebag.push(Object.entries(response.data["form_data"][i]));
-      }
+    if (AuthData.user.userData.user.semester) {
+      if (semester != parseInt(`${AuthData.user.userData.user.semester}`)) {
+        const responsee = await axios.get(
+          `${server}/lms/filter/department/subject/${AuthData.user.userData.user.batch}/${AuthData.user.userData.user.department}/${semester}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${AuthData.user.token}`,
+            },
+          }
+        );
+        console.log("H", responsee);
+        setSubjects(responsee.data);
+      } else {
+        const response = await axios.post(
+          `${server}/lms/filter/student/subjects`,
+          viewSubject,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${AuthData.user.token}`,
+            },
+          }
+        );
+        console.log(response.data);
+        if (response.data["enrolled_data"]) {
+          setshowFormButton(true);
+          setSubjects(response.data["enrolled_data"]);
+          let zeebag: any = [];
+          let zendai: any = [];
+          for (let i = 0; i < response.data["form_data"].length; i++) {
+            zeebag.push(Object.entries(response.data["form_data"][i]));
+          }
 
-      setFormData(zeebag);
-    } else {
-      setSubjects(response.data);
+          setFormData(zeebag);
+        } else {
+          setSubjects(response.data);
+        }
+      }
     }
-    }
-    
   };
   const [subjectId, setsubjectId] = useState<number[]>([]);
   const setting_form_data = (
@@ -82,29 +85,25 @@ const response = await axios.post(
     setsubjectId(subId);
     setFormData(forms);
   };
-  const submit_opt_sub_resp=async()=>{
-	const body={
-		roll_no:[`${AuthData.user.userData.user.roll_no}`],
-		subject_id: subjectId
-	}
-	 const response = await axios.post(
-      `${server}/lms/form/addDILO`,
-      body,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
-        },
-      }
-    );
-	 if (response.status == 200) {
+  const submit_opt_sub_resp = async () => {
+    const body = {
+      roll_no: [`${AuthData.user.userData.user.roll_no}`],
+      subject_id: subjectId,
+    };
+    const response = await axios.post(`${server}/lms/form/addDILO`, body, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${AuthData.user.token}`,
+      },
+    });
+    if (response.status == 200) {
       Swal.fire({
         icon: "success",
         title: "Response Received",
         showConfirmButton: false,
         timer: 1500,
       });
-	  setshowForm(false);
+      setshowForm(false);
     } else {
       Swal.fire({
         icon: "error",
@@ -113,7 +112,7 @@ const response = await axios.post(
         timer: 1500,
       });
     }
-  }
+  };
   useEffect(() => {
     get_subject();
   }, [subjects]);
@@ -144,134 +143,131 @@ const response = await axios.post(
           All Subjects
         </h3>
         <div className="border-t-4 my-2 py-3 w-11/12 flex flex-row flex-wrap items-center justify-between">
-
-
-
           <div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base font-medium">
-					<div className="relative text-left inline-block w-full">
-						<div>
-							<button
-								onClick={() => {
-									setShowSemesterType(!showSemesterType);
-								}}
-								className="inline-flex w-full justify-between rounded-md border border-red-300 bg-accent px-4 py-2 text-xs sm:text-sm font-medium shadow-sm hover:bg-red-700 text-white"
-							>
-								{semester == 1
-									? "Semester I"
-									: semester == 2
-									? "Semester II"
-									: semester == 3
-									? "Semester III"
-									: semester == 4
-									? "Semester IV"
-									: semester == 5
-									? "Semester V"
-									: semester == 6
-									? "Semester VI"
-									: semester == 7
-									? "Semester VII"
-									: "Semester VIII"}
-								{showSemesterType ? (
-									""
-								) : (
-									<svg
-										className="-mr-1 ml-2 h-5 w-5"
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 20 20"
-										fill="currentColor"
-										aria-hidden="true"
-									>
-										<path
-											fill-rule="evenodd"
-											d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-											clip-rule="evenodd"
-										/>
-									</svg>
-								)}
-							</button>
-						</div>
-						{showSemesterType ? (
-							<div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-								<div className="py-1">
-									<button
-										onClick={() => {
-											setSemester(1);
-											setShowSemesterType(!showSemesterType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										I
-									</button>
-									<button
-										onClick={() => {
-											setSemester(2);
-											setShowSemesterType(!showSemesterType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										II
-									</button>
-									<button
-										onClick={() => {
-											setSemester(3);
-											setShowSemesterType(!showSemesterType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										III
-									</button>
-									<button
-										onClick={() => {
-											setSemester(4);
-											setShowSemesterType(!showSemesterType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										IV
-									</button>
-									<button
-										onClick={() => {
-											setSemester(5);
-											setShowSemesterType(!showSemesterType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										V
-									</button>
-									<button
-										onClick={() => {
-											setSemester(6);
-											setShowSemesterType(!showSemesterType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										VI
-									</button>
-									<button
-										onClick={() => {
-											setSemester(7);
-											setShowSemesterType(!showSemesterType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										VII
-									</button>
-									<button
-										onClick={() => {
-											setSemester(8);
-											setShowSemesterType(!showSemesterType);
-										}}
-										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
-									>
-										VIII
-									</button>
-								</div>
-							</div>
-						) : (
-							""
-						)}
-					</div>
-				</div>
+            <div className="relative text-left inline-block w-full">
+              <div>
+                <button
+                  onClick={() => {
+                    setShowSemesterType(!showSemesterType);
+                  }}
+                  className="inline-flex w-full justify-between rounded-md border border-red-300 bg-accent px-4 py-2 text-xs sm:text-sm font-medium shadow-sm hover:bg-red-700 text-white"
+                >
+                  {semester == 1
+                    ? "Semester I"
+                    : semester == 2
+                    ? "Semester II"
+                    : semester == 3
+                    ? "Semester III"
+                    : semester == 4
+                    ? "Semester IV"
+                    : semester == 5
+                    ? "Semester V"
+                    : semester == 6
+                    ? "Semester VI"
+                    : semester == 7
+                    ? "Semester VII"
+                    : "Semester VIII"}
+                  {showSemesterType ? (
+                    ""
+                  ) : (
+                    <svg
+                      className="-mr-1 ml-2 h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
+              {showSemesterType ? (
+                <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="py-1">
+                    <button
+                      onClick={() => {
+                        setSemester(1);
+                        setShowSemesterType(!showSemesterType);
+                      }}
+                      className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+                    >
+                      I
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSemester(2);
+                        setShowSemesterType(!showSemesterType);
+                      }}
+                      className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+                    >
+                      II
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSemester(3);
+                        setShowSemesterType(!showSemesterType);
+                      }}
+                      className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+                    >
+                      III
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSemester(4);
+                        setShowSemesterType(!showSemesterType);
+                      }}
+                      className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+                    >
+                      IV
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSemester(5);
+                        setShowSemesterType(!showSemesterType);
+                      }}
+                      className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+                    >
+                      V
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSemester(6);
+                        setShowSemesterType(!showSemesterType);
+                      }}
+                      className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+                    >
+                      VI
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSemester(7);
+                        setShowSemesterType(!showSemesterType);
+                      }}
+                      className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+                    >
+                      VII
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSemester(8);
+                        setShowSemesterType(!showSemesterType);
+                      }}
+                      className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+                    >
+                      VIII
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
           {showFormButton ? (
             <button
               onClick={() => {
@@ -285,7 +281,7 @@ const response = await axios.post(
             ""
           )}
         </div>
-        {subjects && subjects.length!=0 ? (
+        {subjects ? (
           <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
             {subjects.map(
               (
@@ -318,8 +314,8 @@ const response = await axios.post(
                       query: {
                         subject_id: subject_id,
                         subject_name: subject_name,
-                        email:email,
-                        fac_data:fac_data
+                        email: email,
+                        fac_data: fac_data,
                       },
                     }}
                     className="mb-4 w-fit mx-auto px-16 py-2 rounded-full bg-accent text-white hover:scale-105 transition-all"
@@ -392,7 +388,10 @@ const response = await axios.post(
                                   }: any,
                                   k: number
                                 ) => (
-                                  <div key={subject_id} className="flex flex-row  items-center">
+                                  <div
+                                    key={subject_id}
+                                    className="flex flex-row  items-center"
+                                  >
                                     <input
                                       type="radio"
                                       id={type + z[0].slice(-1)}
@@ -439,7 +438,10 @@ const response = await axios.post(
                                   }: any,
                                   k: number
                                 ) => (
-                                  <div key={subject_id} className="flex flex-row  items-center">
+                                  <div
+                                    key={subject_id}
+                                    className="flex flex-row  items-center"
+                                  >
                                     <input
                                       type="radio"
                                       id={type + z[0].slice(-1)}
@@ -477,7 +479,10 @@ const response = await axios.post(
               )}
             </div>
             <div className="flex justify-center items-center w-100 mt-3 border-t text-white p-3">
-              <button onClick={submit_opt_sub_resp} className="px-3 py-1 rounded bg-accent text-white hover:scale-105 mr-2 transition-all">
+              <button
+                onClick={submit_opt_sub_resp}
+                className="px-3 py-1 rounded bg-accent text-white hover:scale-105 mr-2 transition-all"
+              >
                 Submit
               </button>
             </div>
