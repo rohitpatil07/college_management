@@ -27,6 +27,28 @@ const HomePage = () => {
 				<div className="w-10/12 scale-90 sm:scale-100 sm:w-72 xl:w-1/3 xl:scale-90 shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
 					<img
 						className="w-full min-h-[10rem] object-cover bg-zinc-300"
+						src={`/tpc.png`}
+						alt="tpc"
+					/>
+					<div className="p-5 flex flex-col gap-3 items=center text-center">
+						<span className="text-xl font-bold text-gray-900">
+							Marketplace
+						</span>
+						{/* <span className="text-slate-500 text-sm">
+							Lorem ipsum dolor sit amet pretium consectetur adipiscing elit.
+						</span> */}
+						<Link
+							href="/marketplace"
+							className="p-2 w-fit mx-auto px-5 rounded-3xl bg-accent text-white transition-all hover:scale-105"
+						>
+							Go To Marketplace
+						</Link>
+					</div>
+				</div>
+				<br />
+				<div className="w-10/12 scale-90 sm:scale-100 sm:w-72 xl:w-1/3 xl:scale-90 shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
+					<img
+						className="w-full min-h-[10rem] object-cover bg-zinc-300"
 						src={`/lms.png`}
 						alt="lms"
 					/>
@@ -36,9 +58,9 @@ const HomePage = () => {
 							<br />
 							System
 						</span>
-						<span className="text-slate-500 text-sm">
+						{/* <span className="text-slate-500 text-sm">
 							Lorem ipsum dolor sit amet pretium consectetur adipiscing elit.
-						</span>
+						</span> */}
 						<Link
 							href="/lms/dash"
 							className="p-2 w-fit mx-auto px-5 rounded-3xl bg-accent text-white hover:scale-105 transition-all"
@@ -60,9 +82,9 @@ const HomePage = () => {
 							<br />
 							Cell
 						</span>
-						<span className="text-slate-500 text-sm">
+						{/* <span className="text-slate-500 text-sm">
 							Lorem ipsum dolor sit amet pretium consectetur adipiscing elit.
-						</span>
+						</span> */}
 						<Link
 							href="/tpc/editProfile/personalInfo"
 							className="p-2 w-fit mx-auto px-5 rounded-3xl bg-accent text-white transition-all hover:scale-105"
