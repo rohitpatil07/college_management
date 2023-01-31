@@ -30,7 +30,6 @@ function LoginPage() {
 					role:role
 				}
 				});
-			console.log(response)
 			Swal.fire({
 				icon: "info",
 				title: `E-mail sent to ${email} to recover password`,

@@ -15,8 +15,7 @@ const AppliedDrives = () => {
 				'Authorization': `Bearer ${AuthData.user.token}`
 			},
 		  });
-		console.log(response.data)
-		if (response.data.error="Maximum offers reached so cannot sit for placement")
+		if (response.data.error=="Maximum offers reached so cannot sit for placement")
 		{
 			setDrive("Max")
 		}
@@ -30,10 +29,9 @@ const AppliedDrives = () => {
 	
 	useEffect(()=>{
 		fetchDrive();
-	},[]);
-	console.log(drive)
+	},[drive]);
 	return (
-		<div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
+		<div className="w-full sm:w-11/12 mt-3 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
 			<h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
 				Applied Drives
 			</h3>
@@ -42,7 +40,7 @@ const AppliedDrives = () => {
 			drive=="Max"?
 			<>
 				<h3 className="text-2xl sm:text-1xl mb-5 font-bold text-gray-900">
-				Maximum Offers Reached or Not applied to any drive
+				Maximum Offers Reached 
 				</h3>
 			</> :
 			drive.length==0?
@@ -67,7 +65,7 @@ const AppliedDrives = () => {
 					<p className="text-sm text-justify mb-3">{desc}</p>
 					<div className="flex flex-col md:flex-row items-center justify-between">
 						<Link href={{
-							pathname:"/tpc/adriveinfo",
+							pathname: "/tpc/adriveinfo",
 							query:
 							{
 								drive_id:drive_id
@@ -75,17 +73,6 @@ const AppliedDrives = () => {
 						}} className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md">
 							Check Here For More Info
 						</Link>
-						<div className="flex flex-col-reverse md:flex-row items-center justify-between">
-							{/* <button
-								className="p-1 w-48 mb-3 md:mb-0 md:ml-2 md:w-fit mx-auto px-10 rounded-md"
-								style={{ backgroundColor: "#c9243f", color: "white" }}
-							>
-								Decline */}
-							{/* </button> */}
-							{/* <button  className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
-								Accept
-							</button> */}
-						</div>
 					</div>
 				</div>
 			))}

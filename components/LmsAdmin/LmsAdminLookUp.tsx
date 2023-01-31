@@ -432,7 +432,7 @@ const LmsAdminLookUp = () => {
             {modal_number == 3 ? (
               <>
                 {modal_text[3].map((value: string, x: number) => (
-                  <div className="mb-8 mt-2 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+                  <div key={x} className="mb-8 mt-2 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
                     <label>{modal_text[modal_number][x]}</label>
                     <input
                       className="rounded-md border border-gray-700 py-1 px-1 w-7/12"

@@ -223,7 +223,7 @@ function NextResume() {
                     </h3>
                     <h3 className="text-accent font-bold text-md">Projects</h3>
                     {proj.map(({ proj_name, proj_desc, role }: any) => (
-                      <ul>
+                      <ul key={proj_name}>
                         <li>
                           {proj_name} : {proj_desc} ,Role:{role}
                         </li>
@@ -249,7 +249,7 @@ function NextResume() {
                           end_month,
                           year,
                         }: any) => (
-                          <ul>
+                          <ul key={description}>
                             <li>
                               {company_name} : {description} ,{start_month}-
                               {end_month} {year}
@@ -291,7 +291,7 @@ function NextResume() {
                   <div>
                     {extra.map(
                       ({ description, activity_month, activity_year }: any) => (
-                        <ul>
+                        <ul key={description}>
                           <li>
                             {description} : {activity_month} {activity_year}
                           </li>

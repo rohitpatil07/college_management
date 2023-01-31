@@ -9,9 +9,6 @@ const PieCharts = (datas: any) => {
 
 		maintainAspectRatio: false,
 		plugins: {
-			legend: {
-				position: "top",
-			},
 			title: {
 				display: true,
 				text: datas.label,

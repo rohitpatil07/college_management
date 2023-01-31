@@ -368,7 +368,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
                     { assignment_id, assign_name, createdAt, deadlineAt,edit,links,file_name,assign_des,file_type }: any,
                     i: number
                   ) => (
-                    <tr>
+                    <tr key={i}>
                       <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 text-center text-xs">
                         <>{i + 1}</>
                       </td>

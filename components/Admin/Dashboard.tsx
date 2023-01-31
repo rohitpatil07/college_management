@@ -170,7 +170,7 @@ const Dashboard = () => {
                     </thead>
                     <tbody>
 					{topStudents.map(({ roll_no, first_name, last_name, email,_count,offers,packages,company_name }: any, i: number) => (
-                                            <tr className='cursor-pointer border-b border-slate-400 text-sm py-2'>
+                                            <tr key={i} className='cursor-pointer border-b border-slate-400 text-sm py-2'>
                                                 <td className='pr-1 sm:pr-2'>{roll_no}</td>
                                                 <td className='pl-1 sm:pl-2'>{first_name} {last_name}</td>
                                                 <td className='pl-1 sm:pl-2'>{email}</td>

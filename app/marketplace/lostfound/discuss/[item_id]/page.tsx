@@ -21,7 +21,6 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 	const AuthData: any = useAuth();
 
 	const getLostItem = async () => {
-		item_id = parseInt(item_id);
 		try {
 			const response = await axios.post(
 				"http://localhost:5000/market/lost_items/lost_item",
@@ -40,7 +39,6 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 	};
 
 	const getThread = async () => {
-		item_id = parseInt(item_id);
 		try {
 			const response = await axios.post(
 				"http://localhost:5000/market/lost_items/lostitemthread",
@@ -61,7 +59,7 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 
 	const postComment = async () => {
 		const comm = {
-			item_id: parseInt(item_id),
+			item_id: item_id,
 			email: `${AuthData.user.userData.user.email}`,
 			text: comment,
 			reply_to: 0,

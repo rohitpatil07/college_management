@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import Router from "next/router";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 const AvailableDrives = () => {
 	const AuthData : any = useAuth();
@@ -17,8 +18,6 @@ const AvailableDrives = () => {
 				'Authorization': `Bearer ${AuthData.user.token}`
 			},
 		  });
-		console.log(response)
-		console.log(response.data)
 		setDrive(response.data);
 	}
 	useEffect(()=>{
@@ -26,7 +25,6 @@ const AvailableDrives = () => {
 	},[]);
 	const apply = async(id:any) =>
 	{
-		const applied=drive[id];
 		let applieddrive: any = {
 			applieddrive:
 			{
@@ -42,6 +40,21 @@ const AvailableDrives = () => {
 				Authorization: `Bearer ${AuthData.user.token}`,
 			},
 		});
+		if (response.status == 200) {
+			Swal.fire({
+				icon: "success",
+				title: "Applied to Drive  Successfully",
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		} else {
+			Swal.fire({
+				icon: "error",
+				title: "Could Not Apply to Drive..Please Try Again",
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
 
 	}
 	return (

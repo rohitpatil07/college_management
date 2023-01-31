@@ -9,7 +9,7 @@ const UpdateDrive = () => {
 	const AuthData : any  = useAuth();
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
     const searchParams:any = useSearchParams();
-    const driveid=parseInt(searchParams.get('drive_id'));
+    const driveid=parseInt(searchParams.get('driveid'));
     const pack=parseInt(searchParams.get('package'));
     const role_desc=searchParams.get('role_desc');
     const job_location=searchParams.get('job_location');
@@ -46,7 +46,7 @@ const UpdateDrive = () => {
 
 		try {
 			const gear={
-				 drive_id:driveid,
+				drive_id:driveid,
 				company_id : AuthData.user.userData.user.company_id,
 				role:drives.role,
 				package:parseInt(drives.package),
@@ -57,9 +57,9 @@ const UpdateDrive = () => {
 				tenth_percent:parseInt(drives.tenth_percent),
 				twelveth_percent:parseInt(drives.twelveth_percent),
 				gender:drives.gender,
-				gap:Number(drives.gap),
-				livekt:Number(drives.livekt),
-				deadkt:Number(drives.deadkt)
+				gap:parseInt(drives.gap),
+				livekt:parseInt(drives.livekt),
+				deadkt:parseInt(drives.deadkt)
 			};
 			const response = await axios({
 					method: 'post',
@@ -72,17 +72,17 @@ const UpdateDrive = () => {
 						drive: gear, // This is the body part
 					}
 					});
-					if (response.status == 200  && response.data.length>0) {
+					if (response.status == 200  && response.data.success=="Drive updated") {
 						Swal.fire({
 							icon: "success",
-							title: "Drive Created  Successfully",
+							title: "Drive Updated  Successfully",
 							showConfirmButton: false,
 							timer: 1500,
 						});
 					} else {
 						Swal.fire({
 							icon: "error",
-							title: "Drive Creation Failed..Please Try Again",
+							title: "Drive Updation Failed..Please Try Again",
 							showConfirmButton: false,
 							timer: 1500,
 						});

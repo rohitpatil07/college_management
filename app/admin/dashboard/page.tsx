@@ -3,7 +3,7 @@ import React from "react";
 import Dashboard from "../../../components/Admin/Dashboard";
 import { useAuth } from "../../../contexts/AuthContext";
 
-function page() {
+function Page() {
 	return (
 		<div>
 			<Dashboard />
@@ -11,4 +11,4 @@ function page() {
 	);
 }
 
-export default page;
+export default Page;

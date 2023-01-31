@@ -315,7 +315,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
                     }: any,
                     i: number
                   ) => (
-                    <tr>
+                    <tr key={assignment_id}>
                       <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">
                         {i + 1}
                       </td>

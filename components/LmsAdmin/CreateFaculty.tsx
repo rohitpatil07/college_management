@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 const server=process.env.NEXT_PUBLIC_SERVER_URL;
+import { useRouter } from "next/navigation";
 
 const CreateFaculty = () => {
 	const AuthData : any  = useAuth();

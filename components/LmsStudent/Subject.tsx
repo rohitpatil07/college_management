@@ -68,9 +68,6 @@ const Subject = ({ subject_id, subject_name, email, fac_data }: any) => {
 
     maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: "top",
-      },
       title: {
         display: true,
         text: "Attendence",

@@ -10,7 +10,7 @@ type PageProps = {
 const UpdateFoundItem = ({ params: { id } }: PageProps) => {
 	return (
 		<div>
-			<UpdateFoundComponent item_id={id} />
+			<UpdateFoundComponent  />
 		</div>
 	);
 };

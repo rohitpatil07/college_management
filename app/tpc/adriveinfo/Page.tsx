@@ -4,8 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "../../../contexts/AuthContext";
 import axios from "axios";
+import Swal from "sweetalert2";
 
-const ADriveInfo = () => {
+const page = () => {
   const [dinfo, setDinfo]: any = useState(null);
   const searchParams: any = useSearchParams();
   const driveid = parseInt(searchParams.get("drive_id"));
@@ -40,11 +41,25 @@ const ADriveInfo = () => {
         },
       }
     );
+    if (response.status == 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Applied to Drive Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Could not Apply to Drive ..Please Try Again",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
   useEffect(() => {
     fetchStudents();
   }, []);
-  console.log(dinfo)
   return (
     <div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
       <h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
@@ -106,4 +121,4 @@ const ADriveInfo = () => {
   );
 };
 
-export default ADriveInfo;
+export default page;

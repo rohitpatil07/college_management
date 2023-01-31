@@ -3,19 +3,39 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import axios from "axios";
 import Link from "next/link"
+import Swal from "sweetalert2";
 
 const ViewDrive = () => {
 	const AuthData : any = useAuth();
 	const[drive,setDrive]:any=useState(null);
+	const [flag,setflag] = useState(0)
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const deleteDrive = async (driveid:Number) =>
 	{
+		setflag(1)
 		const response = await axios.get(`${server}/delete/drive/${driveid}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${AuthData.user.token}`
 			},
 		});
+		if (response.status == 200  && response.data.success=="Drive Deleted") {
+			Swal.fire({
+				icon: "success",
+				title: "Drive Deleted  Successfully",
+				showConfirmButton: false,
+				timer: 1500,
+			});
+			setflag(0)
+		} else {
+			Swal.fire({
+				icon: "error",
+				title: "Drive Deletion Failed..Please Try Again",
+				showConfirmButton: false,
+				timer: 1500,
+			});
+			setflag(0)
+		}
 	}
 	const fetchDrive = async () =>
 	{
@@ -102,15 +122,16 @@ const ViewDrive = () => {
 							Update Drive
 						</Link>
 						<div className="flex flex-col-reverse md:flex-row items-center justify-between">
-							{/* <button
-								className="p-1 w-48 mb-3 md:mb-0 md:ml-2 md:w-fit mx-auto px-10 rounded-md"
-								style={{ backgroundColor: "#c9243f", color: "white" }}
-							>
-								Decline */}
-							{/* </button> */}
+							{flag==0?
 							<button  onClick={()=>{deleteDrive(drive_id)}} className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
 								Delete
+							</button>:
+							<>
+							<button  disabled={true}  className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white">
+								Delete
 							</button>
+							</>
+}
 						</div>
 					</div>
 				</div>

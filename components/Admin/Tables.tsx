@@ -20,8 +20,8 @@ function Tables({ data }: any) {
 			<div className="table w-full text-sm text-center">
 				<div className="table-header-group">
 					<div className="table-row">
-						{Object.keys(data[0]).map((item) => (
-							<div className="table-cell border-2 px-4 py-2 font-medium">
+						{Object.keys(data[0]).map((item,index:number) => (
+							<div key={index} className="table-cell border-2 px-4 py-2 font-medium">
 								{beautifulLabels[item]}
 							</div>
 						))}
@@ -29,9 +29,9 @@ function Tables({ data }: any) {
 				</div>
 				<div className="table-row-group">
 					{data.map((row: any, index: number) => (
-						<div className="table-row">
+						<div key={index} className="table-row">
 							{Object.keys(row).map((item, i) => (
-								<div className="table-cell border-2 px-4 py-2">{row[item]}</div>
+								<div key={i} className="table-cell border-2 px-4 py-2">{row[item]}</div>
 							))}
 						</div>
 					))}

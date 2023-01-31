@@ -249,7 +249,7 @@ const Dashboard = () => {
                                   }: any,
                                   k: number
                                 ) => (
-                                  <div className="flex flex-row  items-center">
+                                  <div key={subject_id} className="flex flex-row  items-center">
                                     <input
                                       type="radio"
                                       id={type + z[0].slice(-1)}
@@ -296,7 +296,7 @@ const Dashboard = () => {
                                   }: any,
                                   k: number
                                 ) => (
-                                  <div className="flex flex-row  items-center">
+                                  <div key={subject_id} className="flex flex-row  items-center">
                                     <input
                                       type="radio"
                                       id={type + z[0].slice(-1)}

@@ -94,7 +94,7 @@ const CreateDrive = () => {
 								timer: 1500,
 							});
 						}
-						console.log(response)
+						
 
 		} catch (error) {
 			alert(error);

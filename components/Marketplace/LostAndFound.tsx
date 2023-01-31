@@ -313,7 +313,7 @@ const LostAndFound = () => {
 								<div className="absolute bg-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl w-4/5 sm:w-fit h-fit drop-shadow-xl p-4 sm:p-10 overflow-hidden">
 									<div className="flex flex-col justify-center items-center gap-8">
 										<h1 className="font-bold text-xl text-gray-800">
-											Purchase "{itemName}"
+											Purchase &quot;{itemName}&ldquo;
 										</h1>
 										<button
 											className="absolute top-0 right-0 m-2 hover:scale-110 transition-all"

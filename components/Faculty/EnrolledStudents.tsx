@@ -120,7 +120,7 @@ const AttendanceRecord = () => {
               </thead>
               <tbody>
                 {attend.map(({date,present,absent,attendance_id,pres_count,abs_count}: any)=>(
-                  <tr>
+                  <tr key={attendance_id}>
                    <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
                         {date.slice(0,10)}
                       </td>
@@ -250,7 +250,7 @@ const AttendanceRecord = () => {
                 
               <tbody>
                   {presents.map(({roll_no,first_name,last_name,division}: any)=>(
-                  <tr>
+                  <tr key={roll_no}>
                    <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
                         {roll_no}
                       </td>
@@ -266,7 +266,7 @@ const AttendanceRecord = () => {
               : 
                <tbody>
                   {absents.map(({roll_no,first_name,last_name,division}: any)=>(
-                  <tr>
+                  <tr key={roll_no}>
                    <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
                         {roll_no}
                       </td>

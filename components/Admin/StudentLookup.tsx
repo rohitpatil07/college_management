@@ -259,8 +259,8 @@ const StudentLookup = () => {
 					</div>
 					<hr className="py-3" />
 					<div className="flex flex-wrap gap-3">
-						{Object.keys(personalInfo).map((e) => (
-							<p
+						{Object.keys(personalInfo).map((e,index:number) => (
+							<p key={index}
 								className={`px-5 py-2 rounded-full cursor-pointer ${
 									personalInfo[e].status
 										? "bg-accent text-white"

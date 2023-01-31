@@ -359,8 +359,8 @@ const CreateForm = () => {
                       }: any,
                       i: number
                     ) => (
-                        <tbody>
-                      <tr key={form_id}>
+                        <tbody key={form_id}>
+                      <tr >
                         <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">{form_id}</td>
                         <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">{batch}</td>
                         <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">
@@ -455,7 +455,7 @@ const CreateForm = () => {
                                 subject_name,
                                 type,
                               }: any) => (
-                                <div className="flex flex-col w-full m-2 bg-gray-100 p-2 rounded-xl drop-shadow-xl">
+                                <div key={subject_id} className="flex flex-col w-full m-2 bg-gray-100 p-2 rounded-xl drop-shadow-xl">
                                   <div className="flex flex-row justify-between items center">
                                     <h2 className="text-gray-700 text-lg">
                                       {subject_name}
@@ -488,7 +488,7 @@ const CreateForm = () => {
                                 subject_name,
                                 type,
                               }: any) => (
-                                <div className="flex flex-col w-full m-2 bg-gray-100 p-2 rounded-xl drop-shadow-xl">
+                                <div key={subject_id} className="flex flex-col w-full m-2 bg-gray-100 p-2 rounded-xl drop-shadow-xl">
                                   <div className="flex flex-row justify-between items center">
                                     <h2 className="text-gray-700 text-lg">
                                       {subject_name}
@@ -591,8 +591,8 @@ const CreateForm = () => {
                   {showSemesterType ? (
                     <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="py-1">
-                        {sem_array.map((value: number) => (
-                          <button
+                        {sem_array.map((value: number,index:number) => (
+                          <button key={index}
                             onClick={() => {
                               setSemester(value);
                               setShowSemesterType(!showSemesterType);
@@ -659,7 +659,7 @@ const CreateForm = () => {
                     <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="py-1">
                         {year_array.map((value: number) => (
-                          <button
+                          <button key={value}
                             onClick={() => {
                               setBatch(value);
                               setShowBatchType(!showBatchType);
@@ -783,7 +783,7 @@ const CreateForm = () => {
               {type == "DLO" ? (
                 <div className="w-full mt-2 grid grid-cols-1 lg:grid-cols-2 gap-y-2 gap-x-14 lg:gap-x-24 px-5">
                   {DLONameArray.map((value: string, i: number) => (
-                    <div className="flex flex-col w-full">
+                    <div key={i} className="flex flex-col w-full">
                       <div className="w-full text-gray-700 font-medium">
                         {value} -{" "}
                       </div>
@@ -851,7 +851,7 @@ const CreateForm = () => {
               ) : (
                 <div className="w-full mt-2 grid grid-cols-1 lg:grid-cols-2 gap-y-2 gap-x-14 lg:gap-x-24 px-5">
                   {ILONameArray.map((value: string, i: number) => (
-                    <div className="flex flex-col w-full">
+                    <div key={i} className="flex flex-col w-full">
                       <div className=" w-full text-gray-700 font-medium">
                         {value}
                       </div>
@@ -962,7 +962,7 @@ const CreateForm = () => {
                           <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <div className="py-1">
                               {DLONameArray.map((value: string, i: number) => (
-                                <button
+                                <button key={value}
                                   onClick={() => {
                                     DLOPointerfunc(i);
                                     setShowDLOType(false);
@@ -1079,7 +1079,7 @@ const CreateForm = () => {
                           <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <div className="py-1">
                               {ILONameArray.map((value: string, i: number) => (
-                                <button
+                                <button key={i}
                                   onClick={() => {
                                     ILOPointerfunc(i);
                                     setShowILOType(false);
@@ -1209,7 +1209,7 @@ const CreateForm = () => {
                 With -
               </h6>
               {DLONameArray.map((value: string, i: number) => (
-                <div className="flex flex-col w-full">
+                <div key={i} className="flex flex-col w-full">
                   <div className="w-full text-gray-500">{value}</div>
                   <div className="w-full">
                     {DLO[i] && DLO[i][`DLO${i + 1}`].length == 0 ? (
@@ -1241,7 +1241,7 @@ const CreateForm = () => {
                 </div>
               ))}
               {ILONameArray.map((value: string, i: number) => (
-                <div className="flex flex-col w-full">
+                <div key={i} className="flex flex-col w-full">
                   <div className="w-full text-gray-500">{value}</div>
                   <div className="w-full">
                     {ILO[i] && ILO[i][`ILO${i + 1}`].length == 0 ? (
