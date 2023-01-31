@@ -12,9 +12,9 @@ export default function PlacementLayout({
     <div className="w-screen bg-slate-200">
       <NavBar />
       <div className="flex flex-col sm:flex-row w-screen min-h-screen h-fit overflow-hidden">
-        <SideMobile/>
-        <SideNavBar/>
-        <div className='w-full sm:w-3/5 md:w-4/5'>{children}</div>
+        <SideMobile />
+        <SideNavBar />
+        <div className="w-full sm:w-3/5 md:w-4/5">{children}</div>
       </div>
     </div>
   );
