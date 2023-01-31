@@ -4,8 +4,8 @@ import { Chart, ArcElement } from "chart.js";
 Chart.register(ArcElement);
 import { Pie } from "react-chartjs-2";
 const PieCharts = (datas: any) => {
-	const options = {
-		responsive: true,
+  const options = {
+    responsive: true,
 
 		maintainAspectRatio: false,
 		plugins: {

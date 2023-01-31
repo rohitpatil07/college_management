@@ -15,7 +15,6 @@ const BarGraphs = (datas: any) => {
       },
     },
   };
-
   const data = {
     labels: datas.labels,
     datasets: [

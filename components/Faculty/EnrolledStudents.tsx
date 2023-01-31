@@ -53,10 +53,8 @@ const AttendanceRecord = () => {
     setrecords(true);
   }
   const getExcel = async () => {
-
-
 		axios
-			.get(`${server}/lms/getattendance/${subjectid}`, {
+			.get(`${server}/lms/download/getattendance/${subjectid}`, {
 				responseType: "blob",
 				headers: {
 					"Content-Type": "application/json",
@@ -104,16 +102,16 @@ const AttendanceRecord = () => {
             <table className="w-full table-auto border-separate border-spacing-2 border-slate-500 bg-red">
               <thead>
                 <tr>
-                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                  <th className="border-2  border-slate-600">
                     Date
                   </th>
-                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                  <th className="border-2  border-slate-600">
                     Stu. Present
                   </th>
-                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                  <th className="border-2 border-b-2  border-slate-600">
                     Stu. Absent
                   </th>
-                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                  <th className="border-2 border-b-2  border-slate-600">
                     View
                   </th>
                 </tr>
@@ -124,20 +122,22 @@ const AttendanceRecord = () => {
                    <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
                         {date.slice(0,10)}
                       </td>
-                       <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                       <td className="border-2 border-slate-600">
                         {pres_count}
                       </td>
-                       <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                       <td className="border-2 border-slate-600">
                         {abs_count}
                       </td>
-                      <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                      <td className="border-2 border-slate-600">
                         <button onClick={()=>{fetchAttendanceDetail(date.slice(0,10))}} className='px-2 py-1 rounded-md cursor-pointer bg-blue-500 text-white hover:bg-blue-700 transition-all'>View</button>
                       </td>
                   </tr>
                 ))}
               </tbody>
               </table>
-<button onClick={getExcel}>Get Excel</button>
+<div className='w-full'>
+  <button className='ml-[50%] my-2 bg-accent text-white px-2 py-1 rounded-md hover:scale-105 transition-all w-fit' onClick={()=>{getExcel()}}>Get Excel</button>
+</div>
               </div>
 
         )}

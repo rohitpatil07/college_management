@@ -11,6 +11,8 @@ const Dashboard = () => {
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	const AuthData: any = useAuth();
 	const [subjects, setSubjects]:any = useState([]);
+	const [showFilter, setShowFilter] = useState(false);
+	const [selectedFilter, setSelectedFilter]= useState("All Subjects");
 	const get_subject = async () => {
 		const response = await axios({
 			method: "post",
@@ -23,7 +25,18 @@ const Dashboard = () => {
 		email: `${AuthData.user.userData.user.email}`,
 			}				
 		});
+		console.log(response.data);
 		setSubjects(response.data);
+	};
+	const sorting = (e: string) => {
+		let sub: any = []
+		if(e=='l'){
+		sub = subjects.sort( function ( a:any, b:any ) { return b.subject_id - a.subject_id; } );
+		}
+		else{
+			sub = subjects.sort( function ( a:any, b:any ) { return a.subject_id - b.subject_id; } );
+		}
+		setSubjects(sub);
 	};
 	useEffect(() => {
 		get_subject();
@@ -75,9 +88,82 @@ const Dashboard = () => {
 						</svg>
 						Add New Subject
 					</Link>
-					<button className="mt-1 sm:mt-0 p-2 w-fit px-4 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">
-						Filter Subjects
-					</button>
+
+					<div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+					
+					<div className="relative text-left inline-block w-full">
+						<div>
+							<button
+								onClick={() => {
+									setShowFilter(!showFilter);
+								}}
+								className="inline-flex w-full justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+							>
+								{selectedFilter}  
+								{showFilter ? (
+									""
+								) : (
+									<svg
+										className="-mr-1 ml-2 h-5 w-5"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											fill-rule="evenodd"
+											d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+											clip-rule="evenodd"
+										/>
+									</svg>
+								)}
+							</button>
+						</div>
+						{showFilter ? (
+							<>
+							<div  className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+								<div className="py-1">
+									<button
+										onClick={() => {
+											sorting("f");
+											setSelectedFilter("All Subjects");
+											setShowFilter(!showFilter);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										All Subjects
+									</button>
+									
+									<button
+										onClick={() => {
+											sorting("l");
+											setSelectedFilter("Latest First");
+											setShowFilter(!showFilter);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										Latest First
+									</button>	
+									<button
+										onClick={() => {
+											sorting("f");
+											setSelectedFilter("Oldest First");
+											setShowFilter(!showFilter);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										Oldest First
+									</button>
+								</div>
+							</div>
+							</>
+						) : (
+							""
+						)}
+					</div>
+				</div>
+
+
 				</div>
 					<div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
 							

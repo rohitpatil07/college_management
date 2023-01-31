@@ -18,7 +18,6 @@ const AuthProvider = ({ children }) => {
 		setToken("");
 		router.push('/login');
 		setIsAuthenticated(false);
-		setUserData({});
 	};
 
 	const login = async (data) => {
@@ -27,7 +26,6 @@ const AuthProvider = ({ children }) => {
 		api.defaults.headers.Authorization = `Bearer ${token}`;
 		setToken(token);
 		setUserData(user);
-
 		setIsAuthenticated(true);
 		return response;
 	};
