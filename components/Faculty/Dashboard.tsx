@@ -23,6 +23,7 @@ const Dashboard = () => {
 		email: `${AuthData.user.userData.user.email}`,
 			}				
 		});
+		console.log(response.data);
 		setSubjects(response.data);
 	};
 	useEffect(() => {
@@ -75,6 +76,89 @@ const Dashboard = () => {
 						</svg>
 						Add New Subject
 					</Link>
+
+					{/* <div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+					<label>Division</label>
+					<div className="relative text-left inline-block w-7/12">
+						<div>
+							<button
+								onClick={() => {
+									setShowDivType(!showDivType);
+								}}
+								className="inline-flex w-full justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-xs sm:text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
+							>
+								{division}  
+								{showDivType ? (
+									""
+								) : (
+									<svg
+										className="-mr-1 ml-2 h-5 w-5"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											fill-rule="evenodd"
+											d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+											clip-rule="evenodd"
+										/>
+									</svg>
+								)}
+							</button>
+						</div>
+						{showDivType ? (
+							<>
+							{
+								newSubject.type=='LAB' ? 
+										<div  className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+								<div className="py-1">
+									
+									{
+										subDiv.map((value:string,x:number)=>(
+											<button
+											key={x}
+										onClick={() => {
+											UpdateData(subDiv[x], "division");
+											setShowDivType(!showDivType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										{value}
+									</button>
+										))
+									}
+								</div>
+							</div>
+								:		<div  className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+								<div className="py-1">
+									
+									{
+										div.map((value:string,x:number)=>(
+											<button
+											key={x}
+										onClick={() => {
+											UpdateData(div[x], "division");
+											setShowDivType(!showDivType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										{value}
+									</button>
+										))
+									}
+								</div>
+							</div>
+							}
+							</>
+						) : (
+							""
+						)}
+					</div>
+				</div> */}
+
+
+
 					<button className="mt-1 sm:mt-0 p-2 w-fit px-4 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">
 						Filter Subjects
 					</button>

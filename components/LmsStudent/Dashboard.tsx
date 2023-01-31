@@ -10,10 +10,12 @@ const Dashboard = () => {
   const router = useRouter();
   const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
+  const [semester, setSemester] = useState(AuthData.user.userData.user.semester);
   const [subjects, setSubjects]: any = useState([]);
   const [showForm, setshowForm] = useState(false);
   const [showFormButton, setshowFormButton] = useState(false);
   const [formData, setFormData]: any = useState();
+  const [showSemesterType, setShowSemesterType] = useState(false);
   let fac_data=subjects.faculty
   const viewSubject = {
     roll_no: `${AuthData.user.userData.user.roll_no}`,
@@ -22,7 +24,21 @@ const Dashboard = () => {
     department: `${AuthData.user.userData.user.department}`,
   };
   const get_subject = async () => {
-    const response = await axios.post(
+  if(semester!=`${AuthData.user.userData.user.semester}`){
+      const responsee = await axios.get(
+      `${server}/lms/filter/department/subject/${AuthData.user.userData.user.batch}/${AuthData.user.userData.user.department}/${semester}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AuthData.user.token}`,
+        },
+      }
+    );
+    console.log("H",responsee);
+    setSubjects(responsee.data);
+  }
+    else{
+const response = await axios.post(
       `${server}/lms/filter/student/subjects`,
       viewSubject,
       {
@@ -45,6 +61,8 @@ const Dashboard = () => {
     } else {
       setSubjects(response.data);
     }
+    }
+    
   };
   const [subjectId, setsubjectId] = useState<number[]>([]);
   const setting_form_data = (
@@ -126,9 +144,134 @@ const Dashboard = () => {
           All Subjects
         </h3>
         <div className="border-t-4 my-2 py-3 w-11/12 flex flex-row flex-wrap items-center justify-between">
-          <button className="mt-1 sm:mt-0 p-2 w-fit px-4 py-2 rounded-md bg-accent text-white hover:scale-105 transition-all">
-            Select Semester
-          </button>
+
+
+
+          <div className="mb-8 flex flex-row gap-2 justify-between items-center text-sm sm:text-base font-medium">
+					<div className="relative text-left inline-block w-full">
+						<div>
+							<button
+								onClick={() => {
+									setShowSemesterType(!showSemesterType);
+								}}
+								className="inline-flex w-full justify-between rounded-md border border-red-300 bg-accent px-4 py-2 text-xs sm:text-sm font-medium shadow-sm hover:bg-red-700 text-white"
+							>
+								{semester == 1
+									? "Semester I"
+									: semester == 2
+									? "Semester II"
+									: semester == 3
+									? "Semester III"
+									: semester == 4
+									? "Semester IV"
+									: semester == 5
+									? "Semester V"
+									: semester == 6
+									? "Semester VI"
+									: semester == 7
+									? "Semester VII"
+									: "Semester VIII"}
+								{showSemesterType ? (
+									""
+								) : (
+									<svg
+										className="-mr-1 ml-2 h-5 w-5"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											fill-rule="evenodd"
+											d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+											clip-rule="evenodd"
+										/>
+									</svg>
+								)}
+							</button>
+						</div>
+						{showSemesterType ? (
+							<div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+								<div className="py-1">
+									<button
+										onClick={() => {
+											setSemester(1);
+											setShowSemesterType(!showSemesterType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										I
+									</button>
+									<button
+										onClick={() => {
+											setSemester(2);
+											setShowSemesterType(!showSemesterType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										II
+									</button>
+									<button
+										onClick={() => {
+											setSemester(3);
+											setShowSemesterType(!showSemesterType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										III
+									</button>
+									<button
+										onClick={() => {
+											setSemester(4);
+											setShowSemesterType(!showSemesterType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										IV
+									</button>
+									<button
+										onClick={() => {
+											setSemester(5);
+											setShowSemesterType(!showSemesterType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										V
+									</button>
+									<button
+										onClick={() => {
+											setSemester(6);
+											setShowSemesterType(!showSemesterType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										VI
+									</button>
+									<button
+										onClick={() => {
+											setSemester(7);
+											setShowSemesterType(!showSemesterType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										VII
+									</button>
+									<button
+										onClick={() => {
+											setSemester(8);
+											setShowSemesterType(!showSemesterType);
+										}}
+										className="text-gray-700 block px-4 py-2 text-xs sm:text-sm hover:text-accent hover:bg-gray-200 w-full text-left"
+									>
+										VIII
+									</button>
+								</div>
+							</div>
+						) : (
+							""
+						)}
+					</div>
+				</div>
           {showFormButton ? (
             <button
               onClick={() => {
