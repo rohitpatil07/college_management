@@ -16,6 +16,7 @@ const AuthProvider = ({ children }) => {
 
 	const logout = () => {
 		setToken("");
+		setUserData({user:{role:""}});
 		router.push('/login');
 		setIsAuthenticated(false);
 	};

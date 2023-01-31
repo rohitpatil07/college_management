@@ -3,6 +3,8 @@ import Thread from "../../../Thread";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../../../../contexts/AuthContext";
+import { useSearchParams } from 'next/navigation'
+
 
 type PageProps = {
 	params: {
@@ -14,6 +16,9 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 	// const item_image = null;
 	// const item_name = "Item Name";
 	// const story = "Story";
+	const searchParams:any = useSearchParams();
+	const image=searchParams.get('item_image');
+	const story=searchParams.get('s');
 	const [item, setItem]: any = useState({});
 	const [thread, setThread] = useState([]);
 	const [comment, setComment] = useState("");
@@ -50,8 +55,9 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 					},
 				}
 			);
-			console.log(response.data);
 			setThread(response.data);
+			console.log(response)
+			console.log(response.data);
 		} catch (error) {
 			console.log(error);
 		}
@@ -188,9 +194,9 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 					</svg>
 				</button>
 			</div>
-			<div className="w-full md:w-11/12 mx-auto px-5">
+			{thread.length && <div className="w-full md:w-11/12 mx-auto px-5">
 				<Thread thread={thread} auth={AuthData} />
-			</div>
+			</div>}
 		</div>
 	);
 };

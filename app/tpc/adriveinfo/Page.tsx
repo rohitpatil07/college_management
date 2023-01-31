@@ -61,7 +61,7 @@ const page = () => {
     fetchStudents();
   }, []);
   return (
-    <div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
+    <div className="mt-16 w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
       <h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
         View Applied Drive Details
       </h3>
