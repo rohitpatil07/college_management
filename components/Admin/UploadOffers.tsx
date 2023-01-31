@@ -41,36 +41,47 @@ const UploadOffers = () => {
                 <p className="text-slate-400 text-sm">
 					Add, Update And Manage Offers
 				</p>
-               <div className='border-solid border-2 border-neutral-200 rounded-lg drop-shadow-xl my-3 px-5 pb-2'>
                {countCompanyWise.length>0 ? 
-                <table className='table-fixed border-collapse border-spacing-x-4 border-spacing-y-2 mt-3'>
+                <table  className="w-10/12 table-auto border-separate border-spacing-2 border-slate-500 bg-red">
                     <thead>
-                        <tr className='text-lg font-semibold text-gray-900'>
-                            <th className='border-b-2 border-slate-600 pr-1 sm:pr-2'>Company</th>
-                            <th className='border-b-2 border-slate-600 pl-1 sm:pl-2'>Placed Students</th>
+                        <tr>
+                            <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Company</th>
+                            <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Placed Students</th>
                         </tr>
                     </thead>
                     <tbody>
                         {countCompanyWise.map(({ placed_company, count }: any, i: number) => (
-                            <tr key={i} className='cursor-pointer border-b border-slate-400' onClick={()=>{setCompanyName(placed_company);setCompanyData(!openCompanyData)}}>
-                                <td className='pr-1 sm:pr-2'>{placed_company}</td>
-                                <td className='pl-1 sm:pl-2'>{count}</td>
+                            <tr key={i}>
+                               
+                                    <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                         <CompanyData company_name={placed_company}>
+<span className='cursor-pointer'>{placed_company}</span>
+                                         </CompanyData>
+                                        </td>
+                                    
+                                        <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                            <CompanyData className='cursor-pointer' company_name={placed_company}>
+                                                <span className='cursor-pointer'>{count}</span>
+                                                </CompanyData>
+                                            </td>
+                                    
                             </tr>
                         ))}
                     </tbody>
                 </table> :
                     <></>
                 }
-               </div>
-            <div className='w-full flex flex-col flex-wrap sm:flex-row justify-between items-center mt-3'>
-                <button onClick={()=>setCreateForm(!createForm)} className="px-3 py-1 rounded bg-blue-600 sm:text-xl text-white hover:bg-blue-700 mb-3">Add Individual Offer</button>
-                <button onClick={()=>setShowForm(!showForm)} className="px-3 py-1 rounded bg-blue-600 sm:text-xl text-white hover:bg-blue-700 mb-3">Upload Excel</button>
-            </div>
+           
                 <UpdateEntry/>
+                 <div className='w-full flex flex-col flex-wrap sm:flex-row justify-between items-center mt-3'>
+                <CreateNew>
+                    <button className="px-3 py-1 rounded bg-blue-600 sm:text-xl text-white hover:bg-blue-700 mb-3">Add Individual Offer</button>
+                </CreateNew>
+                  <ExcelUpload>
+                  <button className="px-3 py-1 rounded bg-blue-600 sm:text-xl text-white hover:bg-blue-700 mb-3">Upload Excel</button>
+            </ExcelUpload>
             </div>
-            <ExcelUpload showForm={showForm}/>
-            <CreateNew createForm={createForm}/>
-            <CompanyData openCompanyData={openCompanyData} company_name={companyName}/>
+            </div>
         </div>
     )
 }

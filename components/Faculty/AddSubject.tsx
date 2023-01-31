@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 const AddSubject = () => {
 	const AuthData: any = useAuth();
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
-	let year = new Date().getFullYear();
+	let year:any = new Date().getFullYear();
 	const [newSubject, setNewSubject] = useState({
 		subject_code: "",
 		subject_name: "",
@@ -20,7 +20,7 @@ const AddSubject = () => {
 		division:"A"
 	});
 	const [updloading, setUpdateLoading] = useState(false);
-	const div =["A","B"];
+	const div =["A","B","C","D","E","F","G","H","I","J","K"];
 	const subDiv = ["A1","A2","A3","A4","B1","B2","B3","B4"];
 	const [checkFormCompletionStatus, setCheckFormCompletionStatus] =
 		useState(false);

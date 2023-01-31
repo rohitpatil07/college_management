@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+./.env
 .vscode/*
 # next.js
 /.next/

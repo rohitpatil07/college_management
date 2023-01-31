@@ -1,12 +1,15 @@
 "use client"
-import React, { useState,useEffect } from 'react'
+import React, { Fragment, useRef, useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import axios from "axios";
 import offerformat from '../../../public/offerformat.png';
 import { useAuth } from "../../../contexts/AuthContext";
+import { Dialog, Transition } from "@headlessui/react";
 import * as XLSX from 'xlsx';
 import Image from 'next/image';
-const ExcelUpload = ({ showForm }: any) => {
+const ExcelUpload = ({ children }: any) => {
+  const [open, setOpen] = useState(false);
+  const cancelButtonRef = useRef(null);
     const AuthData: any = useAuth();
     const server=process.env.NEXT_PUBLIC_SERVER_URL;
     const [drive, setDrive] = useState([]);
@@ -100,34 +103,104 @@ const ExcelUpload = ({ showForm }: any) => {
       }
     }
   return (
-    <div>
-    {showForm ?
-        <div className='w-screen h-screen fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50'>
-            <div className='bg-white border-solid border-2 border-neutral-200 rounded-lg px-4 mx-auto sm:mx-0 w-11/12 sm:w-10/12'>
-                <div className='border-b-2 border-gray-900 py-2'>
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Update Multiple Offers</h3>
-                </div>
-                <div className='p-3 flex flex-col items-start'>
+   <>
+      {children ? (
+        <span
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
+          {children}
+        </span>
+      ) : (
+        ""
+      )}
+      <Transition.Root show={open} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          initialFocus={cancelButtonRef}
+          onClose={setOpen}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div className="flex min-h-full items-end justify-center p-0 text-center sm:items-center sm:p-0">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              >
+                <Dialog.Panel className="relative transform overflow-hidden sm:rounded-lg text-left shadow-xl transition-all my-0 h-screen sm:h-fit sm:my-8 w-screen sm:w-full sm:max-w-lg">
+                  <div className="bg-white h-full px-4 pt-5 pb-4 sm:p-6 sm:pb-4 overflow-y-auto">
+                    <div className="flex flex-col sm:flex-row sm:items-start">
+                      <svg
+                        onClick={() => setOpen(false)}
+                        ref={cancelButtonRef}
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="block sm:hidden absolute top-0 right-2 w-6 h-6 cursor-pointer"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                      <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                        <Dialog.Title
+                          as="h3"
+                          className="text-lg font-medium leading-6 text-gray-900 flex flex-row items-center justify-center sm:justify-between"
+                        >
+                          Upload Multiple Offers
+                          <svg
+                            onClick={() => setOpen(false)}
+                            ref={cancelButtonRef}
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="hidden sm:block w-4 h-4 sm:w-6 sm:h-6 my-2 cursor-pointer"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </Dialog.Title>
+                        <div className='p-3 flex flex-col items-start'>
                     <button onClick={()=>{setExcelFormat(!excelFormat)}} className='mb-2 px-3 py-1 rounded bg-green-600 text-white hover:bg-green-700 mr-1'>Excel Format Required</button>
                         <input type="file" onChange={uploadFile} />
                         <p className='text-red-600 text-xs'>*File format .excel</p>
                 </div>
-                <div className='flex justify-end items-center w-100 border-t text-white p-3'>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='flex justify-end items-center w-100 border-t text-white p-3 bg-white'>
                     <button onClick={create} className="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 mr-1">
                         Upload
                     </button>
-                    <form>
-                    <button onClick={() => showForm = false} className="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700">
-                        Cancel
-                    </button>
-                    </form>
                     </div>
-            </div>
-
-
-
-
-{excelFormat ? <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                    {excelFormat ? <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
   <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -150,15 +223,14 @@ const ExcelUpload = ({ showForm }: any) => {
     </div>
   </div>
 </div> :<></>}
-
-
-
-
-
-
-        </div>
-        : <></>}
-</div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition.Root>
+      
+    </>
   )
 }
 
