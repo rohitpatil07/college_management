@@ -204,7 +204,7 @@ const CreateNew = ({ children }: any) => {
                           as="h3"
                           className="text-lg font-medium leading-6 text-gray-900 flex flex-row items-center justify-center sm:justify-between"
                         >
-                          Create New Group
+                          Add Offer
                           <svg
                             onClick={() => setOpen(false)}
                             ref={cancelButtonRef}

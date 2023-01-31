@@ -42,18 +42,29 @@ const UploadOffers = () => {
 					Add, Update And Manage Offers
 				</p>
                {countCompanyWise.length>0 ? 
-                <table className='table-fixed border-collapse border-spacing-x-4 border-spacing-y-2 mt-3'>
+                <table  className="w-10/12 table-auto border-separate border-spacing-2 border-slate-500 bg-red">
                     <thead>
-                        <tr className='text-lg font-semibold text-gray-900'>
-                            <th className='border-b-2 border-slate-600 pr-1 sm:pr-2'>Company</th>
-                            <th className='border-b-2 border-slate-600 pl-1 sm:pl-2'>Placed Students</th>
+                        <tr>
+                            <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Company</th>
+                            <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Placed Students</th>
                         </tr>
                     </thead>
                     <tbody>
                         {countCompanyWise.map(({ placed_company, count }: any, i: number) => (
-                            <tr key={i} className='cursor-pointer border-b border-slate-400' onClick={()=>{setCompanyName(placed_company);setCompanyData(!openCompanyData)}}>
-                                <td className='pr-1 sm:pr-2'>{placed_company}</td>
-                                <td className='pl-1 sm:pl-2'>{count}</td>
+                            <tr key={i}>
+                               
+                                    <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                         <CompanyData company_name={placed_company}>
+<span className='cursor-pointer'>{placed_company}</span>
+                                         </CompanyData>
+                                        </td>
+                                    
+                                        <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                            <CompanyData className='cursor-pointer' company_name={placed_company}>
+                                                <span className='cursor-pointer'>{count}</span>
+                                                </CompanyData>
+                                            </td>
+                                    
                             </tr>
                         ))}
                     </tbody>
@@ -71,7 +82,6 @@ const UploadOffers = () => {
             </ExcelUpload>
             </div>
             </div>
-            <CompanyData openCompanyData={openCompanyData} company_name={companyName}/>
         </div>
     )
 }
