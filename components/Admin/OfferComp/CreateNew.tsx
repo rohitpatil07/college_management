@@ -32,15 +32,16 @@ const CreateNew = ({ children }: any) => {
         Authorization: `Bearer ${AuthData.user.token}`,
       },
     });
+    let compArr = [];
     for (let i = 0; i < response.data.length; i++) {
-      setCompanyName([
-        ...companyName,
+      compArr.push(
         {
           company_id: response.data[i]["company_id"],
           company_name: response.data[i]["company_name"],
         },
-      ]);
+      );
     }
+    setCompanyName(compArr);
     setCompanyData(response.data);
   };
   const updateEntries = (id: number) => {

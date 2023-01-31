@@ -52,6 +52,27 @@ const AttendanceRecord = () => {
     setabsents(response.data['absenties']);
     setrecords(true);
   }
+  const getExcel = async () => {
+
+
+		axios
+			.get(`${server}/lms/getattendance/${subjectid}`, {
+				responseType: "blob",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${AuthData.user.token}`,
+				},
+			})
+			.then((response) => {
+				console.log(response);
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement("a");
+				link.href = url;
+				link.setAttribute("download", "export.xlsx");
+				document.body.appendChild(link);
+				link.click();
+			});
+	};
    useEffect(() => {
     get_attendance_record();
   }, []);
@@ -116,7 +137,7 @@ const AttendanceRecord = () => {
                 ))}
               </tbody>
               </table>
-
+<button onClick={getExcel}>Get Excel</button>
               </div>
 
         )}
