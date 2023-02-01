@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const CreateDrive = () => {
 	const AuthData : any  = useAuth();
+	const router = useRouter();
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
 	let keys=["company_id","role","package","job_location","role_desc","cgpa","be_percent","tenth_percent","twelveth_percent","gender","gap","livekt","deadkt"]
 	const [drives, setDrives]:any= useState({
@@ -18,10 +20,12 @@ const CreateDrive = () => {
 				be_percent: 0,
 				tenth_percent:0,
 				twelveth_percent:0,
-				gender:"M",
+				gender:"",
 				gap:0,
 				livekt:0,
-				deadkt:0
+				deadkt:0,
+				deadate:"",
+				deadtime:""
 	})
 
 	const handleFormFieldChange = (fieldName: any, e: any) => {
@@ -47,7 +51,8 @@ const CreateDrive = () => {
 				deadkt:parseInt(drives.deadkt),
 				subject:"",
 				message:"",
-				queries:{}			
+				queries:{},
+				deadlineAt:drives.deadate + "T"+ drives.deadtime+"Z"			
 			};
 			
 			const queries = {
@@ -86,6 +91,7 @@ const CreateDrive = () => {
 								showConfirmButton: false,
 								timer: 1500,
 							});
+							router.push("/company/viewdrive");
 						} else {
 							Swal.fire({
 								icon: "error",
@@ -203,6 +209,27 @@ const CreateDrive = () => {
 							<option value="F">Female</option>
 							<option value="">N/A</option>
 						</select>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Date</h2>
+						<input
+						type="date"
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("deadate", e);
+							}}
+						></input>
+					</div>
+					<div className="w-full flex justify-between">
+						<h2 className="text-slate-700 font-medium">Time</h2>
+						<input
+						type="time"
+							className="border-2 rounded-md p-1 w-1/2"
+							onChange={(e) => {
+								handleFormFieldChange("deadtime", e);
+							}}
+							step={1}
+						></input>
 					</div>
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">Gap</h2>

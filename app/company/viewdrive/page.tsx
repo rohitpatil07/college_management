@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import axios from "axios";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 const ViewDrive = () => {
   const AuthData: any = useAuth();
@@ -15,6 +16,21 @@ const ViewDrive = () => {
         Authorization: `Bearer ${AuthData.user.token}`,
       },
     });
+    if (response.status == 200  && response.data.success=="Drive Deleted") {
+      Swal.fire({
+        icon: "success",
+        title: "Drive Deleted Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Drive Deletion Failed..Please Try Again",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
   const fetchDrive = async () => {
     const response = await axios.get(
@@ -63,8 +79,8 @@ const ViewDrive = () => {
                 cgpa,
                 be_percent,
                 gap,
-                live_kt,
-                dead_kt,
+                livekt,
+                deadkt,
               }: any) => (
                 <div
                   key={drive_id}
@@ -117,9 +133,9 @@ const ViewDrive = () => {
                           twelve: twelveth_percent,
                           cgpa: cgpa,
                           gap: gap,
-                          live: live_kt,
+                          live: livekt,
                           be: be_percent,
-                          dead: dead_kt,
+                          dead: deadkt,
                           package: pack,
                         },
                       }}

@@ -4,10 +4,12 @@ import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
 const UpdateDrive = () => {
 	const AuthData : any  = useAuth();
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
+	const router = useRouter();
     const searchParams:any = useSearchParams();
     const driveid=parseInt(searchParams.get('driveid'));
     const pack=parseInt(searchParams.get('package'));
@@ -79,6 +81,7 @@ const UpdateDrive = () => {
 							showConfirmButton: false,
 							timer: 1500,
 						});
+						router.push("/company/viewdrive")
 					} else {
 						Swal.fire({
 							icon: "error",
