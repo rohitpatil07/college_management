@@ -9,7 +9,8 @@ const DriveInfo = ()=>
 {
     const[stu,setStu]:any=useState(null);
     const searchParams:any = useSearchParams();
-    const driveid=parseInt(searchParams.get('drive_id'));
+    const driveid=parseInt(searchParams.get('driveid'));
+	console.log(driveid)
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
     const AuthData : any = useAuth();
     const fetchStudents = async () =>
@@ -20,6 +21,7 @@ const DriveInfo = ()=>
 				'Authorization': `Bearer ${AuthData.user.token}`
 			},
 		  });
+		console.log(response.data.students)
 		setStu(response.data.students);
 	}
     const download = async (roll:any) =>
@@ -68,7 +70,7 @@ const DriveInfo = ()=>
 	}
 	useEffect(()=>{
 		fetchStudents();
-	},[]);
+	},[stu]);
     return (
 		<div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
 			<h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">

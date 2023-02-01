@@ -26,7 +26,7 @@ function WelcomeModal() {
 								dashboard.
 							</p>
 							<Link
-								href="/company/notify"
+								href="/company/createdrive"
 								className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
 							>
 								Get Started

@@ -216,7 +216,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
   ) => {
     const response = await axios
       .get(
-        `${server}/lms/download/getsubmission/${assignment_id}/${AuthData.user.userData.user.roll_no}`,
+        `https://collegemanagementbackend-production.up.railway.app/lms/download/getsubmission/${assignment_id}/${AuthData.user.userData.user.roll_no}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -241,7 +241,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
   ) => {
     const response = await axios
       .get(
-        `${server}/lms/download/getassignment/${assignment_id}`,
+        `https://collegemanagementbackend-production.up.railway.app/lms/download/getassignment/${assignment_id}`,
         {
           headers: {
             "Content-Type": "application/json",
