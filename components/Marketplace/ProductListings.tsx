@@ -47,8 +47,8 @@ const ProductListings = () => {
 					},
 				}
 			);
-			setLoadingState(false);
 			setProducts(response.data);
+			setLoadingState(false);
 		} catch (error) {
 			console.log(error);
 		}
@@ -204,7 +204,6 @@ const ProductListings = () => {
 										}: any,
 										i: number
 									) => (
-										<>
 											<div
 												key={product_id}
 												className="flex flex-col items-center w-full drop-shadow-2xl rounded-xl overflow-hidden bg-white"
@@ -252,7 +251,6 @@ const ProductListings = () => {
 													Buy
 												</button>
 											</div>
-										</>
 									)
 								)}
 							</div>

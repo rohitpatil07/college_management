@@ -37,7 +37,7 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 					},
 				}
 			);
-			setItem(response.data);
+			setItem(response.data[0]);
 		} catch (error) {
 			console.log(error);
 		}
@@ -45,18 +45,18 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 
 	const getThread = async () => {
 		try {
-			const response = await axios.post(
-				"http://localhost:5000/market/lost_items/lostitemthread",
-				{ item_id },
-				{
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${AuthData.user.token}`,
-					},
-				}
-			);
+			const response = await axios({
+				method: "post",
+				url: "http://localhost:5000/market/lost_items/lostitemthread",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${AuthData.user.token}`,
+				},
+				data: {
+					item_id: item.item_id,
+				},
+			});
 			setThread(response.data);
-			console.log(response)
 			console.log(response.data);
 		} catch (error) {
 			console.log(error);
@@ -125,7 +125,7 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 					</div>
 					<div className="text-gray-600 text-[0.75rem] text-justify mx-5 mb-5 h-12 text-ellipsis">
 						{item["story"] != null
-							? item["item_name"]
+							? item["story"]
 							: "No description provided"}
 					</div>
 				</div>
@@ -194,9 +194,7 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 					</svg>
 				</button>
 			</div>
-			{thread.length && <div className="w-full md:w-11/12 mx-auto px-5">
-				<Thread thread={thread} auth={AuthData} />
-			</div>}
+			<Thread thread={thread} auth={AuthData}/>
 		</div>
 	);
 };

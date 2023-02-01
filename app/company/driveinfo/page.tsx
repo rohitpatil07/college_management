@@ -10,7 +10,6 @@ const DriveInfo = ()=>
     const[stu,setStu]:any=useState(null);
     const searchParams:any = useSearchParams();
     const driveid=parseInt(searchParams.get('driveid'));
-	console.log(driveid)
 	const server=process.env.NEXT_PUBLIC_SERVER_URL;
     const AuthData : any = useAuth();
     const fetchStudents = async () =>

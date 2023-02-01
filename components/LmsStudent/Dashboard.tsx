@@ -6,7 +6,7 @@ import Loading from "../Loaders/Loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
-const Dashboard = () => {
+const   Dashboard = () => {
   const router = useRouter();
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
@@ -121,7 +121,7 @@ const Dashboard = () => {
       <div className="flex bg-slate-100 sm:bg-white w-full sm:w-11/12 mt-5 flex-col pt-8 items-center sm:rounded-2xl sm:drop-shadow-lg">
         <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
           <Link
-            href="/lms/dash"
+            href="/home"
             className="flex flex-row items-center pb-2 mb-1 border-b border-slate-300"
           >
             <svg

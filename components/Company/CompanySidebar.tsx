@@ -38,7 +38,6 @@ const SideNavBar = () => {
 				}`}
 			>
 				<div className="flex flex-col bg-white pb-24">
-				
 					<Link
 						href="company/createdrive"
 						className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100 whitespace-nowrap"
@@ -61,7 +60,7 @@ const SideNavBar = () => {
 					</Link>
 					<Link
 						href="company/viewdrive"
-						className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100"
+						className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100 whitespace-nowrap"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
