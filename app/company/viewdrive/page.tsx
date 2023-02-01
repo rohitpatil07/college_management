@@ -50,7 +50,7 @@ const ViewDrive = () => {
             </h3>
           </>
         ) : (
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full mt-3">
             {drive.map(
               ({
                 drive_id,
@@ -99,9 +99,10 @@ const ViewDrive = () => {
                         pathname: "company/driveinfo",
                         query: {
                           driveid: drive_id,
+                          drivename: role,
                         },
                       }}
-                      className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
+                      className="hover:scale-105 transition-all p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
                     >
                       Check Here For More Info
                     </Link>
@@ -123,7 +124,7 @@ const ViewDrive = () => {
                           package: pack,
                         },
                       }}
-                      className="text-center p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
+                      className="hover:scale-105 transition-all text-center p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
                     >
                       Update Drive
                     </Link>
@@ -138,7 +139,7 @@ const ViewDrive = () => {
                         onClick={() => {
                           deleteDrive(drive_id);
                         }}
-                        className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white"
+                        className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-red-700 hover:bg-red-900 text-white hover:scale-105 transition-all"
                       >
                         Delete
                       </button>
