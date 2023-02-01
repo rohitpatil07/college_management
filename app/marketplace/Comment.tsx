@@ -6,10 +6,11 @@ const Comment = ({ post, auth }: any) => {
 	const [showMessages, setShowMessages] = useState(false);
 	const [replies, setReplies] = useState([]);
 	const handleFetch = async () => {
+		console.log(post)
 		const response = await axios.post(
-			"http://localhost:5000/market/lost_items/replies",
+			"http://localhost:5000/market/lost_items/lostitemthread",
 			{
-				message_id: post.message_id,
+				item_id: post.item_id,
 			},
 			{
 				headers: {

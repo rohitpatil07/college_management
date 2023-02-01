@@ -234,7 +234,6 @@ const ProductListings = () => {
 										}: any,
 										i: number
 									) => (
-										<>
 											<div
 												key={product_id}
 												className="relative flex flex-col items-center w-full drop-shadow-2xl rounded-xl overflow-hidden bg-white"
@@ -311,7 +310,6 @@ const ProductListings = () => {
 														: "No description provided"}
 												</div>
 											</div>
-										</>
 									)
 								)}
 							</div>
