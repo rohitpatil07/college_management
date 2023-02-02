@@ -211,7 +211,7 @@ const CreateDrive = () => {
 						</select>
 					</div>
 					<div className="w-full flex justify-between">
-						<h2 className="text-slate-700 font-medium">Date</h2>
+						<h2 className="text-slate-700 font-medium"> Deadline Date</h2>
 						<input
 						type="date"
 							className="border-2 rounded-md p-1 w-1/2"
@@ -221,7 +221,7 @@ const CreateDrive = () => {
 						></input>
 					</div>
 					<div className="w-full flex justify-between">
-						<h2 className="text-slate-700 font-medium">Time</h2>
+						<h2 className="text-slate-700 font-medium"> DeadlineTime</h2>
 						<input
 						type="time"
 							className="border-2 rounded-md p-1 w-1/2"

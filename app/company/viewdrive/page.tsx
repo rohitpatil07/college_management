@@ -10,13 +10,14 @@ const ViewDrive = () => {
   const [drive, setDrive]: any = useState(null);
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const deleteDrive = async (driveid: Number) => {
+    typeof(driveid)
     const response = await axios.get(`${server}/delete/drive/${driveid}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${AuthData.user.token}`,
       },
     });
-    if (response.status == 200  && response.data.success=="Drive Deleted") {
+    if (response.status == 200  && response.data.message=="Drive deleted") {
       Swal.fire({
         icon: "success",
         title: "Drive Deleted Successfully",
