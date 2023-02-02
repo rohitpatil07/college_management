@@ -3,18 +3,35 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../contexts/AuthContext";
 import axios from "axios";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 const ViewDrive = () => {
   const AuthData: any = useAuth();
   const [drive, setDrive]: any = useState(null);
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const deleteDrive = async (driveid: Number) => {
+    typeof(driveid)
     const response = await axios.get(`${server}/delete/drive/${driveid}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${AuthData.user.token}`,
       },
     });
+    if (response.status == 200  && response.data.message=="Drive deleted") {
+      Swal.fire({
+        icon: "success",
+        title: "Drive Deleted Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Drive Deletion Failed..Please Try Again",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
   const fetchDrive = async () => {
     const response = await axios.get(
@@ -50,7 +67,7 @@ const ViewDrive = () => {
             </h3>
           </>
         ) : (
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full mt-3">
             {drive.map(
               ({
                 drive_id,
@@ -63,8 +80,8 @@ const ViewDrive = () => {
                 cgpa,
                 be_percent,
                 gap,
-                live_kt,
-                dead_kt,
+                livekt,
+                deadkt,
               }: any) => (
                 <div
                   key={drive_id}
@@ -99,9 +116,10 @@ const ViewDrive = () => {
                         pathname: "company/driveinfo",
                         query: {
                           driveid: drive_id,
+                          drivename: role,
                         },
                       }}
-                      className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
+                      className="hover:scale-105 transition-all p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
                     >
                       Check Here For More Info
                     </Link>
@@ -117,13 +135,13 @@ const ViewDrive = () => {
                           twelve: twelveth_percent,
                           cgpa: cgpa,
                           gap: gap,
-                          live: live_kt,
+                          live: livekt,
                           be: be_percent,
-                          dead: dead_kt,
+                          dead: deadkt,
                           package: pack,
                         },
                       }}
-                      className="text-center p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
+                      className="hover:scale-105 transition-all text-center p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
                     >
                       Update Drive
                     </Link>
@@ -138,7 +156,7 @@ const ViewDrive = () => {
                         onClick={() => {
                           deleteDrive(drive_id);
                         }}
-                        className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-emerald-500 text-white"
+                        className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit mx-auto px-10 rounded-md bg-red-700 hover:bg-red-900 text-white hover:scale-105 transition-all"
                       >
                         Delete
                       </button>
