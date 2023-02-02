@@ -70,6 +70,7 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 			text: comment,
 			reply_to: 0,
 		};
+		console.log(comm);
 		if (comment != "") {
 			setDisableBtn(true);
 			const response = await axios({

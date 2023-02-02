@@ -6,11 +6,11 @@ const Comment = ({ post, auth }: any) => {
 	const [showMessages, setShowMessages] = useState(false);
 	const [replies, setReplies] = useState([]);
 	const handleFetch = async () => {
-		console.log(post)
+		console.log(post);
 		const response = await axios.post(
-			"http://localhost:5000/market/lost_items/lostitemthread",
+			"http://localhost:5000/market/lost_items/replies",
 			{
-				item_id: post.item_id,
+				message_id: post.message_id,
 			},
 			{
 				headers: {
@@ -19,6 +19,7 @@ const Comment = ({ post, auth }: any) => {
 				},
 			}
 		);
+		console.log(response.data);
 		setReplies(response.data);
 	};
 	const [showReplyForm, setshowReplyForm] = useState(false);

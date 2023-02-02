@@ -9,8 +9,8 @@ const ImagePreview = ({ image, close }: any) => {
 		<>
 			<div className="fixed inset-0 z-50 w-full h-full">
 				<div className="relative bg-gray-800 blur-bg-2 w-full h-full bg-opacity-50">
-					<div className="absolute flex justify-center bg-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl w-4/5 sm:w-fit h-fit drop-shadow-xl p-4 sm:p-10 overflow-hidden">
-						<img src={image} className="" alt="image" />
+					<div className="absolute w-[70%] h-[70%] flex justify-center bg-white left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl w-4/5 sm:w-fit h-fit drop-shadow-xl p-4 sm:p-10 overflow-hidden">
+						<img src={image} className="" alt="image"/>
 						<button
 							onClick={() => {
 								setShowImagePreview(false);
