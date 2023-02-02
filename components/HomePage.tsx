@@ -26,11 +26,11 @@ const HomePage = () => {
 			<div className="flex flex-col sm:flex-row justify-evenly items-center w-full mb-5">
 				<div className="w-10/12 scale-90 sm:scale-100 sm:w-72 xl:w-1/3 xl:scale-90 shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
 					<img
-						className="w-full min-h-[10rem] object-cover bg-zinc-300"
+						className="w-full min-h-[15rem] object-cover bg-zinc-300"
 						src={`/tpc.png`}
 						alt="tpc"
 					/>
-					<div className="p-5 flex flex-col gap-3 items=center text-center">
+					<div className="py-9 px-5 flex flex-col gap-3 items=center text-center">
 						<span className="text-xl font-bold text-gray-900">
 							Marketplace
 						</span>
