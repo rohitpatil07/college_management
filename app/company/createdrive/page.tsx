@@ -33,7 +33,6 @@ const CreateDrive = () => {
 	};
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log(drives);
 		try {
 			const gear={
 				company_id : AuthData.user.userData.user.company_id,
@@ -72,7 +71,6 @@ const CreateDrive = () => {
 					gear['subject']=subject
 					gear['queries']=queries
 					gear['message']=message
-					console.log(gear)
 					const response = await axios({
 						method: 'post',
 						url: `${server}/add/company/drive`,
