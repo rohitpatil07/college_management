@@ -4,10 +4,10 @@ import Link from "next/link";
 const FacultySideBar = () => {
   return (
     <aside className="hidden sm:flex flex-col bg-white min-h-screen h-inherit sm:2/5 md:w-1/5 text-slate-500">
-      <div className="flex flex-col bg-white pb-24">
+      <div className="flex flex-col bg-white h-fit pb-24">
         <Link
           href="/faculty/dashboard"
-          className="xs:hidden sm:flex flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100 my-10"
+          className="xs:hidden sm:flex flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@ const FacultySideBar = () => {
       </div>
       <Link
         href="#"
-        className="flex flex-row px-2 py-2 items-center font-medium border-t hover:bg-blue-100 active:bg-blue-100"
+        className="flex flex-row px-2 py-2 items-center font-medium border-t-2 border-t-slate-500 hover:bg-blue-100 active:bg-blue-100"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
