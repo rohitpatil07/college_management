@@ -117,7 +117,8 @@ const CreateDrive = () => {
 						Create a drive with custom eligibility requirements
 					</p>
 				</div>
-				<div className="sm:w-[80%] px-5 sm:px-0 mx-auto flex justify-between flex-col gap-2">
+				<div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-y-2 gap-x-14 lg:gap-x-24 px-10 sm:px-20">
+
 					<div className="w-full flex justify-between">
 						<h2 className="text-slate-700 font-medium">Enter Role</h2>
 						<input
@@ -262,7 +263,7 @@ const CreateDrive = () => {
 					</div>
 				</div>
 				<button
-					className="p-2 bg-accent text-white mx-auto mb-5 px-8 rounded-lg hover:scale-105 transition-all"
+					className="p-2 bg-accent text-white mx-auto my-5 px-8 rounded-lg hover:scale-105 transition-all"
 					onClick={(e) => {
 						handleSubmit(e);
 					}}

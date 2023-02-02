@@ -53,7 +53,7 @@ const SideNavBar = () => {
           View Drives
         </Link>
         <Link
-          href="company/viewdrive"
+          href="company/viewoffer"
           className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
         >
           <svg

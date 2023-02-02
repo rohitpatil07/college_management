@@ -141,7 +141,7 @@ const ViewDrive = () => {
                           package: pack,
                         },
                       }}
-                      className="hover:scale-105 transition-all text-center p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
+                      className="p-1 mb-3 md:mb-0 ml-0 md:ml-2 w-48 md:w-fit px-10 rounded-md bg-green-700 hover:bg-green-900 text-white hover:scale-105 transition-all"
                     >
                       Update Drive
                     </Link>
