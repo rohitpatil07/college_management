@@ -18,7 +18,7 @@ const   Dashboard = () => {
   const [showFormButton, setshowFormButton] = useState(false);
   const [formData, setFormData]: any = useState();
   const [showSemesterType, setShowSemesterType] = useState(false);
-  let fac_data = subjects.faculty;
+  let fac_data = subjects['faculty'];
   const viewSubject = {
     roll_no: `${AuthData.user.userData.user.roll_no}`,
     semester: parseInt(`${AuthData.user.userData.user.semester}`),
@@ -281,7 +281,7 @@ const   Dashboard = () => {
             ""
           )}
         </div>
-        {subjects ? (
+        {subjects.length>0 ? (
           <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
             {subjects.map(
               (
