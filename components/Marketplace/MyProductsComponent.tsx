@@ -317,7 +317,7 @@ const ProductListings = () => {
 					)}
 
 					{currentTab.lostitem && (
-						<>
+						<div>
 							{loadingState && <Loading loadState="loading" />}
 							<div className="w-11/12 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 items-center justify-items-center my-5">
 								{filteredLostItems.map(
@@ -405,7 +405,7 @@ const ProductListings = () => {
 									)
 								)}
 							</div>
-						</>
+						</div>
 					)}
 					{currentTab.founditem && (
 						<>

@@ -78,9 +78,7 @@ const HomePage = () => {
 					/>
 					<div className="p-5 flex flex-col gap-3 items=center text-center">
 						<span className="text-xl font-bold text-gray-900">
-							Training And Placement
-							<br />
-							Cell
+							Placement Cell
 						</span>
 						{/* <span className="text-slate-500 text-sm">
 							Lorem ipsum dolor sit amet pretium consectetur adipiscing elit.
