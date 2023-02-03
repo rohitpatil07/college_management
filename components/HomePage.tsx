@@ -24,28 +24,6 @@ const HomePage = () => {
 			</div>
 			<br />
 			<div className="flex flex-col lg:flex-row justify-evenly items-center w-full mb-5">
-				<div className="w-10/12 scale-90 lg:scale-100 lg:w-72 xl:w-1/3 xl:scale-90 h-[30rem] shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
-					<img
-						className="w-full min-h-[15rem] object-cover bg-zinc-300"
-						src={`/tpc.png`}
-						alt="tpc"
-					/>
-					<div className="py-9 px-5 flex flex-col gap-3 items=center text-center">
-						<span className="text-xl font-bold text-gray-900">
-							Marketplace
-						</span>
-						{/* <span className="text-slate-500 text-sm">
-							Lorem ipsum dolor sit amet pretium consectetur adipiscing elit.
-						</span> */}
-						<Link
-							href="/marketplace"
-							className="p-2 w-fit mx-auto px-5 rounded-3xl bg-accent text-white transition-all hover:scale-105"
-						>
-							Go To Marketplace
-						</Link>
-					</div>
-				</div>
-				<br />
 				<div className="w-10/12 scale-90 sm:scale-100 sm:w-72 xl:w-1/3 xl:scale-90 shadow-xl rounded-xl overflow-hidden bg-white border-slate-300 border-solid border-2">
 					<img
 						className="w-full min-h-[10rem] object-cover bg-zinc-300"
@@ -99,9 +77,9 @@ const HomePage = () => {
 					</div>
 					<div className="p-5 flex flex-col gap-3 items-center justify-around h-[15rem] text-center">
 						<span className="text-xl font-bold text-gray-900">Marketplace</span>
-						<span className="text-slate-500 text-sm">
+						{/* <span className="text-slate-500 text-sm">
 							Lorem ipsum dolor sit amet pretium consectetur adipiscing elit.
-						</span>
+						</span> */}
 						<Link
 							href="marketplace"
 							className="p-2 w-fit mx-auto px-5 rounded-3xl bg-accent text-white transition-all hover:scale-105"
