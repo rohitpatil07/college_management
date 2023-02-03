@@ -1,11 +1,11 @@
-import React from 'react'
+"use client";
+import React, { useEffect } from "react";
 
 const Home = () => {
-  return (
-    <div className='text-3xl'>
-      This is the home page
-    </div>
-  )
-}
+	useEffect(() => {
+		window.location.href = "/login";
+	});
+	return;
+};
 
-export default Home
+export default Home;

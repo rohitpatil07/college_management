@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 
 function LoginPage() {
 	const router = useRouter();
-	const server=process.env.NEXT_PUBLIC_SERVER_URL;
+	const server = process.env.NEXT_PUBLIC_SERVER_URL;
 	const [email, setEmail] = useState("");
 	const [role, setRole] = useState("student");
 	const [password, setPassword] = useState("");
@@ -17,14 +17,13 @@ function LoginPage() {
 	const AuthData: any = useAuth();
 
 	const fpassword = async () => {
-		if (email)
-		{
+		if (email) {
 			const response = await axios({
-				method: 'post',
+				method: "post",
 				url: `${server}/auth/forgot_mail`,
 				headers: {
-					'Content-Type': 'application/json',
-				}, 
+					"Content-Type": "application/json",
+				},
 				data: {
 					email: email,
 					role:role
@@ -36,10 +35,7 @@ function LoginPage() {
 				showConfirmButton: false,
 				timer: 1500,
 			});
-
-		}
-		else
-		{
+		} else {
 			Swal.fire({
 				icon: "error",
 				title: `Please enter your email address`,
@@ -47,44 +43,48 @@ function LoginPage() {
 				timer: 1500,
 			});
 		}
-
-	}
-
+	};
 
 	const handleSubmit = async () => {
 		const data = { email, role, password };
 		const response = await AuthData.login(data);
-		if (response.data=="You are not authorized" || Object.keys(response.data).length==0 || response.data.length==0)
-		{
+		if (
+			response.data == "You are not authorized" ||
+			Object.keys(response.data).length == 0 ||
+			response.data.length == 0
+		) {
 			Swal.fire({
 				icon: "error",
 				title: "Login Failed,Incorrect Credentials",
 				showConfirmButton: false,
 				timer: 1500,
 			});
-	}
-		else
-		{
-			
-				const { token } = response.data;
-				const userRole: string = response.data.user.role;
-			
-				if (token) {
-					console.log(response);
-					Swal.fire({
-						icon: "success",
-						title: "Login Successfull",
-						showConfirmButton: false,
-						timer: 1500,
-					});
-					if (userRole == "student") router.push("/home");
-					else if (userRole == "faculty") router.push("/faculty/dashboard");
-					else if (userRole == "admin") router.push("/admin/lookup");
-					else if (userRole == "lms_admin") router.push("/lms_admin/lookup");
-					else router.push("/company");
-				}
+		} else {
+			const { token } = response.data;
+			const userRole: string = response.data.user.role;
+
+			if (token) {
+				console.log(response);
+				Swal.fire({
+					icon: "success",
+					title: "Login Successfull",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+				if (userRole == "student") router.push("/home");
+				else if (userRole == "faculty") router.push("/faculty/dashboard");
+				else if (userRole == "admin") router.push("/admin/lookup");
+				else if (userRole == "lms_admin") router.push("/lms_admin/lookup");
+				else router.push("/company");
+			}
 		}
 	};
+
+	// useEffect(() => {
+	// 	if (AuthData.user.token != "") {
+	// 		window.location.href = "/home";
+	// 	}
+	// });
 
 	return (
 		<>
