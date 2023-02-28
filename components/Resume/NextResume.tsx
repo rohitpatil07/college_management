@@ -82,7 +82,7 @@ function NextResume() {
           {base == undefined ? (
             <Image
               src={Avatar}
-              className="translate-y-10 translate-x-12 mx-auto z-10 w-[150px] h-[150px] rounded-full bg-white"
+              className="translate-y-10 translate-x-12 mx-auto z-10 w-[70px] h-[70px] rounded-full bg-white"
               alt="Profile"
             />
           ) : (
@@ -101,9 +101,9 @@ function NextResume() {
           />
         </div>
         <div className="h-[15px] bg-black"></div>
-        <div className="flex w-full p-5">
+        <div className="flex w-full p-5 items-end">
           <h3 className="text-accent font-bold text-xl w-1/4">
-            Career Objective
+            Career Objective :
           </h3>
           {rdata == null || rdata == undefined ? (
             <></>

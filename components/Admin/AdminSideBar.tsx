@@ -87,7 +87,7 @@ const SideNavBar = () => {
 					</svg>
 					Manage Offers
 				</Link>
-				<Link
+				{/* <Link
 					href="/"
 					className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
 				>
@@ -106,7 +106,7 @@ const SideNavBar = () => {
 						/>
 					</svg>
 					Send Notifications
-				</Link>
+				</Link> */}
 				<Link
 					href="/admin/drives"
 					className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100"
