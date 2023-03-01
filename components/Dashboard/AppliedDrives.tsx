@@ -53,7 +53,7 @@ const AppliedDrives = () => {
         </>
       ) : (
         <div className="flex flex-col w-full">
-          {drive.map(({ company_name, role, desc, drive_id }: any) => (
+          {drive?.map(({ company_name, role, desc, drive_id }: any) => (
             <div
               key={drive_id}
               className="flex flex-col mx-auto mb-3 w-11/12 p-5 bg-white border-2 border-neutral-300 rounded-md"
