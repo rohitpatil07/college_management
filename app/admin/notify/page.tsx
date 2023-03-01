@@ -127,7 +127,7 @@ function Page() {
                     <input type="text" onChange={(e) => handleFormFieldChange("package" , e)}  className="bg-white border-slate-400 border-[1px] rounded-md"/>
                 </div>
             </div>
-            <div className=" w-[80%] my-[5px] flex flex-col bg-white mt-6 px-20 pt-8 items-center rounded-2xl drop-shadow-lg gap-x-10 gap-y-4 py-[20px]">
+            <div className=" w-[80%] my-[5px] flex flex-col bg-white px-20 pt-8 mt-6 items-center rounded-2xl drop-shadow-lg gap-x-10 gap-y-4 py-[20px]">
                 <div className="flex w-full justify-start items-start">
                     <p>Subject :</p> &nbsp;&nbsp;
                     <textarea  onChange={(e)=>{setSubject(e.target.value)}} cols={80} rows={2} className="ml-[10px]  bg-white border-slate-400 border-[1px] rounded-md outline-none" ></textarea>
@@ -137,7 +137,7 @@ function Page() {
                     <textarea  onChange={(e)=>{setMessage(e.target.value)}} cols={80} rows={6} className="ml-[10px]  bg-white border-slate-400 border-[1px] rounded-md outline-none" ></textarea>
                 </div>
             </div>
-            <button type="submit"  onClick={handleSubmit} className="bg-[#C9243F] mt-4 py-[5px] w-[100px] mt-[10px]  text-white hover:bg-green-500 rounded-md">
+            <button type="submit"  onClick={handleSubmit} className="bg-[#C9243F] py-[5px] w-[100px] mt-[10px]  text-white hover:bg-green-500 rounded-md">
                     Submit
             </button>
         </div>

@@ -132,7 +132,7 @@ const SideMobile = () => {
 							Manage Offers
 						</Link>
 						<Link
-							href="/"
+							href="/admin/notify"
 							className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
 						>
 							<svg
