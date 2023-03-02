@@ -192,6 +192,7 @@ const PersonalInfo = () => {
 													id="gender"
 													name="gender"
 													value="M"
+													checked={value==='M'}
 													onChange={(e) => {
 														UpdateData(e.target.value, id);
 													}}
@@ -205,6 +206,7 @@ const PersonalInfo = () => {
 													id="gender"
 													name="gender"
 													value="F"
+													checked={value==="F"}
 													onChange={(e) => {
 														UpdateData(e.target.value, id);
 													}}

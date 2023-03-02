@@ -1,9 +1,10 @@
 import React from 'react'
+import Login from '../components/LoginPage'
 
 const Home = () => {
   return (
-    <div className='text-3xl'>
-      This is the home page
+    <div>
+      <Login />
     </div>
   )
 }
