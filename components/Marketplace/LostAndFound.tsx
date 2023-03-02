@@ -35,12 +35,12 @@ const LostAndFound = () => {
     }
   };
 
-  const filteredLostItems: any = allItems.length
-    ? allItems.filter((product: any) => product.found == false)
+  const filteredLostItems: any = allItems?.length
+    ? allItems?.filter((product: any) => product.found == false)
     : [];
 
-  const filteredFoundItems: any = allItems.length
-    ? allItems.filter((product: any) => product.found == true)
+  const filteredFoundItems: any = allItems?.length
+    ? allItems?.filter((product: any) => product.found == true)
     : [];
 
   useEffect(() => {

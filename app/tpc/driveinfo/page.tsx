@@ -9,6 +9,8 @@ const DriveInfo = () => {
   const [dinfo, setDinfo]: any = useState(null);
   const searchParams: any = useSearchParams();
   const driveid = parseInt(searchParams.get("drive_id"));
+  const cname = searchParams.get("company_name");
+  console.log(cname)
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
   const fetchStudents = async () => {
@@ -48,7 +50,7 @@ const DriveInfo = () => {
   return (
     <div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
       <h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
-        View Drive Details
+        {cname} Drive Details
       </h3>
       {dinfo == null || dinfo == undefined ? (
         <></>

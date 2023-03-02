@@ -82,16 +82,16 @@ function NextResume() {
           {base == undefined ? (
             <Image
               src={Avatar}
-              className="translate-y-10 translate-x-12 mx-auto z-10 w-[70px] h-[70px] rounded-full bg-white"
+              className="translate-y-10 translate-x-12 mx-auto z-10 w-[50px] h-[50px] rounded-full bg-white"
               alt="Profile"
             />
           ) : (
             <Image
               src={`data:image/jpeg; base64, ${base}`}
-              className="translate-y-10 mx-5 z-10 w-[150px] h-[150px] rounded-full bg-white"
+              className="translate-y-10 mx-12 z-10 w-[100px] h-[100px] rounded-full bg-white"
               alt="Profile"
-              width={150}
-              height={150}
+              width={100}
+              height={100}
             />
           )}
           <Image
@@ -126,10 +126,10 @@ function NextResume() {
                 <></>
               ) : (
                 <>
-                  <h3 className="text-white bg-accent px-2 font-bold text-lg">
+                  <h3 className="mt-2 text-white bg-accent px-2 font-bold text-lg">
                     Academic Achievements
                   </h3>
-                  <ul>
+                  <ul style={{ listStyleType: 'disc' }} >
                     <li>{rdata.acad_achievement_one}</li>
                     <li>{rdata.acad_achievement_two}</li>
                     <li>{rdata.acad_achievement_three}</li>
@@ -143,14 +143,39 @@ function NextResume() {
                 </>
               ) : (
                 <>
-                  <h3 className="text-white bg-accent px-2 font-bold text-lg">
+                  <h3 className="mt-5 text-white bg-accent px-2 font-bold text-lg">
                     Additional Information
                   </h3>
-                  <ul>
+                  <ul style={{ listStyleType: 'disc' }} >
                     <li>Preffered Language: {rdata.pref_language}</li>
                     <li>Tech Stack:{rdata.technologies}</li>
                     <li>Hobbies:{rdata.hobbies}</li>
                   </ul>
+                </>
+              )}
+            </div>
+            <div>
+              {extra == null || extra == undefined || extra.length == 0 ? (
+                <></>
+              ) : (
+                <>
+                  <div>
+                  <h3 className="mt-5 text-white bg-accent px-2 font-bold text-lg">
+                      Extra Curricular Achievements 
+                    </h3>
+                  </div>
+                  <div>
+                    {extra.map(
+                      ({ description, activity_month, activity_year }: any) => (
+                        <ul style={{ listStyleType: 'disc' }} key={description}>
+                          <li>
+                          <p>Activity Description:{description}</p>  
+                          <p>Activity Duration: {activity_month} {activity_year}</p>
+                          </li>
+                        </ul>
+                      )
+                    )}
+                  </div>
                 </>
               )}
             </div>
@@ -164,7 +189,7 @@ function NextResume() {
                 <>
                   <h3 className="text-accent font-bold text-lg">
                     <span
-                      className="absolute left-[345px] text-black z-30
+                      className="absolute left-[349px] text-black z-30
                                 "
                     >
                       <svg
@@ -180,18 +205,18 @@ function NextResume() {
                     </span>{" "}
                     Certifications ▶▶▶
                   </h3>
-                  <ul>
+                  <ul style={{ listStyleType: 'disc' }}>
                     <li>
-                      {rdata.certificate_one} :{" "}
-                      {rdata.certificate_one_completion_date}
+                      <p>Certificate Title: {rdata.certificate_one}</p>
+                      <p>Certificate Completion Date:{rdata.certificate_one_completion_date}</p>
                     </li>
                     <li>
-                      {rdata.certificate_two} :{" "}
-                      {rdata.certificate_two_completion_date}
+                      <p>Certificate Title: {rdata.certificate_two}</p>
+                      <p>Certificate Completion Date:{rdata.certificate_two_completion_date}</p>
                     </li>
                     <li>
-                      {rdata.certificate_three} :{" "}
-                      {rdata.certificate_three_completion_date}
+                    <p>Certificate Title: {rdata.certificate_three}</p>
+                      <p>Certificate Completion Date:{rdata.certificate_three_completion_date}</p>
                     </li>
                   </ul>
                 </>
@@ -205,7 +230,7 @@ function NextResume() {
                   <div>
                     <h3 className="text-accent font-bold text-lg">
                       <span
-                        className="absolute left-[345px] text-black z-30
+                        className="absolute left-[349px] text-black z-30
                                 "
                       >
                         <svg
@@ -223,9 +248,11 @@ function NextResume() {
                     </h3>
                     <h3 className="text-accent font-bold text-md">Projects</h3>
                     {proj.map(({ proj_name, proj_desc, role }: any) => (
-                      <ul key={proj_name}>
+                      <ul style={{ listStyleType: 'disc' }} key={proj_name}>
                         <li>
-                          {proj_name} : {proj_desc} ,Role:{role}
+                          <p>Project Title: {proj_name}</p> 
+                          <p>Project Description: {proj_desc}</p> 
+                          <p>Role: {role}</p>
                         </li>
                       </ul>
                     ))}
@@ -249,10 +276,11 @@ function NextResume() {
                           end_month,
                           year,
                         }: any) => (
-                          <ul key={description}>
+                          <ul style={{ listStyleType: 'disc' }} key={description}>
                             <li>
-                              {company_name} : {description} ,{start_month}-
-                              {end_month} {year}
+                              <p>Company Name:{company_name}</p>
+                              <p>Description: {description}</p>
+                              <p>Duration:{start_month}-  {end_month} {year}</p>
                             </li>
                           </ul>
                         )
@@ -263,45 +291,7 @@ function NextResume() {
               </div>
             </div>
 
-            <div>
-              {extra == null || extra == undefined || extra.length == 0 ? (
-                <></>
-              ) : (
-                <>
-                  <div>
-                    <h3 className="text-accent font-bold text-lg">
-                      <span
-                        className="absolute left-[345px] text-black z-30
-                                "
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="8"
-                          height="16"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M0 8c0-2.2 1.8-4 4-4s4 1.8 4 4-1.8 4-4 4-4-1.8-4-4z"
-                          />
-                        </svg>
-                      </span>{" "}
-                      Extra Curricular Achievements ▶▶▶
-                    </h3>
-                  </div>
-                  <div>
-                    {extra.map(
-                      ({ description, activity_month, activity_year }: any) => (
-                        <ul key={description}>
-                          <li>
-                            {description} : {activity_month} {activity_year}
-                          </li>
-                        </ul>
-                      )
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
+           
             {/* <div>
 							<h3 className="text-accent font-bold text-lg">
 								<span

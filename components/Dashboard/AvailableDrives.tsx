@@ -140,7 +140,10 @@ const AvailableDrives = () => {
                   <Link
                     href={{
                       pathname: "/tpc/driveinfo",
-                      query: { drive_id: drive_id },
+                      query: { 
+                        drive_id: drive_id,
+                        company_name: company_name, 
+                      },
                     }}
                     className="p-1 mb-3 md:mb-0 text-sm w-48 bg-white text-slate-900 font-semibold border-2 border-slate-900 rounded-md"
                   >
