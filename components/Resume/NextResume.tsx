@@ -14,10 +14,13 @@ function NextResume() {
 	const server = process.env.NEXT_PUBLIC_SERVER_URL;
 	const [fname, setFname] = useState("");
 	const [lname, setLname] = useState("");
-	const [link, setLink] = useState("");
+	const [gender, setGender] = useState("");
 	const [email, setEmail] = useState("");
 	const [phone, setPhone] = useState(0);
-	const [department, setDepartment] = useState("");
+	const [github, setGithub] = useState("");
+	const [link, setLink] = useState("");
+	const [hack, setHack] = useState("");
+	const [leetcode, setLeetcode] = useState("");
 	const [extra, setExtra]: any = useState(null);
 	const [proj, setProj]: any = useState(null);
 	const [intern, setIntern]: any = useState(null);
@@ -35,10 +38,13 @@ function NextResume() {
 		);
 		setFname(response.data.first_name);
 		setLname(response.data.last_name);
-		setLink(response.data.linkedin);
+		setGender(response.data.gender);
 		setEmail(response.data.email);
-		setDepartment(response.data.department);
 		setPhone(response.data.phone_number);
+		setGithub(response.data.github);
+		setLink(response.data.linkedin);
+		setHack(response.data.hackerrank);
+		setLeetcode(response.data.leetcode);
 		setExtra(response.data.extra_curricular);
 		setProj(response.data.projects);
 		setIntern(response.data.work_experience);
@@ -70,26 +76,29 @@ function NextResume() {
 	return (
 		<>
 			<div className="w-[794px] h-[1123px] mx-auto my-5 rounded-lg shadow-lg p-0 bg-white relative">
-				<div className="bg-accent flex  w-full rounded-t-lg items-center py-2 px-5">
-					<div className="text-white flex float-left flex-col font-semibold">
+				<div className="bg-accent flex  w-full rounded-t-lg items-center py-2 px-5 relative">
+					<div className="text-white flex float-left flex-col font-semibold text-sm">
 						<p>
 							Name: {fname} {lname}
 						</p>
-						<p>Department: {department}</p>
-						<p>Mobile: {phone}</p>
+						<p>Gender: {gender}</p>
 						<p>Email: {email}</p>
+						<p>Mobile: {phone}</p>
+						<p>Github:{github}</p>
 						<p>Linkedin: {link}</p>
+						<p>Hackerrank: {hack}</p>
+						<p>Leetcode: {leetcode}</p>
 					</div>
 					{base == undefined ? (
 						<Image
 							src={Avatar}
-							className="translate-y-10 translate-x-12 mx-auto z-10 w-[50px] h-[50px] rounded-full bg-white"
+							className="absolute left-1/2 -translate-x-1/2 translate-y-[60%] z-10 w-[50px] h-[50px] rounded-full bg-white"
 							alt="Profile"
 						/>
 					) : (
 						<Image
 							src={`data:image/jpeg; base64, ${base}`}
-							className="translate-y-10 mx-12 z-10 w-[100px] h-[100px] rounded-full bg-white"
+							className="absolute left-1/2 -translate-x-1/2 translate-y-[60%] z-10 w-[100px] h-[100px] rounded-full bg-white"
 							alt="Profile"
 							width={100}
 							height={100}
@@ -101,7 +110,7 @@ function NextResume() {
 						alt="logo"
 					/>
 				</div>
-				<div className="h-[15px] bg-black"></div>
+				<div className="h-[5px] bg-black"></div>
 				<div className="flex w-full p-5 items-start">
 					<h3 className="text-accent font-bold text-lg w-1/4">
 						Career Objective :
