@@ -8,45 +8,60 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
 function LoginPage() {
-	const router = useRouter();
-	const server=process.env.NEXT_PUBLIC_SERVER_URL;
-	const [email, setEmail] = useState("");
-	const [role, setRole] = useState("student");
-	const [password, setPassword] = useState("");
+  const router = useRouter();
+  const server = process.env.NEXT_PUBLIC_SERVER_URL;
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("student");
+  const [password, setPassword] = useState("");
 
-	const AuthData: any = useAuth();
+  const AuthData: any = useAuth();
 
-	const fpassword = async () => {
-		if (email)
-		{
-			const response = await axios({
-				method: 'post',
-				url: `${server}/auth/forgot_mail`,
-				headers: {
-					'Content-Type': 'application/json',
-				}, 
-				data: {
-					email: email,
-					role:role
-				}
-				});
-			Swal.fire({
-				icon: "info",
-				title: `E-mail sent to ${email} to recover password`,
-				showConfirmButton: false,
-				timer: 1500,
-			});
+  const fpassword = async () => {
+    if (email) {
+      const response = await axios({
+        method: "post",
+        url: `${server}/auth/forgot_mail`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: {
+          email: email,
+          role: role,
+        },
+      });
+      Swal.fire({
+        icon: "info",
+        title: `E-mail sent to ${email} to recover password`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: `Please enter your email address`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
 
-		}
-		else
-		{
-			Swal.fire({
-				icon: "error",
-				title: `Please enter your email address`,
-				showConfirmButton: false,
-				timer: 1500,
-			});
-		}
+  const handleSubmit = async () => {
+    const data = { email, role, password };
+    const response = await AuthData.login(data);
+    if (
+      response.data == "You are not authorized" ||
+      Object.keys(response.data).length == 0 ||
+      response.data.length == 0
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed,Incorrect Credentials",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      const { token } = response.data;
+      const userRole: string = response.data.user.role;
 
 	}
 	const handleSubmit = async () => {

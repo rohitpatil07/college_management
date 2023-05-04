@@ -59,22 +59,22 @@ const ProductListings = () => {
 		}
 	};
 
-	const filteredProducts: any = products.length
-		? products.filter(
+	const filteredProducts: any = products?.length
+		? products?.filter(
 				(product: any) => product.owner === AuthData.user.userData.user.email
 		  )
 		: [];
 
-	const filteredLostItems: any = lostFoundItems.length
-		? lostFoundItems.filter(
+	const filteredLostItems: any = lostFoundItems?.length
+		? lostFoundItems?.filter(
 				(product: any) =>
 					product.owner === AuthData.user.userData.user.email &&
 					product.found == false
 		  )
 		: [];
 
-	const filteredFoundItems: any = lostFoundItems.length
-		? lostFoundItems.filter(
+	const filteredFoundItems: any = lostFoundItems?.length
+		? lostFoundItems?.filter(
 				(product: any) =>
 					product.owner === AuthData.user.userData.user.email &&
 					product.found == true
@@ -330,7 +330,7 @@ const ProductListings = () => {
 												<div className="absolute top-0 right-0 flex gap-2 m-2">
 													<Link
 														href={`/marketplace/lostfound/updateLostItem/${item_id}`}
-														onClick={() => handleLostFoundItemDeletion(item_id)}
+														onClick={() => {console.log(item_id);handleLostFoundItemDeletion(item_id)}}
 														className="rounded-full bg-blue-500 hover:scale-110 p-1 shadow-md transition-all"
 													>
 														<svg
