@@ -46,7 +46,7 @@ const UpdateProductComponent = ({ product_id }: any) => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${AuthData.user.token}`,
+						
 					},
 				}
 			);
@@ -85,7 +85,7 @@ const UpdateProductComponent = ({ product_id }: any) => {
 				{
 					headers: {
 						"Content-type": "application/json",
-						Authorization: `Bearer ${AuthData.user.token}`,
+						
 					},
 				}
 			);

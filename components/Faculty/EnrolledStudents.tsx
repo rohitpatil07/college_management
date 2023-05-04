@@ -19,7 +19,7 @@ const AttendanceRecord = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -41,7 +41,7 @@ const AttendanceRecord = () => {
       url: `${server}/lms/filter/faculty/attendence`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
+        
       },
       data: {
         subject_id : subjectid,
@@ -56,10 +56,11 @@ const AttendanceRecord = () => {
 		axios
 			.get(`${server}/lms/download/getattendance/${subjectid}`, {
 				responseType: "blob",
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			})
 			.then((response) => {
 				console.log(response);

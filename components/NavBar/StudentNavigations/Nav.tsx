@@ -10,7 +10,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const AuthData: any = useAuth();
-
+  console.log(AuthData);
   return (
     <div className="w-full">
       <div className="hidden sm:flex flex-row bg-white text-black justify-between items-center px-4 py-2 drop-shadow-lg">

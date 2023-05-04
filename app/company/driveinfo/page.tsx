@@ -29,8 +29,9 @@ const DriveInfo = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true
       }
     );
     console.log(response.data.students);
@@ -44,8 +45,9 @@ const DriveInfo = () => {
       .get(`${server}/download/resume/${stu[roll]["roll_no"]}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: false,
         responseType: "blob",
       })
       .then((response) => {
@@ -67,8 +69,9 @@ const DriveInfo = () => {
       url: `${server}/download/zip`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
+        
       },
+      withCredentials: true,
       responseType: "blob",
       data: {
         data: rolls, // This is the body part

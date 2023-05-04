@@ -18,8 +18,9 @@ const ExcelUpload = ({ children }: any) => {
     const response = await axios.get(`${server}/filter/drive`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       });
       setDrive(response.data);
   }
@@ -74,7 +75,7 @@ const ExcelUpload = ({ children }: any) => {
       const response = await axios.post(`${server}/add/admin/student/bulkoffers`, data, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       });
       if (response.status == 200) {

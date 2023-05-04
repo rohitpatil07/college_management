@@ -25,8 +25,9 @@ const UpdateEntry = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
+          withCredentials: true,
         }
       );
     }
@@ -37,8 +38,9 @@ const UpdateEntry = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
+          withCredentials: true,
         }
       );
       if(response){
@@ -51,8 +53,9 @@ const UpdateEntry = () => {
         const response3 = await axios.post(`${server}/add/admin/student/offer`, body, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       });
         if(response3){
       const response2 = await axios.get(
@@ -60,8 +63,9 @@ const UpdateEntry = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
+          withCredentials: true,
         }
       );
         }
@@ -81,8 +85,9 @@ const UpdateEntry = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     );
   }
@@ -91,8 +96,9 @@ const UpdateEntry = () => {
     const response = await axios.get(`${server}/filter/drive`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       });
       setDrive(response.data);
   }
@@ -117,8 +123,9 @@ const UpdateEntry = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     )
     if(response.data==null){
@@ -184,8 +191,9 @@ const UpdateEntry = () => {
     const response = await axios.post(`${server}/add/admin/student/updateoffer`, body ,{
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthData.user.token}`,
+				
 			},
+      withCredentials: true,
 		});
     if(response.status==200){
       Swal.fire({

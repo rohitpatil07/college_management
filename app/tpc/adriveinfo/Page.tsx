@@ -18,8 +18,9 @@ const page = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     );
     setDinfo(response.data);
@@ -37,8 +38,9 @@ const page = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     );
     if (response.status == 200) {

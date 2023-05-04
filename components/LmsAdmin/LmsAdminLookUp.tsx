@@ -93,7 +93,7 @@ const LmsAdminLookUp = () => {
         url: `${server}/lms/filter/facultysubjects`,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
         data: {
           email: `${email}`,
@@ -110,7 +110,7 @@ const LmsAdminLookUp = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${AuthData.user.token}`,
+              
             },
           }
         );
@@ -128,7 +128,7 @@ const LmsAdminLookUp = () => {
             url: `${server}/lms/filter/facultysubjects`,
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${AuthData.user.token}`,
+              
             },
             data: {
               email: `${modal_current_input}`,
@@ -153,7 +153,7 @@ const LmsAdminLookUp = () => {
             {
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${AuthData.user.token}`,
+                
               },
             }
           );
@@ -176,7 +176,7 @@ const LmsAdminLookUp = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
         }
       );
@@ -193,7 +193,7 @@ const LmsAdminLookUp = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${AuthData.user.token}`,
+              
             },
           }
         );
@@ -210,7 +210,7 @@ const LmsAdminLookUp = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${AuthData.user.token}`,
+              
             },
           }
         );

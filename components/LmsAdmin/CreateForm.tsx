@@ -19,7 +19,7 @@ const CreateForm = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -31,7 +31,7 @@ const CreateForm = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -220,7 +220,7 @@ const CreateForm = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
         }
       );
@@ -279,7 +279,7 @@ const CreateForm = () => {
       url: `${server}/lms/form/addDILOform`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
+        
       },
       data: {
         form: form,

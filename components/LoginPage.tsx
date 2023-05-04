@@ -49,42 +49,54 @@ function LoginPage() {
 		}
 
 	}
-
-
 	const handleSubmit = async () => {
 		const data = { email, role, password };
-		const response = await AuthData.login(data);
-		if (response.data=="You are not authorized" || Object.keys(response.data).length==0 || response.data.length==0)
-		{
+		console.log(data);
+	  
+		try {
+		  const response = await axios.post(`${server}/auth/login`, data, {
+			headers: {
+			  "Content-type": "application/json",
+			},
+			withCredentials: true,
+		  });
+	  
+		  console.log("zo", response.data);
+	  
+		  if (
+			response.data == "You are not authorized" ||
+			Object.keys(response.data).length == 0 ||
+			response.data.length == 0
+		  ) {
 			Swal.fire({
-				icon: "error",
-				title: "Login Failed,Incorrect Credentials",
+			  icon: "error",
+			  title: "Login Failed,Incorrect Credentials",
+			  showConfirmButton: false,
+			  timer: 1500,
+			});
+		  } else {
+			const respp = await AuthData.login();
+			console.log(respp);
+			const userRole= response.data.success;
+			console.log(userRole);
+			if (userRole !== undefined && userRole !== null && userRole.length>0) {
+			  Swal.fire({
+				icon: "success",
+				title: "Login Successfull",
 				showConfirmButton: false,
 				timer: 1500,
-			});
-	}
-		else
-		{
-			
-				const { token } = response.data;
-				const userRole: string = response.data.user.role;
-			
-				if (token) {
-					console.log(response);
-					Swal.fire({
-						icon: "success",
-						title: "Login Successfull",
-						showConfirmButton: false,
-						timer: 1500,
-					});
-					if (userRole == "student") router.push("/home");
-					else if (userRole == "faculty") router.push("/faculty/dashboard");
-					else if (userRole == "admin") router.push("/admin/lookup");
-					else if (userRole == "lms_admin") router.push("/lms_admin/lookup");
-					else router.push("/company");
-				}
+			  });
+			  if (userRole == "student") router.push("/home");
+			  else if (userRole == "faculty") router.push("/faculty/dashboard");
+			  else if (userRole == "admin") router.push("/admin/lookup");
+			  else if (userRole == "lms_admin") router.push("/lms_admin/lookup");
+			  else router.push("/company");
+			}
+		  }
+		} catch (error) {
+		  console.error(error);
 		}
-	};
+	  };
 
 	return (
 		<>

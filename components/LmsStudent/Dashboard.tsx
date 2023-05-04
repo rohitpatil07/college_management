@@ -33,7 +33,7 @@ const   Dashboard = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${AuthData.user.token}`,
+              
             },
           }
         );
@@ -46,7 +46,7 @@ const   Dashboard = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${AuthData.user.token}`,
+              
             },
           }
         );
@@ -93,7 +93,7 @@ const   Dashboard = () => {
     const response = await axios.post(`${server}/lms/form/addDILO`, body, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
+        
       },
     });
     if (response.status == 200) {

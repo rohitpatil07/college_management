@@ -24,7 +24,7 @@ const LostAndFound = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
         }
       );

@@ -24,7 +24,7 @@ const Module = ({
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -42,7 +42,7 @@ const Module = ({
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
           responseType: "blob",
         }

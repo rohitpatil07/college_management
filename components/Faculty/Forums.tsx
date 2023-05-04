@@ -25,10 +25,11 @@ const CreateForum = ({
 		const responses = await axios.get(
 			`${server}/lms/filter/getallForums/${moduleid}`,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			}
 		);
         console.log(responses.data)
@@ -40,10 +41,11 @@ setdeleteLoading(true);
 		const responses = await axios.get(
 			`${server}/lms/delete/deleteforum/${id}`,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			}
 		);
         console.log(responses)

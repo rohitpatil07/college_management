@@ -26,10 +26,11 @@ const ViewForum = ({
 		const response = await axios.get(
 			`http://localhost:5000/lms/filter/getreplies/0`,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			}
 		);
 		let blank_array: any = [];
@@ -52,10 +53,11 @@ const ViewForum = ({
 			const response = await axios({
 				method: "post",
 				url: "http://localhost:5000/lms/form/postcomment",
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 				data: {
 					comment: comm,
 				},

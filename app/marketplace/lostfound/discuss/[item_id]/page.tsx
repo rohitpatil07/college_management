@@ -33,8 +33,9 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${AuthData.user.token}`,
+						
 					},
+					withCredentials: true,
 				}
 			);
 			setItem(response.data[0]);
@@ -48,10 +49,11 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 			const response = await axios({
 				method: "post",
 				url: "http://localhost:5000/market/lost_items/lostitemthread",
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 				data: {
 					item_id: item.item_id,
 				},
@@ -76,10 +78,11 @@ const Discuss = ({ params: { item_id } }: PageProps) => {
 			const response = await axios({
 				method: "post",
 				url: "http://localhost:5000/market/lost_items/addmessage",
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 				data: {
 					message: comm,
 				},

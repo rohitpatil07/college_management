@@ -23,7 +23,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -32,7 +32,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -154,7 +154,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${AuthData.user.token}`,
+              
             },
           }
         );
@@ -180,7 +180,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${AuthData.user.token}`,
+              
             },
           }
         );
@@ -220,7 +220,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
           responseType: "blob",
         }
@@ -245,7 +245,7 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
           responseType: "blob",
         }

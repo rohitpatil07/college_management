@@ -10,9 +10,9 @@ const AuthContext = React.createContext({});
 
 const AuthProvider = ({ children }) => {
 	const router = useRouter();
-	const [token, setToken] = useTokenState("token");
 	const [userData, setUserData] = useUserState({});
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [flag,setFlag]=useState(false);
 
 	const logout = () => {
 		setToken("");
@@ -21,29 +21,23 @@ const AuthProvider = ({ children }) => {
 		setIsAuthenticated(false);
 	};
 
-	const login = async (data) => {
-		const response = await api.post("/auth/login", data);
-		let { token, ...user } = response.data;
-		api.defaults.headers.Authorization = `Bearer ${token}`;
-		setToken(token);
+	const login = async () => {
+		const response = await api.get("/auth/user_data");
+		let user= response.data.auth_obj;
 		setUserData(user);
 		setIsAuthenticated(true);
-		return response;
+		console.log(userData)
+		return "Login Successfull";
 	};
 
 	useEffect(() => {
-		if (token) {
-			setIsAuthenticated(true);
-		}
-		else {
-			setIsAuthenticated(false);
+		if(setIsAuthenticated!=true){
 			router.push('/login');
 		}
-	}, [token]);
+	}, [setIsAuthenticated]);
 
 	const value = {
 		user: {
-			token: token,
 			isAuthenticated: isAuthenticated,
 			userData: userData,
 		},

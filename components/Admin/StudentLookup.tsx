@@ -106,11 +106,13 @@ const StudentLookup = () => {
 			`http://localhost:5000/filter/dashboard/${page}&10`,
 			{
 				method: "POST",
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				credentials: "include",
 				body: JSON.stringify(queryBody),
+				
 			}
 		)
 			.then((response) => response.json())
@@ -194,10 +196,11 @@ const StudentLookup = () => {
 		axios
 			.post(`${server}/download/excel`, final_response, {
 				responseType: "blob",
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			})
 			.then((response) => {
 				console.log(response);
@@ -223,10 +226,11 @@ const StudentLookup = () => {
 		axios
 			.post(`${server}/download/csv`, final_response, {
 				responseType: "blob",
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			})
 			.then((response) => {
 				console.log(response);

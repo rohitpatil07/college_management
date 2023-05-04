@@ -25,7 +25,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -111,7 +111,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -211,7 +211,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -239,7 +239,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
       .get(`${server}/lms/download/getmaterial/${assignment_id}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
         responseType: "blob",
       })
@@ -267,7 +267,7 @@ const Assignment = ({ subject_id, subject_name }: any) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
           responseType: "blob",
         }

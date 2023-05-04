@@ -43,7 +43,7 @@ const ReportFoundComponent = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${AuthData.user.token}`,
+						
 					},
 				}
 			);

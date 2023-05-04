@@ -23,7 +23,7 @@ const AttendanceRecord = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -73,7 +73,7 @@ const response = await axios({
         url: `${server}/lms/form/take/attendance`,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
         data: {
           attendence : attend

@@ -23,10 +23,11 @@ const Projects = () => {
   }])
   const getProfileData = async () => {
     const response = await axios.get(`${server}/filter/student/${AuthData.user.userData.user.roll_no}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AuthData.user.token}`
-      },
+     		headers: {
+					"Content-Type": "application/json",
+					
+				},
+				withCredentials: true,
     });
     for (let i = 0; i < response.data['projects'].length; i++) {
       response.data['projects'][i]['editing'] = false;
@@ -107,10 +108,11 @@ const Projects = () => {
     }
     const body = { project: project };
     const response = await axios.post(`${server}/add/student/project`, body, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AuthData.user.token}`
-      },
+     		headers: {
+					"Content-Type": "application/json",
+					
+				},
+				withCredentials: true,
 
     });
     setUpdateLoading(false);
@@ -167,10 +169,11 @@ const Projects = () => {
     delete (project.editing);
     const body = { project: project };
     const response = await axios.post(`${server}/add/student/project`, body, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AuthData.user.token}`
-      },
+     		headers: {
+					"Content-Type": "application/json",
+					
+				},
+				withCredentials: true,
 
     });
 

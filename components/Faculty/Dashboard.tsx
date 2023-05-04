@@ -19,7 +19,7 @@ const Dashboard = () => {
 			url: `${server}/lms/filter/facultysubjects`,
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthData.user.token}`,
+				
 			},
 			data:{
 		email: `${AuthData.user.userData.user.email}`,

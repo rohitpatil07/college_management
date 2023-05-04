@@ -21,7 +21,7 @@ const Module = ({module_id,subject_id,module_name,module_number,subject_name}: a
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
         }
       );

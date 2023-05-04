@@ -55,8 +55,8 @@ const UpdateDrive = () => {
 					url: `${server}/add/company/drive`,
 					headers: {
 						'Content-Type': 'application/json',
-						'Authorization': `Bearer ${AuthData.user.token}`
 					}, 
+					withCredentials: true,
 					data: {
 						drive: gear, // This is the body part
 					}
@@ -91,10 +91,12 @@ const UpdateDrive = () => {
 					const noti = await axios.post(`${server}/filter/notify`,
 						{ queries , message , subject },
 						{
-							headers: {
-								"Content-Type": "application/json",
-								Authorization: `Bearer ${AuthData.user.token}`,
-							},
+									headers: {
+					"Content-Type": "application/json",
+					
+				},
+				withCredentials: true,
+
 						});
 					console.log(response.data);
 			        console.log(noti);

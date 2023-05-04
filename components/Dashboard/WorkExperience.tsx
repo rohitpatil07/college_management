@@ -28,10 +28,11 @@ const WorkExperience = () => {
   }])
   const getProfileData = async () => {
     const response = await axios.get(`${server}/filter/student/${AuthData.user.userData.user.roll_no}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AuthData.user.token}`
-      },
+     		headers: {
+					"Content-Type": "application/json",
+					
+				},
+				withCredentials: true,
     });
     let month: any = {
       Jan: "-01",
@@ -222,10 +223,11 @@ const WorkExperience = () => {
     // console.log(work);
     const body = { work: work };
     const response = await axios.post(`${server}/add/student/workexperience`, body, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AuthData.user.token}`
-      },
+     		headers: {
+					"Content-Type": "application/json",
+					
+				},
+				withCredentials: true,
 
     });
     // console.log(response);
@@ -274,10 +276,11 @@ const WorkExperience = () => {
     // console.log(work);
     const body = { work: work };
     const response = await axios.post(`${server}/add/student/workexperience`, body, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AuthData.user.token}`
-      },
+     		headers: {
+					"Content-Type": "application/json",
+					
+				},
+				withCredentials: true,
 
     });
     setUpdateLoading(false);

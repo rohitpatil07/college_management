@@ -29,7 +29,7 @@ const ViewForum = ({
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -58,7 +58,7 @@ const ViewForum = ({
         url: `${server}/lms/form/postcomment`,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
         data: {
           comment: comm,

@@ -28,7 +28,7 @@ const ProductListings = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${AuthData.user.token}`,
+						
 					},
 				}
 			);
@@ -48,7 +48,7 @@ const ProductListings = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${AuthData.user.token}`,
+						
 					},
 				}
 			);
@@ -89,7 +89,7 @@ const ProductListings = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${AuthData.user.token}`,
+						
 					},
 				}
 			);
@@ -108,7 +108,7 @@ const ProductListings = () => {
 				{
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${AuthData.user.token}`,
+						
 					},
 				}
 			);

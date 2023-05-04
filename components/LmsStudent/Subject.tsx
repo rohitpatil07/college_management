@@ -23,7 +23,7 @@ const Subject = ({ subject_id, subject_name, email, fac_data }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -35,7 +35,7 @@ const Subject = ({ subject_id, subject_name, email, fac_data }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -51,7 +51,7 @@ const Subject = ({ subject_id, subject_name, email, fac_data }: any) => {
       url: `${server}/lms/filter/student/attendence`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
+        
       },
       data: {
         subject_id: parseInt(subject_id),

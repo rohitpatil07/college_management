@@ -30,8 +30,9 @@ const AvailableDrives = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     );
     let dri = response.data;
@@ -84,8 +85,9 @@ const AvailableDrives = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     );
     if (response.status == 200) {

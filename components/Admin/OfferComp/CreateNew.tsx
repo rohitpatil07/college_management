@@ -29,7 +29,7 @@ const CreateNew = ({ children }: any) => {
     const response = await axios.get(`${server}/filter/company/drives`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
+        
       },
     });
     let compArr = [];
@@ -108,8 +108,9 @@ const CreateNew = ({ children }: any) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
+          withCredentials: true,
         }
       );
       if (response.status == 200) {

@@ -76,8 +76,8 @@ const CreateDrive = () => {
 						url: `${server}/add/company/drive`,
 						headers: {
 							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${AuthData.user.token}`
-						}, 
+						},
+						withCredentials: true, 
 						data: {
 							drive: gear, // This is the body part
 						}

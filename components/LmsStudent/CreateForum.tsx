@@ -47,7 +47,7 @@ const CreateForum = ({
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -73,7 +73,7 @@ const CreateForum = ({
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -101,7 +101,7 @@ const CreateForum = ({
       url: `${server}/lms/form/upsertForum`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
+        
       },
       data: {
         forum: forum,

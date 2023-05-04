@@ -15,10 +15,11 @@ const ResumeInfo = () => {
     const response = await axios.get(
       `${server}/filter/student/${AuthData.user.userData.user.roll_no}`,
       {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
-        },
+       		headers: {
+					"Content-Type": "application/json",
+					
+				},
+				withCredentials: true,
       }
     );
     if (response.data.resume_data != null) {
@@ -179,7 +180,7 @@ const ResumeInfo = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
         }
       );

@@ -82,7 +82,7 @@ const AddSubject = () => {
 			url: `${server}/lms/form/addsubject`,
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthData.user.token}`,
+				
 			},
 			data: {
 				subject: newSubject,

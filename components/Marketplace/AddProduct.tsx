@@ -64,7 +64,7 @@ const AddProduct = () => {
 				{
 					headers: {
 						"Content-type": "application/json",
-						Authorization: `Bearer ${AuthData.user.token}`,
+						
 					},
 				}
 			);

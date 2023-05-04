@@ -27,7 +27,7 @@ const ViewAssignment = ({ deadline }: any) => {
       .get(`${server}/lms/download/getzip/${assignmentid}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
         responseType: "blob",
       })
@@ -46,7 +46,7 @@ const ViewAssignment = ({ deadline }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
@@ -109,7 +109,7 @@ const ViewAssignment = ({ deadline }: any) => {
       .get(`${server}/lms/download/getsubmission/${assignment_id}/${roll_no}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
         responseType: "blob",
       })

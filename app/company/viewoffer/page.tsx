@@ -42,8 +42,9 @@ const ViewDrive = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true, 
       }
     );
     for (let i = 0; i < response.data.length; i++) {

@@ -51,10 +51,11 @@ function Page() {
         const response = await axios.post("http://localhost:5000/filter/notify",
             { queries , message , subject },
             {
-                headers: {
+                		headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
             });
         console.log(response);
         if (response.status === 200 && "Notified" in response.data) {

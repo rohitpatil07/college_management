@@ -17,8 +17,9 @@ const DriveInfo = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     );
     setDinfo(response.data);
@@ -36,8 +37,9 @@ const DriveInfo = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     );
   };

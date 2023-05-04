@@ -28,8 +28,9 @@ function NextResume() {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     );
     setFname(response.data.first_name);
@@ -53,8 +54,9 @@ function NextResume() {
       .get(`${server}/download/resume/${AuthData.user.userData.user.roll_no}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
         responseType: "blob",
       })
       .then((response) => {

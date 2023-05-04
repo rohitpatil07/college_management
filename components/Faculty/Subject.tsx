@@ -22,10 +22,11 @@ const Subject = ({ subject_id, subject_name }: any) => {
 		const response = await axios.get(
 			`${server}/lms/filter/allmodules/${subject_id}`,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			}
 		);
 		setModules(response.data);
@@ -34,10 +35,11 @@ const Subject = ({ subject_id, subject_name }: any) => {
 		const response = await axios.get(
 			`${server}/lms/filter/subject/${subject_id}`,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			}
 		);
 		setSubjectInfo(response.data);
@@ -58,7 +60,7 @@ const Subject = ({ subject_id, subject_name }: any) => {
 			url: `${server}/lms/form/addmodule`,
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthData.user.token}`,
+				
 			},
 			data: {
 				module: uploadmodule, // This is the body part

@@ -32,15 +32,19 @@ const PersonalInfo = () => {
 		{ value: "", label: "Profile Pic", id: "photo", type: "text" },
 	]);
 	const [stu_info, setstu_info]: any = useState();
+	console.log(`${AuthData.user.userData.user.roll_no}`);
 	const getProfileData = async () => {
 		let i = 0;
 		const response = await axios.get(
 			`${server}/filter/student/${AuthData.user.userData.user.roll_no}`,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
+
+
 			}
 		);
 		setstu_info(response.data);
@@ -113,10 +117,11 @@ const PersonalInfo = () => {
 			`${server}/add/student`,
 			data,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			}
 		);
 		setUpdateLoading(false);
