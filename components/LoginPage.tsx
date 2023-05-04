@@ -112,6 +112,7 @@ function LoginPage() {
 		  console.error(error);
 		}
 	  };
+  }
 
 	return (
 		<>
