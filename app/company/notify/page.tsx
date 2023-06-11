@@ -56,7 +56,6 @@ function Page() {
 					
 				},
 				withCredentials: true,
-				withCredentials: true,
             });
         console.log(response);
         if (response.status === 200 && "Notified" in response.data) {

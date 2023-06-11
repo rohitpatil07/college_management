@@ -32,8 +32,8 @@ function NextResume() {
 			{
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
 				},
+				withCredentials: true,
 			}
 		);
 		setFname(response.data.first_name);

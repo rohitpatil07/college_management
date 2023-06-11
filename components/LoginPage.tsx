@@ -45,25 +45,7 @@ function LoginPage() {
     }
   };
 
-  const handleSubmit = async () => {
-    const data = { email, role, password };
-    const response = await AuthData.login(data);
-    if (
-      response.data == "You are not authorized" ||
-      Object.keys(response.data).length == 0 ||
-      response.data.length == 0
-    ) {
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed,Incorrect Credentials",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } else {
-      const { token } = response.data;
-      const userRole: string = response.data.user.role;
 
-	}
 	const handleSubmit = async () => {
 		const data = { email, role, password };
 		console.log(data);
@@ -112,7 +94,6 @@ function LoginPage() {
 		  console.error(error);
 		}
 	  };
-  }
 
 	return (
 		<>

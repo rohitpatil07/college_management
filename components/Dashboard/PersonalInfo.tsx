@@ -114,7 +114,6 @@ const PersonalInfo = () => {
 			}
 		}
 		let data = { student };
-<<<<<<< HEAD
 		const response = await axios.post(
 			`${server}/add/student`,
 			data,
@@ -126,14 +125,6 @@ const PersonalInfo = () => {
 				withCredentials: true,
 			}
 		);
-=======
-		const response = await axios.post(`${server}/add/student`, data, {
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${AuthData.user.token}`,
-			},
-		});
->>>>>>> fb2ad9d7ebf5194c92481cda5c09f6c39f601f18
 		setUpdateLoading(false);
 		if (response.status == 200) {
 			Swal.fire({

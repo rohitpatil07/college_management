@@ -36,8 +36,8 @@ const Profile = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
           },
+          withCredentials: true,
         }
       );
       for (let key in response.data) {
