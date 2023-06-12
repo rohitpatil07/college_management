@@ -1,5 +1,5 @@
 import React from "react";
-import NextResume from "../../../components/Resume/NextResume";
+import NextResume from "../../components/Resume/NextResume";
 
 function Resume() {
   return (

@@ -30,7 +30,6 @@ const AuthProvider = ({ children }) => {
 		let user = response.data.auth_obj;
 		setUserData(user);
 		setIsAuthenticated(true);
-		console.log(userData)
 		return "Login Successfull";
 	};
 

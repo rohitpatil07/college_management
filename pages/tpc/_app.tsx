@@ -4,7 +4,7 @@ import SideMobile from "../../components/NavBar/StudentNavigations/SideMobileNav
 import SideNavBar from "../../components/NavBar/StudentNavigations/SideNavBar";
 import "../styles/globals.css"; // Assuming you have a global styles file
 
-export default function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className="w-screen bg-slate-200">
       <NavBar />
