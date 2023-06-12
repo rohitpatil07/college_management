@@ -12,14 +12,13 @@ const AuthProvider = ({ children }) => {
 	const router = useRouter();
 	const [userData, setUserData] = useUserState({});
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const [flag,setFlag]=useState(false);
+	const [flag, setFlag] = useState(false);
 
 	const logout = async () => {
 		const response = await api.get("/auth/logout");
-		let user= response.data;
+		let user = response.data;
 		console.log(user)
-		if(user.success=="User logged out")
-		{
+		if (user.success == "User logged out") {
 			setIsAuthenticated(false);
 			router.push('/login');
 		}
@@ -28,7 +27,7 @@ const AuthProvider = ({ children }) => {
 
 	const login = async () => {
 		const response = await api.get("/auth/user_data");
-		let user= response.data.auth_obj;
+		let user = response.data.auth_obj;
 		setUserData(user);
 		setIsAuthenticated(true);
 		console.log(userData)
@@ -36,7 +35,7 @@ const AuthProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		if(setIsAuthenticated!=true){
+		if (setIsAuthenticated != true) {
 			router.push('/login');
 		}
 	}, [setIsAuthenticated]);
