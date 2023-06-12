@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
 		if(user.success=="User logged out")
 		{
 			setIsAuthenticated(false);
-			router.push('/login');
+			router.push('/');
 		}
 
 	};
@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
 
 	useEffect(() => {
 		if(setIsAuthenticated!=true){
-			router.push('/login');
+			router.push('/');
 		}
 	}, [setIsAuthenticated]);
 

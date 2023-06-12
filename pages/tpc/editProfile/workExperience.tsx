@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import WorkExperience from "../../../../components/Dashboard/WorkExperience";
+import WorkExperience from "../../../components/Dashboard/WorkExperience";
 const page = () => {
   return (
     <div className="mx-auto w-full flex flex-col bg-slate-200 ">

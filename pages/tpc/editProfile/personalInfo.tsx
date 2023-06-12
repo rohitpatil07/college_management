@@ -1,5 +1,5 @@
 import React from "react";
-import PersonalInfo from "../../../../components/Dashboard/PersonalInfo";
+import PersonalInfo from "../../../components/Dashboard/PersonalInfo";
 import Link from "next/link";
 const page = () => {
   return (

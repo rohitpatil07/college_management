@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import AcademicDetails from "../../../../components/Dashboard/AcademicDetails";
+import AcademicDetails from "../../../components/Dashboard/AcademicDetails";
 const page = () => {
   return (
     <div className="mx-auto w-full flex flex-col bg-slate-200 ">
