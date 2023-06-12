@@ -13,8 +13,9 @@ const ViewDrive = () => {
     const response = await axios.get(`${server}/delete/drive/${driveid}`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
+        
       },
+      withCredentials: true,
     });
     if (response.status == 200 && response.data.message == "Drive deleted") {
       Swal.fire({
@@ -38,8 +39,9 @@ const ViewDrive = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     );
     for (let i = 0; i < response.data.length; i++) {

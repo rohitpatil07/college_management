@@ -27,8 +27,8 @@ const Dashboard = () => {
     const response = await axios.get(`${server}/filter/top10student`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
       },
+      withCredentials: true,
     });
     for (let i = 0; i < response.data.top10studentplaced.length; i++) {
       if (response.data.top10studentplaced[i].offers.length == 2) {
@@ -62,8 +62,8 @@ const Dashboard = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
         },
+        withCredentials: true,
       }
     );
     let setcompany: any = [...companyWiseStudents];
@@ -83,8 +83,8 @@ const Dashboard = () => {
     const response = await axios.get(`${server}/filter/studentsplacedlpawise`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
       },
+      withCredentials: true,
     });
     let setlpa: any = [...lpaWiseStudents];
     let setlpalabels: any = [...lpaWiseStudentsLabels];
@@ -102,8 +102,8 @@ const Dashboard = () => {
     const response = await axios.get(`${server}/filter/placedByDept`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
       },
+      withCredentials: true,
     });
     let setdept: any = [...deptWiseStudents];
     let setdeptlabels: any = [...deptWiseStudentsLabels];

@@ -5,9 +5,8 @@ let api = axios.create({
     baseURL: SERVER,
     headers: {
         Content: "application/json",
-        Authorization: "Bearer "
     },
-    credentials: "include"
+    withCredentials: true,
 })
 
 export default api;

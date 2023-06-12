@@ -24,10 +24,11 @@ function AcademicTable() {
     const response = await axios.get(
       `${server}/filter/student/${AuthData.user.userData.user.roll_no}`,
       {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
-        },
+       		headers: {
+					"Content-Type": "application/json",
+					
+				},
+				withCredentials: true,
       }
     );
     if (
@@ -50,76 +51,76 @@ function AcademicTable() {
     }
   };
 
-  useEffect(() => {
-    fetchDrive();
-  }, []);
-  return (
-    <>
-      <table>
-        <tr>
-          <td className="font-semibold">BE</td>
-          <td></td>
-          <td>
-            Sem 7 {sem7}
-            <br />
-          </td>
-          <td>
-            Sem 8 {sem8}
-            <br />
-          </td>
-          <td rowSpan={4}> {pointer} </td>
-        </tr>
-        <tr>
-          <td className="font-semibold">TE</td>
-          <td></td>
-          <td>
-            Sem 5 {sem5}
-            <br />
-          </td>
-          <td>
-            Sem 6 {sem6}
-            <br />
-          </td>
-        </tr>
-        <tr>
-          <td className="font-semibold">SE</td>
-          <td></td>
-          <td>
-            Sem 3 {sem3}
-            <br />
-          </td>
-          <td>
-            Sem 4 {sem4}
-            <br />
-          </td>
-        </tr>
-        <tr>
-          <td className="font-semibold">FE</td>
-          <td></td>
-          <td>
-            Sem 1 {sem1}
-            <br />
-          </td>
-          <td>
-            Sem 2 {sem2}
-            <br />
-          </td>
-        </tr>
-        <tr>
-          <td className="font-semibold">Class XII</td>
-          <td>{twelvethend}</td>
-          <td colSpan={2}>HSC</td>
-          <td>{twelve}</td>
-        </tr>
-        <tr>
-          <td className="font-semibold">Class X</td>
-          <td>{tenend}</td>
-          <td colSpan={2}>SSC</td>
-          <td>{ten}</td>
-        </tr>
-      </table>
-    </>
-  );
+	useEffect(() => {
+		fetchDrive();
+	}, []);
+	return (
+		<>
+			<table>
+				<tr>
+					<td className="font-semibold">BE</td>
+					<td></td>
+					<td>
+						Sem 7 <br /> {sem7}
+						<br />
+					</td>
+					<td>
+						Sem 8 <br /> {sem8}
+						<br />
+					</td>
+					<td rowSpan={4}> {pointer} </td>
+				</tr>
+				<tr>
+					<td className="font-semibold">TE</td>
+					<td></td>
+					<td>
+						Sem 5 <br /> {sem5}
+						<br />
+					</td>
+					<td>
+						Sem 6 <br /> {sem6}
+						<br />
+					</td>
+				</tr>
+				<tr>
+					<td className="font-semibold">SE</td>
+					<td></td>
+					<td>
+						Sem 3 <br /> {sem3}
+						<br />
+					</td>
+					<td>
+						Sem 4 <br /> {sem4}
+						<br />
+					</td>
+				</tr>
+				<tr>
+					<td className="font-semibold">FE</td>
+					<td></td>
+					<td>
+						Sem 1 <br /> {sem1}
+						<br />
+					</td>
+					<td>
+						Sem 2 <br /> {sem2}
+						<br />
+					</td>
+				</tr>
+				<tr>
+					<td className="font-semibold">Class XII</td>
+					<td>{twelvethend}</td>
+					<td colSpan={2}>HSC</td>
+					<td>{twelve}</td>
+				</tr>
+				<tr>
+					<td className="font-semibold">Class X</td>
+					<td>{tenend}</td>
+					<td colSpan={2}>SSC</td>
+					<td>{ten}</td>
+				</tr>
+			</table>
+		</>
+	);
 }
 
 export default AcademicTable;

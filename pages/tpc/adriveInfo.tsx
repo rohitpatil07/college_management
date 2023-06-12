@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/router";
+import { useRouter } from "next/router";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const page = () => {
+  const router = useRouter();
+  const { query } = router;
   const [dinfo, setDinfo]: any = useState(null);
-  const searchParams: any = useSearchParams();
+  const searchParams: any = new URLSearchParams(window.location.search);
   const driveid = parseInt(searchParams.get("drive_id"));
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
@@ -16,8 +18,8 @@ const page = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
         },
+        withCredentials: true,
       }
     );
     setDinfo(response.data);
@@ -35,8 +37,8 @@ const page = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
         },
+        withCredentials: true,
       }
     );
     if (response.status == 200) {

@@ -49,32 +49,32 @@ const StudentLookup = () => {
 		phone_number: {
 			value: "",
 			label: "Phone Number",
-			type: "number",
+			type: "text",
 			status: false,
 		},
 		gender: { value: "", label: "Gender", type: "radio", status: false },
-		github: {
+		division: {
 			value: "",
-			label: "Github",
+			label: "Division",
 			type: "text",
 			status: false,
 		},
-		linkedin: {
+		semester: {
 			value: "",
-			label: "LinkedIn",
+			label: "Semester",
+			type: "number",
+			status: false,
+		},
+		department: {
+			value: "",
+			label: "Department",
 			type: "text",
 			status: false,
 		},
-		leetcode: {
+		batch: {
 			value: "",
-			label: "Leetcode",
-			type: "text",
-			status: false,
-		},
-		hackerrank: {
-			value: "",
-			label: "Hackerrank",
-			type: "text",
+			label: "Batch",
+			type: "number",
 			status: false,
 		},
 	});
@@ -106,11 +106,13 @@ const StudentLookup = () => {
 			`http://localhost:5000/filter/dashboard/${page}&10`,
 			{
 				method: "POST",
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				credentials: "include",
 				body: JSON.stringify(queryBody),
+				
 			}
 		)
 			.then((response) => response.json())
@@ -133,8 +135,17 @@ const StudentLookup = () => {
 
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
-		const queryBody = generateFinalFields();
-		console.log(queryBody);
+		const queryBody = generateFinalFields();		
+		let query=queryBody.queries;
+		let l=['batch','semester']
+		if (query['batch']!=undefined)
+		{
+			queryBody.queries['batch'] = parseInt(queryBody.queries['batch']);
+		}
+		if (query['semester']!=undefined)
+		{
+			queryBody.queries['semester'] = parseInt(queryBody.queries['semester']);
+		}
 		setLoading(true);
 		getDashboarData(queryBody, page)
 			.then((data) => {
@@ -185,10 +196,11 @@ const StudentLookup = () => {
 		axios
 			.post(`${server}/download/excel`, final_response, {
 				responseType: "blob",
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			})
 			.then((response) => {
 				console.log(response);
@@ -214,10 +226,11 @@ const StudentLookup = () => {
 		axios
 			.post(`${server}/download/csv`, final_response, {
 				responseType: "blob",
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			})
 			.then((response) => {
 				console.log(response);

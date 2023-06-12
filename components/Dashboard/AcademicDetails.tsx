@@ -72,10 +72,11 @@ const AcademicDetails = () => {
 		const response = await axios.get(
 			`${server}/filter/student/${AuthData.user.userData.user.roll_no}`,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			}
 		);
 		// console.log(response);
@@ -567,10 +568,11 @@ const AcademicDetails = () => {
 			`${server}/add/student/academicinfo`,
 			body,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			}
 		);
 		setUpdateLoading(false);

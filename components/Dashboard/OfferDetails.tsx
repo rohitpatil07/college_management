@@ -8,10 +8,10 @@ const OfferDetails = () => {
   const server=process.env.NEXT_PUBLIC_SERVER_URL;
   const download = async () => {
     const response = await axios.get(`${server}/download/resume/${AuthData.user.userData.user.roll_no}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AuthData.user.token}`
-      },
+     		headers: {
+					"Content-Type": "application/json",
+				},
+				withCredentials: true,
       responseType: 'blob'
     }).then((response) => {
       const blob = response.data
@@ -31,8 +31,9 @@ const OfferDetails = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
         responseType: 'blob'
     }).then((response) => {
       const blob = response.data
@@ -55,8 +56,9 @@ const OfferDetails = () => {
         {
           headers: {
             'Content-Type': "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
+            
           },
+          withCredentials: true,
         }
       );
         Swal.fire({
@@ -86,8 +88,9 @@ const OfferDetails = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
+        withCredentials: true,
       }
     )
     if(response.data.offers.length!=0){

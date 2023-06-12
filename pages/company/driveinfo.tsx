@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/router";
+import { useRouter } from "next/router";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 
 const DriveInfo = () => {
+  const router = useRouter();
+  const { query } = router;
   const [stu, setStu]: any = useState(null);
-  const searchParams: any = useSearchParams();
+  const searchParams: any = new URLSearchParams(window.location.search);
   const driveid = parseInt(searchParams.get("driveid"));
   const drivename3 = searchParams.get("drivename");
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -27,8 +29,8 @@ const DriveInfo = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
         },
+        withCredentials: true,
       }
     );
     console.log(response.data.students);
@@ -42,8 +44,8 @@ const DriveInfo = () => {
       .get(`${server}/download/resume/${stu[roll]["roll_no"]}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
         },
+        withCredentials: false,
         responseType: "blob",
       })
       .then((response) => {
@@ -65,8 +67,8 @@ const DriveInfo = () => {
       url: `${server}/download/zip`,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
       },
+      withCredentials: true,
       responseType: "blob",
       data: {
         data: rolls, // This is the body part

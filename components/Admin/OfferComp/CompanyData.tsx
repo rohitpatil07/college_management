@@ -16,7 +16,7 @@ const CompanyData = ({ children, company_name }: any) => {
             {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${AuthData.user.token}`,
+                    
                 },
             }
         );
@@ -28,8 +28,9 @@ const CompanyData = ({ children, company_name }: any) => {
             {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${AuthData.user.token}`,
+                    
                 },
+                withCredentials: true,
             }
         );
         for (var i = 0; i < response.data.length; i++) {

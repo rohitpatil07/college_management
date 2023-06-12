@@ -22,8 +22,9 @@ const UploadOffers = () => {
             {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${AuthData.user.token}`,
+                    
                 },
+                withCredentials: true,
             }
         )
         console.log(response.data);

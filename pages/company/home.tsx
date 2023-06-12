@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/router";
+import { useRouter } from "next/router";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import Loading from "../../components/Loaders/Loading";
 
 const Home = () => {
+  const router = useRouter();
+  const { query } = router;
   const AuthData: any = useAuth();
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const [template, setTemplate] = useState(0);
@@ -34,8 +36,8 @@ const Home = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
           },
+          withCredentials: true,
         }
       );
       for (let key in response.data) {

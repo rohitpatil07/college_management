@@ -1,14 +1,18 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/router";
+import { useRouter } from "next/router";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 
 const DriveInfo = () => {
+  const router = useRouter();
+  const { query } = router;
   const [dinfo, setDinfo]: any = useState(null);
-  const searchParams: any = useSearchParams();
+  const searchParams: any = new URLSearchParams(window.location.search);
   const driveid = parseInt(searchParams.get("drive_id"));
+  const cname = searchParams.get("company_name");
+  console.log(cname);
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
   const fetchStudents = async () => {
@@ -17,8 +21,8 @@ const DriveInfo = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
         },
+        withCredentials: true,
       }
     );
     setDinfo(response.data);
@@ -36,8 +40,8 @@ const DriveInfo = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
         },
+        withCredentials: true,
       }
     );
   };
@@ -48,7 +52,7 @@ const DriveInfo = () => {
   return (
     <div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
       <h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">
-        View Drive Details
+        {cname} Drive Details
       </h3>
       {dinfo == null || dinfo == undefined ? (
         <></>

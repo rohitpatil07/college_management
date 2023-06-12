@@ -27,8 +27,8 @@ const CreateCompany = () => {
     const response = await axios.post(`${server}/add/company`, data, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
       },
+      withCredentials: true,
     });
     console.log(response);
     if (response.status == 200) {

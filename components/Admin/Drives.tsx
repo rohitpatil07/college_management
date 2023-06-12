@@ -19,8 +19,9 @@ const Drives = () => {
     const response = await axios.get(`${server}/filter/drive`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
+        
       },
+      withCredentials: true,
     });
     let compArr = [];
     for (let i = 0; i < response.data.length; i++) {
@@ -37,8 +38,9 @@ const Drives = () => {
     const response = await axios.get(`${server}/filter/company/drive/${id}`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
+        
       },
+      withCredentials: true,
     });
     for (let i = 0; i < response.data.length; i++) {
       response.data[i]["pack"] = response.data[i]["package"];

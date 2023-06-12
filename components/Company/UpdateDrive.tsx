@@ -3,14 +3,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
-import { useSearchParams } from "next/router";
+import { useRouter } from "next/router";
 
 const UpdateDrive = () => {
+  const router = useRouter();
+  const { query } = router;
   const AuthData: any = useAuth();
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
-  const searchParams: any = useSearchParams();
-  const driveid = parseInt(searchParams.get("drive_id"));
-  const drive = parseInt(searchParams.get("drive"));
+  const queryParams = new URLSearchParams(window.location.search);
+  const driveid = parseInt(queryParams.get("drive_id") || "0");
+  const drive = parseInt(queryParams.get("drive") || "0");
+
   const [drives, setDrives]: any = useState({
     drive_id: driveid,
     company_id: AuthData.user.userData.user.company_id,
@@ -55,8 +58,8 @@ const UpdateDrive = () => {
         url: `${server}/add/company/drive`,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
         },
+        withCredentials: true,
         data: {
           drive: gear, // This is the body part
         },
@@ -94,8 +97,8 @@ const UpdateDrive = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
           },
+          withCredentials: true,
         }
       );
       console.log(response.data);

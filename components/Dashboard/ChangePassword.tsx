@@ -32,10 +32,11 @@ const ChangePassword = () => {
 			}
 
 			const response = await axios.post(`${server}/auth/reset_password` , form , {
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			});
 
 			alert(response.data);

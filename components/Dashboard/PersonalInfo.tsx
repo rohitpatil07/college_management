@@ -13,7 +13,7 @@ const PersonalInfo = () => {
 	const [loading, setLoading] = useState(true);
 	const [updloading, setUpdateLoading] = useState(false);
 	const [disabling, setDisabling] = useState(true);
-	const server=process.env.NEXT_PUBLIC_SERVER_URL;
+	const server = process.env.NEXT_PUBLIC_SERVER_URL;
 	const [personalInfo, setPersonalInfo] = React.useState([
 		{ value: "", label: "First Name", id: "first_name", type: "text" },
 		{ value: "", label: "Middle Name", id: "middle_name", type: "text" },
@@ -32,15 +32,19 @@ const PersonalInfo = () => {
 		{ value: "", label: "Profile Pic", id: "photo", type: "text" },
 	]);
 	const [stu_info, setstu_info]: any = useState();
+	console.log(`${AuthData.user.userData.user.roll_no}`);
 	const getProfileData = async () => {
 		let i = 0;
 		const response = await axios.get(
 			`${server}/filter/student/${AuthData.user.userData.user.roll_no}`,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
+
+
 			}
 		);
 		setstu_info(response.data);
@@ -78,20 +82,21 @@ const PersonalInfo = () => {
 	const previewFile = (file: any) => {
 		const reader: any = new FileReader();
 		reader.readAsDataURL(file);
-		if(file.type=='image/jpeg'){
+		if (file.type == "image/jpeg") {
 			reader.onloadend = () => {
-				personalInfo[personalInfo.length - 1].value = reader.result.slice(reader.result.indexOf(',')+1);
-			  setPreviewSource(reader.result.slice(reader.result.indexOf(',')+1));
+				personalInfo[personalInfo.length - 1].value = reader.result.slice(
+					reader.result.indexOf(",") + 1
+				);
+				setPreviewSource(reader.result.slice(reader.result.indexOf(",") + 1));
 			};
-		  }
-		  else {
+		} else {
 			Swal.fire({
-			  icon: "warning",
-			  title: "Please Enter File Formats Of Jpg Jpeg",
-			  showConfirmButton: false,
-			  timer: 1500,
+				icon: "warning",
+				title: "Please Enter File Formats Of Jpg Jpeg",
+				showConfirmButton: false,
+				timer: 1500,
 			});
-		  }
+		}
 		setDisabling(false);
 	};
 
@@ -101,7 +106,7 @@ const PersonalInfo = () => {
 		setUpdateLoading(true);
 		let student: any = {
 			roll_no: `${AuthData.user.userData.user.roll_no}`,
-			semester: stu_info['semester']
+			semester: stu_info["semester"],
 		};
 		for (let i = 0; i < personalInfo.length; i++) {
 			if (stu_info[personalInfo[i].id] != personalInfo[i].value) {
@@ -113,10 +118,11 @@ const PersonalInfo = () => {
 			`${server}/add/student`,
 			data,
 			{
-				headers: {
+						headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${AuthData.user.token}`,
+					
 				},
+				withCredentials: true,
 			}
 		);
 		setUpdateLoading(false);
@@ -153,7 +159,11 @@ const PersonalInfo = () => {
 					<div className="w-[100px] h-[100px] relative rounded-full text-black">
 						<img
 							className="rounded-full w-[100px] h-[100px]"
-							src={previewsource ? `data:image/jpg; base64, ${previewsource}` : './avatar.png'}
+							src={
+								previewsource
+									? `data:image/jpg; base64, ${previewsource}`
+									: "./avatar.png"
+							}
 							alt="profilePic"
 						/>
 						<div className="text-slate-500 text-center absolute bg-white rounded-full bottom-[-10%] right-[32%] border-gray-300 border-solid border-2 w-8 h-8 overflow-hidden">
@@ -192,6 +202,7 @@ const PersonalInfo = () => {
 													id="gender"
 													name="gender"
 													value="M"
+													checked={value === "M"}
 													onChange={(e) => {
 														UpdateData(e.target.value, id);
 													}}
@@ -205,6 +216,7 @@ const PersonalInfo = () => {
 													id="gender"
 													name="gender"
 													value="F"
+													checked={value === "F"}
 													onChange={(e) => {
 														UpdateData(e.target.value, id);
 													}}
@@ -247,7 +259,7 @@ const PersonalInfo = () => {
 								Save
 								{updloading ? (
 									<>
-										<ClipLoader className='ml-2' size={20} color="#d63636" />
+										<ClipLoader className="ml-2" size={20} color="#d63636" />
 									</>
 								) : (
 									<></>
@@ -263,6 +275,26 @@ const PersonalInfo = () => {
 								</button>
 							</div>
 						)}
+					</div>
+					<div className="w-11/12 flex justify-start items-center gap-1">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							className="w-6 h-6 stroke-gray-500"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+							/>
+						</svg>
+
+						<p className="text-sm text-gray-500 text-left">
+							Only Add Usernames for Accounts
+						</p>
 					</div>
 				</>
 			)}

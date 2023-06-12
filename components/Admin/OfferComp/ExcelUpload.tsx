@@ -16,13 +16,14 @@ const ExcelUpload = ({ children }: any) => {
   const [excelFormat, setExcelFormat] = useState(false);
   const get_info = async () => {
     const response = await axios.get(`${server}/filter/drive`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${AuthData.user.token}`,
-      },
-    });
-    setDrive(response.data);
-  };
+        headers: {
+          "Content-Type": "application/json",
+          
+        },
+        withCredentials: true,
+      });
+      setDrive(response.data);
+  }
   useEffect(() => {
     return () => {
       get_info();
@@ -82,7 +83,7 @@ const ExcelUpload = ({ children }: any) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
+          
         },
       }
     );
