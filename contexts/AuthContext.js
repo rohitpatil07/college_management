@@ -14,11 +14,16 @@ const AuthProvider = ({ children }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [flag,setFlag]=useState(false);
 
-	const logout = () => {
-		setToken("");
-		setUserData({user:{role:""}});
-		router.push('/login');
-		setIsAuthenticated(false);
+	const logout = async () => {
+		const response = await api.get("/auth/logout");
+		let user= response.data;
+		console.log(user)
+		if(user.success=="User logged out")
+		{
+			setIsAuthenticated(false);
+			router.push('/login');
+		}
+
 	};
 
 	const login = async () => {
