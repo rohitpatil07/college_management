@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 
 function LoginPage() {

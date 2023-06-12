@@ -5,7 +5,7 @@ import axios from "axios";
 import api from "../../contexts/adapter";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/router";
 import Link from "next/link";
 
 const CreateForum = ({
@@ -16,7 +16,7 @@ const CreateForum = ({
   subject_name,
   email,
 }: any) => {
-  const server=process.env.NEXT_PUBLIC_SERVER_URL;
+  const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const mail = email;
   const AuthData: any = useAuth();
   const [flag, setflag] = useState(0);

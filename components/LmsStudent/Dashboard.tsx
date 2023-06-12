@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Loading from "../Loaders/Loading";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Swal from "sweetalert2";
-const   Dashboard = () => {
+const Dashboard = () => {
   const router = useRouter();
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
@@ -18,7 +18,7 @@ const   Dashboard = () => {
   const [showFormButton, setshowFormButton] = useState(false);
   const [formData, setFormData]: any = useState();
   const [showSemesterType, setShowSemesterType] = useState(false);
-  let fac_data = subjects['faculty'];
+  let fac_data = subjects["faculty"];
   const viewSubject = {
     roll_no: `${AuthData.user.userData.user.roll_no}`,
     semester: parseInt(`${AuthData.user.userData.user.semester}`),
@@ -281,7 +281,7 @@ const   Dashboard = () => {
             ""
           )}
         </div>
-        {subjects.length>0 ? (
+        {subjects.length > 0 ? (
           <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
             {subjects.map(
               (

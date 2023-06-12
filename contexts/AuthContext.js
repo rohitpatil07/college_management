@@ -1,7 +1,7 @@
 import { Router } from "next/router";
 import React, { useState, useEffect } from "react";
 import createPersistedState from "use-persisted-state";
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
 import api from "./adapter";
 const useTokenState = createPersistedState("token");

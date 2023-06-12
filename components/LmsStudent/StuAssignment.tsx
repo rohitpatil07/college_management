@@ -3,15 +3,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Loading from "../Loaders/Loading";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Swal from "sweetalert2";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/router";
 import { CLIENT_STATIC_FILES_PATH } from "next/dist/shared/lib/constants";
 
 const StuAssignment = ({ subject_id, subject_name }: any) => {
   const router = useRouter();
-  const server=process.env.NEXT_PUBLIC_SERVER_URL;
+  const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
   const searchParams: any = useSearchParams();
   const subjectid = parseInt(searchParams.get("subject_id"));
@@ -331,15 +331,16 @@ const StuAssignment = ({ subject_id, subject_name }: any) => {
                         {links}
                       </td>
                       <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">
-                        <button 
+                        <button
                           onClick={() => {
-                                downloadAssignment(
-                                  assignment_id,
-                                  file_name,
-                                  file_type
-                                );
-                              }}
-                        className="flex items-center text-xs">
+                            downloadAssignment(
+                              assignment_id,
+                              file_name,
+                              file_type
+                            );
+                          }}
+                          className="flex items-center text-xs"
+                        >
                           {file_type == "pptx" ? (
                             <svg
                               className="w-5 h-5 mr-1 cursor-pointer"

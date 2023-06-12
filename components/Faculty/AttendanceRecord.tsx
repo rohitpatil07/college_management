@@ -3,15 +3,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Loading from "../Loaders/Loading";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Swal from "sweetalert2";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/router";
 
 const AttendanceRecord = () => {
   const router = useRouter();
   const AuthData: any = useAuth();
-  const server=process.env.NEXT_PUBLIC_SERVER_URL;
+  const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const [student, setstudent]: any = useState(null);
   const searchParams: any = useSearchParams();
   const subjectid = parseInt(searchParams.get("subject_id"));
@@ -29,68 +29,66 @@ const AttendanceRecord = () => {
     );
     setstudent(response.data);
   };
-  const [attendance, setattendance]:any = useState([]);
-  const handleAttendance=(roll_no: string,i:number)=>{
-    let attendance_array = attendance
-    let count=0;
-    let index=0;
-    for(let j=0;j<attendance_array.length;j++){
-      if(attendance_array[j]==roll_no){
-        count+=1;
-        index=attendance_array.indexOf(roll_no);
+  const [attendance, setattendance]: any = useState([]);
+  const handleAttendance = (roll_no: string, i: number) => {
+    let attendance_array = attendance;
+    let count = 0;
+    let index = 0;
+    for (let j = 0; j < attendance_array.length; j++) {
+      if (attendance_array[j] == roll_no) {
+        count += 1;
+        index = attendance_array.indexOf(roll_no);
       }
     }
-    if(count>0){
-      attendance_array.splice(index,1);
-    }
-    else{
+    if (count > 0) {
+      attendance_array.splice(index, 1);
+    } else {
       attendance_array.push(roll_no);
     }
     setattendance(attendance_array);
-  }
-  const save_attendance=async()=>{
+  };
+  const save_attendance = async () => {
     setLoading(true);
     let absent = [];
-    for(let i=0;i<student.length;i++){
+    for (let i = 0; i < student.length; i++) {
       let count = 0;
-      for(let j=0;j<attendance.length;j++){
-        if(student[i]['roll_no']==attendance[j]){
-          count+=1;
+      for (let j = 0; j < attendance.length; j++) {
+        if (student[i]["roll_no"] == attendance[j]) {
+          count += 1;
         }
       }
-      if(count==0){
-          absent.push(student[i]['roll_no'])
-        }
+      if (count == 0) {
+        absent.push(student[i]["roll_no"]);
+      }
     }
     let attend = {
       subject_id: subjectid,
       absent: JSON.stringify(absent),
       present: JSON.stringify(attendance),
-    }
+    };
     console.log(attend);
-const response = await axios({
-        method: "post",
-        url: `${server}/lms/form/take/attendance`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${AuthData.user.token}`,
-        },
-        data: {
-          attendence : attend
-        },
-      });
-      console.log(response);
-      if(response.status==200 && response.data){
-        Swal.fire({
+    const response = await axios({
+      method: "post",
+      url: `${server}/lms/form/take/attendance`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${AuthData.user.token}`,
+      },
+      data: {
+        attendence: attend,
+      },
+    });
+    console.log(response);
+    if (response.status == 200 && response.data) {
+      Swal.fire({
         icon: "success",
-        title:
-          "Attendance Recoreded",
+        title: "Attendance Recoreded",
         showConfirmButton: false,
         timer: 3000,
       });
-      }
-      setLoading(false);
-  }
+    }
+    setLoading(false);
+  };
   useEffect(() => {
     get_students();
   }, []);
@@ -111,7 +109,7 @@ const response = await axios({
             <table className="w-full table-auto border-separate border-spacing-2 border-slate-500 bg-red">
               <thead>
                 <tr>
-                   <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
                     Is Present ?
                   </th>
                   <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
@@ -133,18 +131,27 @@ const response = await axios({
               </thead>
               <tbody>
                 {student.map(
-                  ({
-                    roll_no,
-                    email,
-                    phone_number,
-                    first_name,
-                    middle_name,
-                    last_name,
-                    gender,
-                  }: any,i:number) => (
+                  (
+                    {
+                      roll_no,
+                      email,
+                      phone_number,
+                      first_name,
+                      middle_name,
+                      last_name,
+                      gender,
+                    }: any,
+                    i: number
+                  ) => (
                     <tr key={roll_no}>
                       <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
-                      <input onClick={()=>{handleAttendance(roll_no,i)}} className='ml-1 cursor-pointer checked:bg-green-500' type='checkbox'/>
+                        <input
+                          onClick={() => {
+                            handleAttendance(roll_no, i);
+                          }}
+                          className="ml-1 cursor-pointer checked:bg-green-500"
+                          type="checkbox"
+                        />
                       </td>
                       <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
                         {roll_no}
@@ -168,13 +175,21 @@ const response = await axios({
             </table>
           </div>
         )}
-       {
-        loading ? 
-         <button className='bg-gray-300 text-white px-2 py-1 my-2 rounded-md'>Saving</button>
-        :  <button className='bg-accent text-white px-2 py-1 hover:scale-105 cursor-pointer transition-all my-2 rounded-md' onClick={()=>{save_attendance()}}>Save</button>
-       }
+        {loading ? (
+          <button className="bg-gray-300 text-white px-2 py-1 my-2 rounded-md">
+            Saving
+          </button>
+        ) : (
+          <button
+            className="bg-accent text-white px-2 py-1 hover:scale-105 cursor-pointer transition-all my-2 rounded-md"
+            onClick={() => {
+              save_attendance();
+            }}
+          >
+            Save
+          </button>
+        )}
       </div>
-      
     </div>
   );
 };

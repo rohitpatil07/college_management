@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Swal from "sweetalert2";
-const server=process.env.NEXT_PUBLIC_SERVER_URL;
+const server = process.env.NEXT_PUBLIC_SERVER_URL;
 
 const CreateForm = () => {
   const AuthData: any = useAuth();
@@ -334,39 +334,47 @@ const CreateForm = () => {
             Forms Created -
           </h2>
           <div className="flex flex-row flex-wrap w-full">
-
             {createdForm ? (
               <table className="w-full table-auto border-separate border-spacing-2 border-slate-500 bg-red">
                 <thead>
                   <tr>
-                    <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Form Id</th>
-                    <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Batch</th>
-                    <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Department</th>
-                    <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Semester</th>
-                    <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Data</th>
+                    <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                      Form Id
+                    </th>
+                    <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                      Batch
+                    </th>
+                    <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                      Department
+                    </th>
+                    <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                      Semester
+                    </th>
+                    <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                      Data
+                    </th>
                   </tr>
                 </thead>
-              
-                  {createdForm.map(
-                    (
-                      {
-                        form_id,
-                        email,
-                        semester,
-                        department,
-                        batch,
-                        DILO,
-                      }: any,
-                      i: number
-                    ) => (
-                        <tbody key={form_id}>
-                      <tr >
-                        <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">{form_id}</td>
-                        <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">{batch}</td>
+
+                {createdForm.map(
+                  (
+                    { form_id, email, semester, department, batch, DILO }: any,
+                    i: number
+                  ) => (
+                    <tbody key={form_id}>
+                      <tr>
+                        <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">
+                          {form_id}
+                        </td>
+                        <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">
+                          {batch}
+                        </td>
                         <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">
                           {department}
                         </td>
-                        <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">{semester}</td>
+                        <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">
+                          {semester}
+                        </td>
                         <td className="border-l-2 border-l-slate-600 pl-2 border-b-2 border-b-slate-600 ">
                           <button
                             className="my-2 px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
@@ -378,10 +386,9 @@ const CreateForm = () => {
                           </button>
                         </td>
                       </tr>
-                        </tbody>
-                    )
-                  )}
-              
+                    </tbody>
+                  )
+                )}
               </table>
             ) : (
               <></>
@@ -455,7 +462,10 @@ const CreateForm = () => {
                                 subject_name,
                                 type,
                               }: any) => (
-                                <div key={subject_id} className="flex flex-col w-full m-2 bg-gray-100 p-2 rounded-xl drop-shadow-xl">
+                                <div
+                                  key={subject_id}
+                                  className="flex flex-col w-full m-2 bg-gray-100 p-2 rounded-xl drop-shadow-xl"
+                                >
                                   <div className="flex flex-row justify-between items center">
                                     <h2 className="text-gray-700 text-lg">
                                       {subject_name}
@@ -488,7 +498,10 @@ const CreateForm = () => {
                                 subject_name,
                                 type,
                               }: any) => (
-                                <div key={subject_id} className="flex flex-col w-full m-2 bg-gray-100 p-2 rounded-xl drop-shadow-xl">
+                                <div
+                                  key={subject_id}
+                                  className="flex flex-col w-full m-2 bg-gray-100 p-2 rounded-xl drop-shadow-xl"
+                                >
                                   <div className="flex flex-row justify-between items center">
                                     <h2 className="text-gray-700 text-lg">
                                       {subject_name}
@@ -591,8 +604,9 @@ const CreateForm = () => {
                   {showSemesterType ? (
                     <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="py-1">
-                        {sem_array.map((value: number,index:number) => (
-                          <button key={index}
+                        {sem_array.map((value: number, index: number) => (
+                          <button
+                            key={index}
                             onClick={() => {
                               setSemester(value);
                               setShowSemesterType(!showSemesterType);
@@ -659,7 +673,8 @@ const CreateForm = () => {
                     <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="py-1">
                         {year_array.map((value: number) => (
-                          <button key={value}
+                          <button
+                            key={value}
                             onClick={() => {
                               setBatch(value);
                               setShowBatchType(!showBatchType);
@@ -962,7 +977,8 @@ const CreateForm = () => {
                           <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <div className="py-1">
                               {DLONameArray.map((value: string, i: number) => (
-                                <button key={value}
+                                <button
+                                  key={value}
                                   onClick={() => {
                                     DLOPointerfunc(i);
                                     setShowDLOType(false);
@@ -1079,7 +1095,8 @@ const CreateForm = () => {
                           <div className="absolute right-0 z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <div className="py-1">
                               {ILONameArray.map((value: string, i: number) => (
-                                <button key={i}
+                                <button
+                                  key={i}
                                   onClick={() => {
                                     ILOPointerfunc(i);
                                     setShowILOType(false);

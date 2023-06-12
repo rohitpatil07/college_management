@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import FacultSkeleton from "./Skeletons/FacultSkeleton";
 import SubjectSkeleton from "./Skeletons/SubjectSkeleton";
@@ -10,7 +10,7 @@ import SubjectSkeleton from "./Skeletons/SubjectSkeleton";
 const LmsAdminLookUp = () => {
   const router = useRouter();
   const AuthData: any = useAuth();
-  const server=process.env.NEXT_PUBLIC_SERVER_URL;
+  const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const [showFilters, setShowFilters] = useState(false);
   const [allFaculty, setAllFaculty] = useState([]);
   const [allSubjects, setAllSubjects] = useState([]);
@@ -105,15 +105,12 @@ const LmsAdminLookUp = () => {
       setAllSubjects(response.data);
     } else {
       if (i == 0) {
-        const response = await axios.get(
-          `${server}/lms/filter/allsubjects`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${AuthData.user.token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${server}/lms/filter/allsubjects`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${AuthData.user.token}`,
+          },
+        });
         response.data.sort(function (a: any, b: any) {
           return b.batch - a.batch;
         });
@@ -171,15 +168,12 @@ const LmsAdminLookUp = () => {
     setfacultyLoading(true);
     setsubSwitch(false);
     if (i == 0) {
-      const response = await axios.get(
-        `${server}/lms/filter/allfaculties`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${server}/lms/filter/allfaculties`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AuthData.user.token}`,
+        },
+      });
       console.log(response.data);
       setAllFaculty(response.data);
     }
@@ -304,54 +298,57 @@ const LmsAdminLookUp = () => {
           <>
             {subswitch ? (
               <>
-              {subjectLoading ? <SubjectSkeleton/>:
-              <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
-                {allSubjects.map(
-                  (
-                    {
-                      subject_id,
-                      subject_code,
-                      subject_name,
-                      semester,
-                      email,
-                      division,
-                      department,
-                      batch,
-                      type,
-                    }: any,
-                    i: number
-                  ) => (
-                    <div
-                      key={subject_id}
-                      className="px-4 py-6 text-sm w-11/12 flex flex-wrap items-center justify-between cursor-pointer mt-2 mb-2 border-solid border-2 border-neutral-200 shadow-xl drop-shadow-xl rounded-xl"
-                    >
-                      <div className="flex flex-wrap items-center justify-center">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-4 h-4 mr-1"
+                {subjectLoading ? (
+                  <SubjectSkeleton />
+                ) : (
+                  <div className="flex flex-col md:flex-row flex-wrap justify-evenly items-center w-full mb-5">
+                    {allSubjects.map(
+                      (
+                        {
+                          subject_id,
+                          subject_code,
+                          subject_name,
+                          semester,
+                          email,
+                          division,
+                          department,
+                          batch,
+                          type,
+                        }: any,
+                        i: number
+                      ) => (
+                        <div
+                          key={subject_id}
+                          className="px-4 py-6 text-sm w-11/12 flex flex-wrap items-center justify-between cursor-pointer mt-2 mb-2 border-solid border-2 border-neutral-200 shadow-xl drop-shadow-xl rounded-xl"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
-                          />
-                        </svg>
-                        {subject_name}
-                      </div>
-                      <div className="flex flex-wrap items-center ">
-                        | {batch} {department == "NA" ? "" : `| ${department}`}{" "}
-                        {division == "NA" ? "" : `| ${division}`} | {semester} |{" "}
-                        {type}
-                      </div>
-                    </div>
-                  )
+                          <div className="flex flex-wrap items-center justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={1.5}
+                              stroke="currentColor"
+                              className="w-4 h-4 mr-1"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+                              />
+                            </svg>
+                            {subject_name}
+                          </div>
+                          <div className="flex flex-wrap items-center ">
+                            | {batch}{" "}
+                            {department == "NA" ? "" : `| ${department}`}{" "}
+                            {division == "NA" ? "" : `| ${division}`} |{" "}
+                            {semester} | {type}
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
                 )}
-              </div>
-              }
               </>
             ) : (
               <>
@@ -432,7 +429,10 @@ const LmsAdminLookUp = () => {
             {modal_number == 3 ? (
               <>
                 {modal_text[3].map((value: string, x: number) => (
-                  <div key={x} className="mb-8 mt-2 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium">
+                  <div
+                    key={x}
+                    className="mb-8 mt-2 flex flex-row gap-2 justify-between items-center text-sm sm:text-base text-slate-700 font-medium"
+                  >
                     <label>{modal_text[modal_number][x]}</label>
                     <input
                       className="rounded-md border border-gray-700 py-1 px-1 w-7/12"

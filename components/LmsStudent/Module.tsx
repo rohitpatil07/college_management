@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Loading from "../Loaders/Loading";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Swal from "sweetalert2";
 const Module = ({
@@ -12,10 +12,10 @@ const Module = ({
   module_name,
   module_number,
   subject_name,
-  email
+  email,
 }: any) => {
   const router = useRouter();
-  const server=process.env.NEXT_PUBLIC_SERVER_URL;
+  const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
   const [readingmaterial, setreadingmaterial]: any = useState(null);
   const get_material = async () => {
@@ -37,16 +37,13 @@ const Module = ({
     file_type,
   }: any) => {
     const response = await axios
-      .get(
-        `${server}/lms/download/getmaterial/${reading_material_id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${AuthData.user.token}`,
-          },
-          responseType: "blob",
-        }
-      )
+      .get(`${server}/lms/download/getmaterial/${reading_material_id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AuthData.user.token}`,
+        },
+        responseType: "blob",
+      })
       .then((response) => {
         const blob = response.data;
         const url = window.URL.createObjectURL(blob);
@@ -77,7 +74,7 @@ const Module = ({
               subject_id: subject_id,
               subject_name: subject_name,
               module_number: module_number,
-              email:email
+              email: email,
             },
           }}
           className="flex items-center ml-2 p-2 w-fit px-4 py-2 rounded-lg bg-accent text-white hover:scale-105 transition-all mr-auto"
