@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import OfferDetails from "../../../../components/Dashboard/OfferDetails";
+import OfferDetails from "../../../components/Dashboard/OfferDetails";
 const page = () => {
   return (
     <div className="mx-auto w-full flex flex-col bg-slate-200 ">

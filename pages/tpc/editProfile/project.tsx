@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Projects from "../../../../components/Dashboard/Projects";
+import Projects from "../../../components/Dashboard/Projects";
 const page = () => {
   return (
     <div className="mx-auto w-full flex flex-col bg-slate-200 ">

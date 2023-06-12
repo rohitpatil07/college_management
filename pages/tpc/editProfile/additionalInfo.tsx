@@ -1,7 +1,7 @@
 import React from "react";
-import PersonalInfo from "../../../../components/Dashboard/PersonalInfo";
+import PersonalInfo from "../../../components/Dashboard/PersonalInfo";
 import Link from "next/link";
-import ResumeInfo from "../../../../components/Dashboard/ResumeInfo";
+import ResumeInfo from "../../../components/Dashboard/ResumeInfo";
 const page = () => {
   return (
     <div className="w-full flex flex-col bg-slate-200 ">
