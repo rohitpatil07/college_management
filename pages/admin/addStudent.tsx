@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
-import offerformat from "../../../public/studentformat.png";
+import offerformat from "../../public/studentformat.png";
 import { useAuth } from "../../contexts/AuthContext";
 import { Dialog, Transition } from "@headlessui/react";
 import * as XLSX from "xlsx";

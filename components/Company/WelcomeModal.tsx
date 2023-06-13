@@ -24,10 +24,6 @@ function WelcomeModal() {
                     ? `${AuthData.user.userData.user.role}`
                     : `${AuthData.user.userData.user.role}` == "company"
                     ? `${AuthData.user.userData.user.company_name}`
-                    : `${AuthData.user.userData.user.role}` == "faculty"
-                    ? `${AuthData.user.userData.user.first_name} ${AuthData.user.userData.user.last_name}`
-                    : `${AuthData.user.userData.user.role}` == "lms_admin"
-                    ? "LMS Admin"
                     : ""}
                 </h1>
               </div>
@@ -53,16 +49,7 @@ function WelcomeModal() {
                 </Link>
               ) : `${AuthData.user.userData.user.role}` == "company" ? (
                 <Link
-                  href="/company/home"
-                  // className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
-                >
-                  Get Started
-                </Link>
-              ) : `${AuthData.user.userData.user.role}` == "faculty" ? (
-                `${AuthData.user.userData.user.first_name} ${AuthData.user.userData.user.last_name}`
-              ) : `${AuthData.user.userData.user.role}` == "lms_admin" ? (
-                <Link
-                  href="/lms_admin/lookup"
+                  href="/company/profile"
                   // className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
                 >
                   Get Started

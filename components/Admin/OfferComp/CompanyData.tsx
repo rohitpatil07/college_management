@@ -5,58 +5,59 @@ import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 
 const CompanyData = ({ children, company_name }: any) => {
-    const AuthData: any = useAuth();
-    const server=process.env.NEXT_PUBLIC_SERVER_URL;
-    const [open, setOpen] = useState(false);
+  const AuthData: any = useAuth();
+  const server = process.env.NEXT_PUBLIC_SERVER_URL;
+  const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
-    const [stu_array, setStu_array] = useState<any>([]);
-    const getOfferLetter = async(offer_id : string)=>{
-        const response = await axios.get(
-            `${server}/image/offerdownload/${offer_id}`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    
-                },
-            }
-        );
-        console.log(response);
+  const [stu_array, setStu_array] = useState<any>([]);
+  const getOfferLetter = async (offer_id: string) => {
+    const response = await axios.get(
+      `${server}/image/offerdownload/${offer_id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    console.log(response);
+  };
+  const getStudentData = async () => {
+    const response = await axios.get(
+      `${server}/filter/admin/alloffers/${company_name}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    for (var i = 0; i < response.data.length; i++) {
+      for (var j = 0; j < response.data[i].offers.length; j++) {
+        if (response.data[i].offers[j].company_name == company_name) {
+          response.data[i]["company_name"] =
+            response.data[i].offers[j]["company_name"];
+          response.data[i]["package"] = response.data[i].offers[j]["package"];
+          response.data[i]["offer_id"] = response.data[i].offers[j]["offer_id"];
+          response.data[i]["offer_letter"] =
+            response.data[i].offers[j]["offer_letter"];
+        }
+      }
+      response.data[i]["packages"] = response.data[i]["package"];
+      response.data[i]["total_offers"] = response.data[i]["_count"]["offers"];
+      delete response.data[i]._count;
+      delete response.data[i].offers;
     }
-    const getStudentData = async () => {
-        const response = await axios.get(
-            `${server}/filter/admin/alloffers/${company_name}`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    
-                },
-                withCredentials: true,
-            }
-        );
-        for (var i = 0; i < response.data.length; i++) {
-            for (var j = 0; j < response.data[i].offers.length; j++) {
-                if (response.data[i].offers[j].company_name == company_name) {
-                    response.data[i]['company_name'] = response.data[i].offers[j]['company_name']
-                    response.data[i]['package'] = response.data[i].offers[j]['package']
-                    response.data[i]['offer_id'] = response.data[i].offers[j]['offer_id']
-                    response.data[i]['offer_letter'] = response.data[i].offers[j]['offer_letter']
-                }
-            }
-            response.data[i]['packages'] = response.data[i]['package']
-            response.data[i]['total_offers'] = response.data[i]['_count']['offers']
-            delete (response.data[i]._count);
-            delete (response.data[i].offers);
-        }
-        console.log(response);
-        setStu_array(response.data);
-    };
-    useEffect(() => {
-        if (company_name) {
-            getStudentData();
-        }
-    }, [company_name]);
-    return (
-         <>
+    console.log(response);
+    setStu_array(response.data);
+  };
+  useEffect(() => {
+    if (company_name) {
+      getStudentData();
+    }
+  }, [company_name]);
+  return (
+    <>
       {children ? (
         <span
           onClick={() => {
@@ -140,42 +141,90 @@ const CompanyData = ({ children, company_name }: any) => {
                             />
                           </svg>
                         </Dialog.Title>
-                         <div className='p-3 flex flex-col max-h-52 overflow-y-scroll overflow-auto'>
-                            {stu_array ?
-                                <table className="w-full table-auto border-separate border-spacing-2 border-slate-500 bg-red">
-                                    <thead>
-                                        <tr>
-                                            <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Roll No</th>
-                                            <th  className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Name</th>
-                                            <th  className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Email</th>
-                                            <th  className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Package</th>
-                                            <th  className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Offer Count</th>
-                                            <th  className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">Offer Letter</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {stu_array.map(({ roll_no, first_name, last_name, email, offer_id, offer_letter, packages, total_offers }: any, i: number) => (
-                                            <tr key={offer_id}>
-                                                <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">{roll_no}</td>
-                                                <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">{first_name} {last_name}</td>
-                                                <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">{email}</td>
-                                                <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">{packages}</td>
-                                                <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">{total_offers}</td>
-                                                {
-                                                    offer_letter ? <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600"><button className="my-2 px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700" onClick={() => { getOfferLetter(offer_id) }}>
-                                                        Download
-                                                    </button></td> : <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600"><h3 className="my-2">Not Uploaded</h3></td>
-                                                }
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table> :
-                                <></>
-                            }
+                        <div className="p-3 flex flex-col max-h-52 overflow-y-scroll overflow-auto">
+                          {stu_array ? (
+                            <table className="w-full table-auto border-separate border-spacing-2 border-slate-500 bg-red">
+                              <thead>
+                                <tr>
+                                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                    Roll No
+                                  </th>
+                                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                    Name
+                                  </th>
+                                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                    Email
+                                  </th>
+                                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                    Package
+                                  </th>
+                                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                    Offer Count
+                                  </th>
+                                  <th className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                    Offer Letter
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {stu_array.map(
+                                  (
+                                    {
+                                      roll_no,
+                                      first_name,
+                                      last_name,
+                                      email,
+                                      offer_id,
+                                      offer_letter,
+                                      packages,
+                                      total_offers,
+                                    }: any,
+                                    i: number
+                                  ) => (
+                                    <tr key={offer_id}>
+                                      <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                        {roll_no}
+                                      </td>
+                                      <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                        {first_name} {last_name}
+                                      </td>
+                                      <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                        {email}
+                                      </td>
+                                      <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                        {packages}
+                                      </td>
+                                      <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                        {total_offers}
+                                      </td>
+                                      {offer_letter ? (
+                                        <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                          <button
+                                            className="my-2 px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
+                                            onClick={() => {
+                                              getOfferLetter(offer_id);
+                                            }}
+                                          >
+                                            Download
+                                          </button>
+                                        </td>
+                                      ) : (
+                                        <td className="border-l-2 border-b-2 border-b-slate-600 border-l-slate-600">
+                                          <h3 className="my-2">Not Uploaded</h3>
+                                        </td>
+                                      )}
+                                    </tr>
+                                  )
+                                )}
+                              </tbody>
+                            </table>
+                          ) : (
+                            <></>
+                          )}
                         </div>
-                        </div>
-                        </div>
-                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -183,7 +232,7 @@ const CompanyData = ({ children, company_name }: any) => {
         </Dialog>
       </Transition.Root>
     </>
-    )
-}
+  );
+};
 
-export default CompanyData
+export default CompanyData;
