@@ -7,7 +7,7 @@ const DriveInfo = () => {
   const router = useRouter();
   const { query } = router;
   const [dinfo, setDinfo]: any = useState(null);
-  const searchParams: any = new URLSearchParams(window.location.search);
+  const searchParams: any = new URLSearchParams(window?.location?.search);
   const driveid = parseInt(searchParams.get("drive_id"));
   const cname = searchParams.get("company_name");
   console.log(cname);

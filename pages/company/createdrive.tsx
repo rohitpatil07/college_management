@@ -24,7 +24,7 @@ const CreateDrive = () => {
     "deadkt",
   ];
   const [drives, setDrives]: any = useState({
-    company_id: AuthData.user.userData.user.company_id,
+    company_id: AuthData?.user?.userData?.user?.company_id,
     role: "",
     package: 0,
     job_location: "",
@@ -48,7 +48,7 @@ const CreateDrive = () => {
     e.preventDefault();
     try {
       const gear = {
-        company_id: AuthData.user.userData.user.company_id,
+        company_id: AuthData?.user?.userData?.user?.company_id,
         role: drives.role,
         package: parseFloat(drives.package),
         job_location: drives.job_location,
@@ -110,7 +110,7 @@ const CreateDrive = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        window.location.reload();
+        window?.location?.reload();
       }
     } catch (error) {
       alert(error);

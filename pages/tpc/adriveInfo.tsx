@@ -8,7 +8,7 @@ const AdriveInfo = () => {
   const router = useRouter();
   const { query } = router;
   const [dinfo, setDinfo]: any = useState(null);
-  const searchParams: any = new URLSearchParams(window.location.search);
+  const searchParams: any = new URLSearchParams(window?.location?.search);
   const driveid = parseInt(searchParams.get("drive_id"));
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();

@@ -8,7 +8,7 @@ const UpdateDrive = () => {
   const AuthData: any = useAuth();
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const router = useRouter();
-  const searchParams: any = new URLSearchParams(window.location.search);
+  const searchParams: any = new URLSearchParams(window?.location?.search);
   const driveid = parseInt(searchParams.get("driveid"));
   const pack = parseInt(searchParams.get("package"));
   const role_desc = searchParams.get("role_desc");
@@ -23,7 +23,7 @@ const UpdateDrive = () => {
   const roles = searchParams.get("role");
   const [drives, setDrives]: any = useState({
     drive_id: driveid,
-    company_id: AuthData.user.userData.user.company_id,
+    company_id: AuthData?.user?.userData?.user?.company_id,
     role: roles,
     package: pack,
     job_location: job_location,
@@ -47,7 +47,7 @@ const UpdateDrive = () => {
     try {
       const gear = {
         drive_id: driveid,
-        company_id: AuthData.user.userData.user.company_id,
+        company_id: AuthData?.user?.userData?.user?.company_id,
         role: drives.role,
         package: parseInt(drives.package),
         job_location: drives.job_location,

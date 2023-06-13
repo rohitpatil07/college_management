@@ -7,7 +7,7 @@ const DriveInfo = () => {
   const router = useRouter();
   const { query } = router;
   const [stu, setStu]: any = useState(null);
-  const searchParams: any = new URLSearchParams(window.location.search);
+  const searchParams: any = new URLSearchParams(window?.location?.search);
   const driveid = parseInt(searchParams.get("driveid"));
   const drivename3 = searchParams.get("drivename");
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -50,7 +50,7 @@ const DriveInfo = () => {
       })
       .then((response) => {
         const blob = response.data;
-        const url = window.URL.createObjectURL(blob);
+        const url = window?.URL?.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
         a.download = `${stu[roll]["roll_no"]}.pdf`;
@@ -75,7 +75,7 @@ const DriveInfo = () => {
       },
     }).then((response) => {
       const blob = response.data;
-      const url = window.URL.createObjectURL(blob);
+      const url = window?.URL?.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
       a.download = `Resume_students.zip`;

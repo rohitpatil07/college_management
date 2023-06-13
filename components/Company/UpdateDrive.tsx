@@ -10,7 +10,7 @@ const UpdateDrive = () => {
   const { query } = router;
   const AuthData: any = useAuth();
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
-  const queryParams = new URLSearchParams(window.location.search);
+  const queryParams = new URLSearchParams(window?.location?.search);
   const driveid = parseInt(queryParams.get("drive_id") || "0");
   const drive = parseInt(queryParams.get("drive") || "0");
 
