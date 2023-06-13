@@ -86,8 +86,7 @@ function LoginPage() {
             showConfirmButton: false,
             timer: 1500,
           });
-          if (userRole == "student")
-            router.push("/tpc/editProfile/personalInfo");
+          if (userRole == "student") router.push("/tpc/home");
           else if (userRole == "admin") router.push("/admin/lookup");
           else router.push("/company/profile");
         }
