@@ -18,17 +18,14 @@ const Nav = () => {
         <div className="flex flex-row items-center">
           <div className="flex flex-col items-end">
             <h5 className="text-sm text-slate-700 font-medium">
-              {AuthData && `${AuthData.user.userData.user.role}` == "student"
+              {AuthData &&
+              `${AuthData?.user?.userData?.user?.role}` == "student"
                 ? `${AuthData.user.userData.user.first_name} ${AuthData.user.userData.user.last_name}`
-                : `${AuthData.user.userData.user.role}` == "admin"
+                : `${AuthData?.user?.userData?.user?.role}` == "admin"
                 ? `${AuthData.user.userData.user.role}`
-                : `${AuthData.user.userData.user.role}` == "company"
+                : `${AuthData?.user?.userData?.user?.role}` == "company"
                 ? `${AuthData.user.userData.user.company_name}`
-                : `${AuthData.user.userData.user.role}` == "faculty"
-                ? `${AuthData.user.userData.user.first_name} ${AuthData.user.userData.user.last_name}`
-                : `${AuthData.user.userData.user.role}` == "lms_admin"
-                ? "LMS Admin"
-              :""}
+                : ""}
             </h5>
             <h6 className="text-xs text-slate-500">
               {AuthData && `${AuthData.user.userData.user.role}` == "student"
@@ -71,7 +68,9 @@ const Nav = () => {
           <div className="bg-white text-slate-700 font-medium text-sm w-1/6 rounded-b-lg absolute z-10 drop-shadow-lg">
             <button
               className="flex gap-1 w-full justify-start p-4 hover:bg-slate-200"
-              onClick={()=>{AuthData.logout()}}
+              onClick={() => {
+                AuthData.logout();
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
