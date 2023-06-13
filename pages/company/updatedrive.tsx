@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
@@ -8,19 +8,24 @@ const UpdateDrive = () => {
   const AuthData: any = useAuth();
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const router = useRouter();
-  const searchParams: any = new URLSearchParams(window?.location?.search);
-  const driveid = parseInt(searchParams.get("driveid"));
-  const pack = parseInt(searchParams.get("package"));
-  const role_desc = searchParams.get("role_desc");
-  const job_location = searchParams.get("job_location");
-  const twelve = parseInt(searchParams.get("twelve"));
-  const gap = parseInt(searchParams.get("gap"));
-  const dead = parseInt(searchParams.get("dead"));
-  const tenth = parseInt(searchParams.get("tenth"));
-  const live = parseInt(searchParams.get("live"));
-  const be = parseInt(searchParams.get("be"));
-  const cgpa = parseInt(searchParams.get("cgpa"));
-  const roles = searchParams.get("role");
+  const { query } = router;
+  let searchParams: any = "";
+  useEffect(() => {
+    searchParams = new URLSearchParams(window?.location?.search);
+  }, []);
+
+  const driveid = query.driveid;
+  const pack = query.package;
+  const role_desc = query.role_desc;
+  const job_location = query.job_location;
+  const twelve = query.twelve;
+  const gap = query.gap;
+  const dead = query.dead;
+  const tenth = query.tenth;
+  const live = query.live;
+  const be = query.be;
+  const cgpa = query.cgpa;
+  const roles = query.role;
   const [drives, setDrives]: any = useState({
     drive_id: driveid,
     company_id: AuthData?.user?.userData?.user?.company_id,
@@ -241,7 +246,7 @@ const UpdateDrive = () => {
             <h2 className="text-slate-700 font-medium">Live KT</h2>
             <input
               value={drives["livekt"]}
-              placeholder={live.toString()}
+              placeholder={live?.toString()}
               className="border-2 rounded-md p-1 w-1/2"
               onChange={(e) => {
                 handleFormFieldChange("livekt", e);

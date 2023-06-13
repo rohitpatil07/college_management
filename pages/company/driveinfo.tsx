@@ -7,9 +7,9 @@ const DriveInfo = () => {
   const router = useRouter();
   const { query } = router;
   const [stu, setStu]: any = useState(null);
-  const searchParams: any = new URLSearchParams(window?.location?.search);
-  const driveid = parseInt(searchParams.get("driveid"));
-  const drivename3 = searchParams.get("drivename");
+  const driveid: any = query?.driveid;
+  const cname: any = query.company_name;
+  const drivename3 = query?.drivename;
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
   const beautifulLabels: any = {
