@@ -49,7 +49,7 @@ function WelcomeModal() {
                 </Link>
               ) : `${AuthData.user.userData.user.role}` == "company" ? (
                 <Link
-                  href="/company/profile"
+                  href="/company/viewdrive"
                   // className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
                 >
                   Get Started

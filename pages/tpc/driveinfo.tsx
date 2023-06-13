@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "../../contexts/AuthContext";
@@ -47,8 +45,7 @@ const DriveInfo = () => {
   };
   useEffect(() => {
     fetchStudents();
-  }, []);
-  console.log(dinfo);
+  }, [dinfo]);
   return (
     <div className="w-full sm:w-11/12 mx-auto py-5 flex flex-col items-center justify-around bg-slate-200 sm:bg-white container rounded-lg">
       <h3 className="text-xl sm:text-2xl mb-5 font-bold text-gray-900">

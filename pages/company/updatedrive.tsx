@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
-import { useSearchParams } from "next/router";
 import { useRouter } from "next/router";
 
 const UpdateDrive = () => {
   const AuthData: any = useAuth();
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const router = useRouter();
-  const searchParams: any = useSearchParams();
+  const searchParams: any = new URLSearchParams(window.location.search);
   const driveid = parseInt(searchParams.get("driveid"));
   const pack = parseInt(searchParams.get("package"));
   const role_desc = searchParams.get("role_desc");

@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const page = () => {
+const AdriveInfo = () => {
   const router = useRouter();
   const { query } = router;
   const [dinfo, setDinfo]: any = useState(null);
@@ -121,4 +121,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default AdriveInfo;
