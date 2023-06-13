@@ -103,7 +103,7 @@ const StudentLookup = () => {
 
   const getDashboarData = async (queryBody: any, page: number) => {
     const result = await fetch(
-      `http://localhost:5000/filter/dashboard/${page}&10`,
+      `${server}/filter/dashboard/${page}&10`,
       {
         method: "POST",
         headers: {
