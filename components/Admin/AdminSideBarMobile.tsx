@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
-import Link from "next/link";
+import { useAuth } from "../../contexts/AuthContext";
 const SideMobile = () => {
+	const AuthData: any = useAuth();
 	const [editProf, setEditProf] = React.useState(false);
 	const [isOpen, setIsOpen] = React.useState(false);
 	return (
@@ -49,31 +50,27 @@ const SideMobile = () => {
 			{isOpen ? (
 				<aside className="absolute z-10 sm:hidden flex flex-col bg-white min-h-screen h-inherit w-full text-slate-500">
 					<div className="flex flex-col bg-white h-fit pb-24">
-						<Link
-							href="/home"
-							
-						>
-							<div  className="xs:hidden sm:flex flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								strokeWidth={1.5}
-								stroke="currentColor"
-								className="w-4 h-4 mr-1"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-								/>
-							</svg>
-							Home
+						<a href="/home">
+							<div className="xs:hidden sm:flex flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									strokeWidth={1.5}
+									stroke="currentColor"
+									className="w-4 h-4 mr-1"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+									/>
+								</svg>
+								Home
 							</div>
-					
-						</Link>
+						</a>
 
-						<Link
+						<a
 							href="/admin/dashboard"
 							className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100"
 						>
@@ -92,9 +89,9 @@ const SideMobile = () => {
 								/>
 							</svg>
 							Dashboard
-						</Link>
+						</a>
 
-						<Link
+						<a
 							href="/admin/lookup"
 							className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100"
 						>
@@ -113,8 +110,8 @@ const SideMobile = () => {
 								/>
 							</svg>
 							Student Lookup
-						</Link>
-						<Link
+						</a>
+						<a
 							href="/admin/upsertOffers"
 							className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100"
 						>
@@ -133,8 +130,8 @@ const SideMobile = () => {
 								/>
 							</svg>
 							Manage Offers
-						</Link>
-						<Link
+						</a>
+						<a
 							href="/admin/notify"
 							className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
 						>
@@ -153,30 +150,32 @@ const SideMobile = () => {
 								/>
 							</svg>
 							Send Notifications
-						</Link>
-						<Link
-					href="/admin/drives"
-					className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100"
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						strokeWidth="1.5"
-						stroke="currentColor"
-						className="w-4 h-4 mr-1"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"
-						/>
-					</svg>
-					Drives
-				</Link>
+						</a>
+						<a
+							href="/admin/drives"
+							className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								strokeWidth="1.5"
+								stroke="currentColor"
+								className="w-4 h-4 mr-1"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"
+								/>
+							</svg>
+							Drives
+						</a>
 					</div>
-					<Link
-						href="#"
+					<button
+						onClick={() => {
+							AuthData.logout();
+						}}
 						className="flex flex-row px-2 py-2 items-center font-medium border-t hover:bg-blue-100 active:bg-blue-100"
 					>
 						<svg
@@ -197,7 +196,7 @@ const SideMobile = () => {
 							/>
 						</svg>{" "}
 						Log Out
-					</Link>
+					</button>
 				</aside>
 			) : (
 				<></>
