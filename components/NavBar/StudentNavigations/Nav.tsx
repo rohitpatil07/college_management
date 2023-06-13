@@ -20,16 +20,16 @@ const Nav = () => {
             <h5 className="text-sm text-slate-700 font-medium">
               {AuthData &&
               `${AuthData?.user?.userData?.user?.role}` == "student"
-                ? `${AuthData.user.userData.user.first_name} ${AuthData.user.userData.user.last_name}`
+                ? `${AuthData?.user?.userData?.user?.first_name} ${AuthData?.user?.userData?.user?.last_name}`
                 : `${AuthData?.user?.userData?.user?.role}` == "admin"
-                ? `${AuthData.user.userData.user.role}`
+                ? `${AuthData?.user?.userData?.user?.role}`
                 : `${AuthData?.user?.userData?.user?.role}` == "company"
                 ? `${AuthData.user.userData.user.company_name}`
                 : ""}
             </h5>
             <h6 className="text-xs text-slate-500">
-              {AuthData && `${AuthData.user.userData.user.role}` == "student"
-                ? `${AuthData.user.userData.user.roll_no}`
+              {AuthData && `${AuthData?.user?.userData?.user?.role}` == "student"
+                ? `${AuthData?.user?.userData?.user?.roll_no}`
                 : ""}
             </h6>
           </div>

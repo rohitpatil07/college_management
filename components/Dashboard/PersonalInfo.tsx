@@ -32,7 +32,7 @@ const PersonalInfo = () => {
 		{ value: "", label: "Profile Pic", id: "photo", type: "text" },
 	]);
 	const [stu_info, setstu_info]: any = useState();
-	console.log(`${AuthData.user.userData.user.roll_no}`);
+	console.log(`${AuthData?.user?.userData?.user?.roll_no}`);
 	const getProfileData = async () => {
 		let i = 0;
 		const response = await axios.get(

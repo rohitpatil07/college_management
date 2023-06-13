@@ -29,8 +29,9 @@ const SideNavBar = () => {
         </Link>
         <Link
           href="company/home"
-          className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
+          
         >
+          <div className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -46,6 +47,8 @@ const SideNavBar = () => {
             />
           </svg>
           Home
+          </div>
+     
         </Link>
         <Link
           href="company/profile"
