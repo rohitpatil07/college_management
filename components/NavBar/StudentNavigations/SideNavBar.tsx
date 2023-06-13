@@ -9,8 +9,9 @@ const SideNavBar = () => {
       <div className="flex flex-col bg-white pb-24">
         <Link
           href="/home"
-          className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
+          
         >
+          <div className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -26,6 +27,8 @@ const SideNavBar = () => {
             />
           </svg>
           Home
+          </div>
+        
         </Link>
         <button
           onClick={() => {
@@ -132,6 +135,7 @@ const SideNavBar = () => {
           href="/tpc/availableDrives"
           className="flex flex-row items-center font-medium  px-2 py-2 hover:bg-blue-100 active:bg-blue-100"
         >
+          <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -145,11 +149,14 @@ const SideNavBar = () => {
             />
           </svg>
           Available Drives
+          </div>
+ 
         </Link>
         <Link
           href="/tpc/appliedDrives"
           className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
         >
+          <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -163,11 +170,14 @@ const SideNavBar = () => {
             />
           </svg>
           Applied Drives
+          </div>
+
         </Link>
         <Link
           href="/tpc/resume"
           className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
         >
+          <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -181,12 +191,15 @@ const SideNavBar = () => {
             />
           </svg>
           View / Download Resume
+          </div>
+
         </Link>
       </div>
       <Link
         href="#"
         className="flex flex-row px-2 py-2 items-center font-medium border-t hover:bg-blue-100 active:bg-blue-100"
       >
+        <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
@@ -205,6 +218,8 @@ const SideNavBar = () => {
           />
         </svg>{" "}
         Log Out
+        </div>
+      
       </Link>
     </aside>
   );

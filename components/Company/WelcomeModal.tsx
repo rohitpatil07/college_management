@@ -40,21 +40,21 @@ function WelcomeModal() {
               `${AuthData.user.userData.user.role}` == "student" ? (
                 <Link
                   href="/tpc/editProfile/personalInfo"
-                  className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
+                  // className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
                 >
                   Get Started
                 </Link>
               ) : `${AuthData.user.userData.user.role}` == "admin" ? (
                 <Link
                   href="/admin/lookup"
-                  className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
+                  // className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
                 >
                   Get Started
                 </Link>
               ) : `${AuthData.user.userData.user.role}` == "company" ? (
                 <Link
                   href="/company/home"
-                  className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
+                  // className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
                 >
                   Get Started
                 </Link>
@@ -63,7 +63,7 @@ function WelcomeModal() {
               ) : `${AuthData.user.userData.user.role}` == "lms_admin" ? (
                 <Link
                   href="/lms_admin/lookup"
-                  className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
+                  // className="bg-accent text-white px-6 py-3 w-fit rounded-md hover:scale-110 transition-all"
                 >
                   Get Started
                 </Link>

@@ -8,8 +8,9 @@ const page = () => {
       <div className="w-11/12 mx-auto flex flex-col  justify-around container py-3 text-slate-500 font-medium">
         <Link
           href="/home"
-          className="flex flex-row items-center pb-2 mb-1 border-b border-slate-300"
+         
         >
+          <div  className="flex flex-row items-center pb-2 mb-1 border-b border-slate-300">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -23,6 +24,8 @@ const page = () => {
             />
           </svg>
           Home / Additional Information
+          </div>
+    
         </Link>
       </div>
       <ResumeInfo />
