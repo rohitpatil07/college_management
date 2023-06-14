@@ -6,25 +6,6 @@ const SideNavBar = () => {
   return (
     <aside className="hidden sm:flex flex-col bg-white min-h-screen h-inherit sm:2/5 md:w-1/5 text-slate-500">
       <div className="flex flex-col bg-white pb-24">
-        <Link href="/company/profile">
-          <div className=" flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-4 h-4 mr-1"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-              />
-            </svg>
-            Profile
-          </div>
-        </Link>
         <Link href="/company/createdrive">
           <div className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100">
             <svg
@@ -68,11 +49,8 @@ const SideNavBar = () => {
             View Drives
           </div>
         </Link>
-        <a
-          href="/company/viewoffer"
-          className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
-        >
-          <div className="flex items-center">
+        <Link href="/company/viewoffer">
+          <div className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -94,12 +72,9 @@ const SideNavBar = () => {
             </svg>
             View Offers
           </div>
-        </a>
-        <a
-          href="/company/notify"
-          className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100"
-        >
-          <div className="flex items-center">
+        </Link>
+        <Link href="/company/notify">
+          <div className="flex flex-row px-2 py-2 items-center font-medium hover:bg-blue-100 active:bg-blue-100">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -116,7 +91,7 @@ const SideNavBar = () => {
             </svg>
             Send Notifications
           </div>
-        </a>
+        </Link>
       </div>
       <button
         onClick={() => {
