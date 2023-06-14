@@ -51,7 +51,7 @@ const UpdateDrive = () => {
 
     try {
       const gear = {
-        drive_id: driveid,
+        drive_id: parseInt(drives.drive_id),
         company_id: AuthData?.user?.userData?.user?.company_id,
         role: drives.role,
         package: parseInt(drives.package),
