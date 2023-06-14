@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 function Page() {
   const AuthData: any = useAuth();
-
+  const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const [form, setForm] = useState({
     livekt: 0,
     deadkt: 0,
@@ -48,7 +48,7 @@ function Page() {
     };
 
     const response = await axios.post(
-      "${server}/filter/notify",
+      `${server}/filter/notify`,
       { queries, message, subject },
       {
         headers: {
@@ -58,7 +58,7 @@ function Page() {
       }
     );
     console.log(response);
-    if (response.status === 200 && "Notified" in response.data) {
+    if (response.status === 200) {
       Swal.fire({
         icon: "success",
         title: "Notification sent Successfully",
