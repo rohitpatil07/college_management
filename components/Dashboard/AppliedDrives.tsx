@@ -13,15 +13,14 @@ const AppliedDrives = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          
         },
         withCredentials: true,
       }
     );
     console.log(response.data);
     if (
-      (response.data.error ==
-        "Maximum offers reached so cannot sit for placement")
+      response.data.error ==
+      "Maximum offers reached so cannot sit for placement"
     ) {
       setDrive("Max");
     } else {
@@ -72,7 +71,7 @@ const AppliedDrives = () => {
               <div className="flex flex-col md:flex-row items-center justify-between">
                 <Link
                   href={{
-                    pathname: "/tpc/adriveinfo",
+                    pathname: "/tpc/adriveInfo",
                     query: {
                       drive_id: drive_id,
                     },

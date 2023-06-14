@@ -15,15 +15,12 @@ const DriveInfo = () => {
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
   const AuthData: any = useAuth();
   const fetchStudents = async () => {
-    const response = await axios.get(
-      `http://localhost:5000/filter/onedrive/${driveid}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
+    const response = await axios.get(`${server}/filter/onedrive/${driveid}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
     setDinfo(response.data);
   };
   const apply = async () => {
@@ -34,7 +31,7 @@ const DriveInfo = () => {
       },
     };
     const response = await axios.post(
-      `http://localhost:5000/add/student/applieddrive`,
+      `${server}/add/student/applieddrive`,
       applieddrive,
       {
         headers: {

@@ -13,7 +13,6 @@ const ViewDrive = () => {
     const response = await axios.get(`${server}/delete/drive/${driveid}`, {
       headers: {
         "Content-Type": "application/json",
-        
       },
       withCredentials: true,
     });
@@ -39,7 +38,6 @@ const ViewDrive = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          
         },
         withCredentials: true,
       }
@@ -114,7 +112,7 @@ const ViewDrive = () => {
                   <div className="flex flex-col md:flex-row items-center justify-between">
                     <Link
                       href={{
-                        pathname: "company/driveinfo",
+                        pathname: "/company/driveinfo",
                         query: {
                           driveid: drive_id,
                           drivename: role,
@@ -126,7 +124,7 @@ const ViewDrive = () => {
                     </Link>
                     <Link
                       href={{
-                        pathname: "company/updatedrive",
+                        pathname: "/company/updatedrive",
                         query: {
                           driveid: drive_id,
                           role: role,

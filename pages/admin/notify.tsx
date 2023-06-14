@@ -48,7 +48,7 @@ function Page() {
     };
 
     const response = await axios.post(
-      "http://localhost:5000/filter/notify",
+      "${server}/filter/notify",
       { queries, message, subject },
       {
         headers: {
