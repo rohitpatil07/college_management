@@ -182,6 +182,7 @@ const ResumeInfo = () => {
             "Content-Type": "application/json",
             
           },
+		withCredentials: true,
         }
       );
       // console.log(response);
