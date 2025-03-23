@@ -5,6 +5,7 @@ import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import Loading from "../Loaders/Loading";
 import Swal from "sweetalert2";
+import api from "../../contexts/adapter";
 
 const ResumeInfo = () => {
   const AuthData: any = useAuth();
@@ -100,14 +101,10 @@ const ResumeInfo = () => {
   });
 
   try {
-    const response = await axios.post(
-      `${server}/add/student/resumedata`,
-      { resume: resumeToSend },
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }
-    );
+    const response = await api.post(
+  `${server}/add/student/resumedata`,
+  { resume: resumeToSend }
+);
 
     setUpdateLoading(false);
     getProfileData();
