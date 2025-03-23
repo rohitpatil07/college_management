@@ -23,7 +23,6 @@ const ResumeInfo = () => {
       }
     );
     if (response.data.resume_data != null) {
-      // console.log("Hi");
       let month: any = {
         Jan: "-01",
         Feb: "-02",
@@ -182,7 +181,7 @@ const ResumeInfo = () => {
             "Content-Type": "application/json",
             
           },
-		withCredentials: true,
+		    withCredentials: true,
         }
       );
       // console.log(response);

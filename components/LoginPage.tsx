@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 function LoginPage() {
   const router = useRouter();
   const server = process.env.NEXT_PUBLIC_SERVER_URL;
+  console.log("url",server);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("student");
   const [password, setPassword] = useState("");
@@ -48,7 +49,7 @@ function LoginPage() {
   const handleSubmit = async () => {
     const data = { email, role, password };
     console.log(data);
-
+    console.log("server", server);
     try {
       const response = await axios.post(`${server}/auth/login`, data, {
         headers: {
