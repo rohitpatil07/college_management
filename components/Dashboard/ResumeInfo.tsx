@@ -83,49 +83,58 @@ const ResumeInfo = () => {
   };
 
   const save = async () => {
-    setUpdateLoading(true);
+  setUpdateLoading(true);
 
-    const resumeToSend = {
-      ...resumeData,
-      certificate_one_completion_date: formatMonth(resumeData.certificate_one_completion_date),
-      certificate_two_completion_date: formatMonth(resumeData.certificate_two_completion_date),
-      certificate_three_completion_date: formatMonth(resumeData.certificate_three_completion_date),
-    };
+  const resumeToSend = {
+    ...resumeData,
+    certificate_one_completion_date: formatMonth(resumeData.certificate_one_completion_date),
+    certificate_two_completion_date: formatMonth(resumeData.certificate_two_completion_date),
+    certificate_three_completion_date: formatMonth(resumeData.certificate_three_completion_date),
+  };
 
-    try {
-      const response = await axios.post(
-        `${server}/add/student/resumedata`,
-        { resume: resumeToSend },
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
+  // Optional: Interceptor to log what's being sent
+  axios.interceptors.request.use((config) => {
+    console.log("Making request to:", config.url);
+    console.log("withCredentials:", config.withCredentials);
+    return config;
+  });
 
-      setUpdateLoading(false);
-      getProfileData();
-
-      if (response.status === 200) {
-        Swal.fire({
-          icon: "success",
-          title: "Update Successful",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } else {
-        throw new Error("Unexpected response");
+  try {
+    const response = await axios.post(
+      `${server}/add/student/resumedata`,
+      { resume: resumeToSend },
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       }
-    } catch (error) {
-      console.error("Error saving resume data:", error);
-      setUpdateLoading(false);
+    );
+
+    setUpdateLoading(false);
+    getProfileData();
+
+    if (response.status === 200) {
       Swal.fire({
-        icon: "error",
-        title: "Update Failed",
+        icon: "success",
+        title: "Update Successful",
         showConfirmButton: false,
         timer: 1500,
       });
+    } else {
+      throw new Error("Unexpected response");
     }
-  };
+  } catch (error) {
+    console.error("❌ Error saving resume data:", error);
+
+    setUpdateLoading(false);
+
+    Swal.fire({
+      icon: "error",
+      title: "Update Failed",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
+};
 
   useEffect(() => {
     getProfileData();
